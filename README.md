@@ -1,4 +1,4 @@
-#Hive Game
+# Hive Game
 
-##Descirption
+## Descirption
 Implementation of the board Game Hive.
