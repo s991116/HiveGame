@@ -6,6 +6,7 @@ class HiveGame:
 
   def __init__(self) -> None:
     self.playerOnePieces = [Piece(True,1,0)]
+    self.playerTwoPieces = [Piece(False,1,0)]
     self.centerPosition = (0,0)
     self._board = []
 
