@@ -16,5 +16,20 @@ class TestBasicRules(unittest.TestCase):
         #Assert
         self.assertEqual(len(board), 0)
 
+    def test_add_first_piece(self):
+        
+        #Arrange
+        hiveGame = HiveGame()
+        pieces = hiveGame.playerOnePieces
+        onePiece = pieces[0]
+        centerPosition = hiveGame.centerPosition
+
+        #Act
+        hiveGame.SetPiece(onePiece, centerPosition)
+
+        #Assert
+        self.assertEqual(len(hiveGame.getBoard()), 1)
+
+
 if __name__ == "__main__":
     unittest.main()
