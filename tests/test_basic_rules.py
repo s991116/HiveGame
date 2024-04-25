@@ -55,9 +55,9 @@ class TestBasicRules(unittest.TestCase):
 
         #Assert
         self.assertEqual(len(moves), 5)
-        for (piece, _) in moves:
+        for (piece, position) in moves:
           self.assertTrue(piece.firstPlayer)
-
+          self.assertEqual(position, hiveGame.centerPosition)
 
     def test_get_valid_first_move_for_P2(self):
         #Arrange
@@ -70,10 +70,9 @@ class TestBasicRules(unittest.TestCase):
 
         #Assert
         self.assertEqual(len(moves), 5)
-        for (piece, _) in moves:
+        for (piece, position) in moves:
             self.assertFalse(piece.firstPlayer)
-
-
+            self.assertNotEqual(position, hiveGame.centerPosition)
 
 if __name__ == "__main__":
     unittest.main()

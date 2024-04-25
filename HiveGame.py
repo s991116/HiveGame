@@ -1,8 +1,26 @@
-from typing import List, Tuple
+from typing import List, Tuple, Dict
 from Piece import Piece, Position
+
+from enum import Enum
+
+class Direction(Enum):
+  LEFT = "left"
+  RIGHT = "right"
+  UP_LEFT = "up left"
+  DOWN_LEFT = "down left"
+  UP_RIGHT = "up right"
+  DOWN_RIGHT = "down right"
 
 
 class HiveGame:
+
+  _directionVector: Dict[Direction, Tuple[int,int]] = {
+     Direction.LEFT:       (-1, 0),
+     Direction.RIGHT:      ( 1, 0),
+     Direction.UP_LEFT:    ( 1, 1),
+     Direction.UP_RIGHT:   ( 0, 1),
+     Direction.DOWN_LEFT:  (-1,-1),
+     Direction.DOWN_RIGHT: ( 0,-1)}
 
   def __init__(self) -> None:
     self.playerOnePieces: list[Piece] = [Piece(True,1,0), Piece(True,2,0), Piece(True,3,0), Piece(True,4,0), Piece(True,5,0)]
@@ -22,10 +40,16 @@ class HiveGame:
         moves.append((piece, self.centerPosition))
     else:
       for piece in self.playerTwoPieces:
-        moves.append((piece, self.centerPosition))
+        moves.append((piece, self._navigate(Direction.LEFT, self.centerPosition)))
 
     return moves
-    
+  
   def getBoard(self) -> List[Tuple[Piece, Position]]:    
     return self._board
   
+  def moveLeft(self) -> None:
+    self.x = self.x-1
+
+  def _navigate(self, direction: Direction, position: Position) -> Position:
+    (xstep, ystep) = self._directionVector[direction]
+    return Position(position.x+xstep, position.y+ystep)
