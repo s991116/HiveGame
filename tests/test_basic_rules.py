@@ -45,8 +45,6 @@ class TestBasicRules(unittest.TestCase):
         self.assertListEqual(board,[pieceA, pieceB])
         self.assertEqual(playerOneTurn, hiveGame._playerOneTurn) # type: ignore
 
-
-
     def test_add_first_piece(self):
         
         #Arrange
@@ -64,14 +62,11 @@ class TestBasicRules(unittest.TestCase):
         
         #Arrange
         hiveGame = HiveGame()
-        piecesP1 = hiveGame.getPlayerPieces(True)
-        move1 = (piecesP1[0],hiveGame.centerPosition)
-        hiveGame.setPiece(move1)
-        
-        piecesP2 = hiveGame.getPlayerPieces(False)
-        move2 = (piecesP2[0],hiveGame.centerPosition)
+        hiveGame.setPosition("Q", False)
 
         #Act
+        piecesP2 = hiveGame.getPlayerPieces(False)
+        move2 = (piecesP2[0],hiveGame.centerPosition)
         hiveGame.setPiece(move2)
 
         #Assert
@@ -93,7 +88,7 @@ class TestBasicRules(unittest.TestCase):
     def test_get_valid_first_move_for_P2(self):
         #Arrange
         hiveGame = HiveGame()
-        hiveGame.setPiece(hiveGame.getValidMoves()[0])
+        hiveGame.setPosition("B", False)
 
         #Act
         moves = hiveGame.getValidMoves()
@@ -107,8 +102,7 @@ class TestBasicRules(unittest.TestCase):
     def test_get_valid_second_move_for_P1_Queen_Not_Played(self):
         #Arrange
         hiveGame = HiveGame()
-        hiveGame.setPiece(hiveGame.getValidMoves()[0])
-        hiveGame.setPiece(hiveGame.getValidMoves()[0])
+        hiveGame.setPosition("b|B", True)
 
         #Act
         moves = hiveGame.getValidMoves()
