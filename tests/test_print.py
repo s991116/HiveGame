@@ -39,5 +39,6 @@ class TestPrint(unittest.TestCase):
         #Assert
         self.assertEqual(boardPrint, "q|Q")
 
+
 if __name__ == "__main__":
     unittest.main()

@@ -2,6 +2,9 @@
 
 import unittest
 from HiveGame import HiveGame
+from Piece import Piece
+from Creatues import Creatues
+from Position import Position
 
 class TestBasicRules(unittest.TestCase):
 
@@ -15,6 +18,34 @@ class TestBasicRules(unittest.TestCase):
 
         #Assert
         self.assertEqual(len(board), 0)
+
+    def test_init_board_with_one_piece(self):
+        #Arrange
+        hiveGame = HiveGame()
+        playerOneTurn = False
+        #Act
+        hiveGame.setPosition("Q", playerOneTurn)
+
+        #Assert
+        board = hiveGame.getBoard()
+        self.assertListEqual(board,[(Piece(True,Creatues.QueenBee, 0), Position(0,0))])
+        self.assertEqual(playerOneTurn, hiveGame._playerOneTurn) # type: ignore
+
+    def test_init_board_with_two_pieces(self):
+        #Arrange
+        hiveGame = HiveGame()
+        playerOneTurn = True
+        #Act
+        hiveGame.setPosition("q|Q", playerOneTurn)
+
+        #Assert
+        board = hiveGame.getBoard()
+        pieceA = (Piece(True,Creatues.QueenBee, 0), Position(0,0)) 
+        pieceB = (Piece(False,Creatues.QueenBee, 0), Position(-1,0))
+        self.assertListEqual(board,[pieceA, pieceB])
+        self.assertEqual(playerOneTurn, hiveGame._playerOneTurn) # type: ignore
+
+
 
     def test_add_first_piece(self):
         
