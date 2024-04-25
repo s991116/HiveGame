@@ -7,3 +7,4 @@ class Creatues(Enum):
     Grasshopper = "grasshopper"
     SoldierAnt = "soldier ant"
     Mosquity = "mosquito"
+    Ladybug = "ladybug"

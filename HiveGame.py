@@ -39,9 +39,17 @@ class HiveGame:
   def getValidMoves(self) -> List[Tuple[Piece, Position]]:
     moves:list[Tuple[Piece, Position]] = []
     if(self._playerOneTurns):
-      for piece in self.playerPieces:
-        if(piece.firstPlayer == self._playerOneTurns and piece.index == 0):
-          moves.append((piece, self.centerPosition))
+      if(len(self._board) == 0):
+        for piece in self.playerPieces:
+          if(piece.firstPlayer == self._playerOneTurns and piece.index == 0):
+            moves.append((piece, self.centerPosition))
+      else:
+        positions = [self._navigate(Direction.UP_RIGHT, self.centerPosition), self._navigate(Direction.RIGHT, self.centerPosition)]
+        for position in positions:
+          for piece in self.playerPieces:
+            if(piece.firstPlayer == self._playerOneTurns and piece.index == 0):
+              moves.append((piece, position))
+
     else:
       for piece in self.playerPieces:
         if(piece.firstPlayer == self._playerOneTurns and piece.index == 0):        
@@ -65,3 +73,35 @@ class HiveGame:
   def _navigate(self, direction: Direction, position: Position) -> Position:
     (xstep, ystep) = self._directionVector[direction]
     return Position(position.x+xstep, position.y+ystep)
+
+
+  _shortPrint: Dict[Creatues, str] = {
+        Creatues.Beetle: "B",
+        Creatues.Grasshopper: "G",
+        Creatues.QueenBee: "Q",
+        Creatues.SoldierAnt: "A",
+        Creatues.Spider: "S",
+        Creatues.Mosquity: "M",
+        Creatues.Ladybug: "L",        
+  }
+
+  def printBoard(self) -> str:
+    boardPrint: str = ""
+    self._board.sort(key=self._boardPositionSorting)
+    firstPieceInLine = True
+    for (piece, _) in self._board:
+        if piece.firstPlayer:
+          piecePrint = self._shortPrint[piece.type].upper()
+        else:
+          piecePrint = self._shortPrint[piece.type].lower()
+
+        if firstPieceInLine:
+          boardPrint = boardPrint + piecePrint
+          firstPieceInLine = False
+        else:
+          boardPrint = boardPrint + "|" + piecePrint
+    return boardPrint
+  
+  def _boardPositionSorting(self, pieces: Tuple[Piece, Position]) -> int:
+    _, position = pieces
+    return position.y*100+position.x

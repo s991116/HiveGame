@@ -73,7 +73,7 @@ class TestBasicRules(unittest.TestCase):
             self.assertFalse(piece.firstPlayer)
             self.assertNotEqual(position, hiveGame.centerPosition)
 
-    def test_get_valid_second_move_for_P1(self):
+    def test_get_valid_second_move_for_P1_Queen_Not_Played(self):
         #Arrange
         hiveGame = HiveGame()
         hiveGame.setPiece(hiveGame.getValidMoves()[0])
@@ -83,7 +83,7 @@ class TestBasicRules(unittest.TestCase):
         moves = hiveGame.getValidMoves()
 
         #Arrange
-        self.assertEqual(len(moves), 5)
+        self.assertEqual(len(moves), 10)
     
 
 if __name__ == "__main__":

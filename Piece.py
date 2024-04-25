@@ -1,3 +1,4 @@
+from typing import Dict
 from dataclasses import dataclass
 from Creatues import Creatues
 
