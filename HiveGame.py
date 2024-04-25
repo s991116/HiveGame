@@ -1,16 +1,8 @@
 from typing import List, Tuple, Dict
-from Piece import Piece, Position, Creatues
-
-from enum import Enum
-
-class Direction(Enum):
-  LEFT = "left"
-  RIGHT = "right"
-  UP_LEFT = "up left"
-  DOWN_LEFT = "down left"
-  UP_RIGHT = "up right"
-  DOWN_RIGHT = "down right"
-
+from Piece import Piece
+from Creatues import Creatues
+from Position import Position
+from Directions import Direction
 
 class HiveGame:
 
