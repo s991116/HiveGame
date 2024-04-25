@@ -30,29 +30,29 @@ class HiveGame:
 
     self.centerPosition: Position = Position(0,0)
     self._board: list[Tuple[Piece, Position]] = []
-    self._playerOneTurns = True
+    self._playerOneTurn = True
 
   def setPiece(self, move: Tuple[Piece, Position]):
-    self._playerOneTurns = not self._playerOneTurns
+    self._playerOneTurn = not self._playerOneTurn
     self._board.append(move)
 
   def getValidMoves(self) -> List[Tuple[Piece, Position]]:
     moves:list[Tuple[Piece, Position]] = []
-    if(self._playerOneTurns):
+    if(self._playerOneTurn):
       if(len(self._board) == 0):
         for piece in self.playerPieces:
-          if(piece.firstPlayer == self._playerOneTurns and piece.index == 0):
+          if(piece.firstPlayer == self._playerOneTurn and piece.index == 0):
             moves.append((piece, self.centerPosition))
       else:
         positions = [self._navigate(Direction.UP_RIGHT, self.centerPosition), self._navigate(Direction.RIGHT, self.centerPosition)]
         for position in positions:
           for piece in self.playerPieces:
-            if(piece.firstPlayer == self._playerOneTurns and piece.index == 0):
+            if(piece.firstPlayer == self._playerOneTurn and piece.index == 0):
               moves.append((piece, position))
 
     else:
       for piece in self.playerPieces:
-        if(piece.firstPlayer == self._playerOneTurns and piece.index == 0):        
+        if(piece.firstPlayer == self._playerOneTurn and piece.index == 0):        
           moves.append((piece, self._navigate(Direction.LEFT, self.centerPosition)))
 
     return moves
@@ -74,6 +74,23 @@ class HiveGame:
     (xstep, ystep) = self._directionVector[direction]
     return Position(position.x+xstep, position.y+ystep)
 
+  def setPosition(self, boardPrint: str, playerOneTurn: bool):
+    boardPrintLines = boardPrint.splitlines()
+    self._board = []
+    position = Position(0,0)
+    for boardPrintLine in boardPrintLines:
+      boardPrintLineReversed = boardPrintLine[::-1]
+      for pieaceLetter in boardPrintLineReversed:
+        if pieaceLetter.isalpha():
+          creature = next(key for key, value in self._shortPrint.items() if value == pieaceLetter.upper())
+          firstPlayer = pieaceLetter.isupper()
+          piece = Piece(firstPlayer, creature, 0)
+          piecePosition = (piece, position)
+          position = self._navigate(Direction.LEFT, position)
+          self._board.append(piecePosition)
+    
+      
+    self._playerOneTurn = playerOneTurn
 
   _shortPrint: Dict[Creatues, str] = {
         Creatues.Beetle: "B",

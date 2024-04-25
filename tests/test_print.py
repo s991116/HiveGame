@@ -18,7 +18,8 @@ class TestPrint(unittest.TestCase):
     def test_print_board_with_one_piece(self):
         #Arrange
         hiveGame = HiveGame()
-        hiveGame.setPiece(hiveGame.getValidMoves()[0])
+        hiveGame.setPosition("Q", False)
+
         #Act
         boardPrint = hiveGame.printBoard()
 
@@ -28,8 +29,9 @@ class TestPrint(unittest.TestCase):
     def test_print_board_with_two_pieces(self):
         #Arrange
         hiveGame = HiveGame()
-        hiveGame.setPiece(hiveGame.getValidMoves()[0])
-        hiveGame.setPiece(hiveGame.getValidMoves()[0])
+        hiveGame.setPosition("""
+                             q|Q
+                             """, True)
 
         #Act
         boardPrint = hiveGame.printBoard()
