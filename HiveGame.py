@@ -1,5 +1,5 @@
 from typing import List, Tuple, Dict
-from Piece import Piece, Position
+from Piece import Piece, Position, Creatues
 
 from enum import Enum
 
@@ -23,8 +23,19 @@ class HiveGame:
      Direction.DOWN_RIGHT: ( 0,-1)}
 
   def __init__(self) -> None:
-    self.playerOnePieces: list[Piece] = [Piece(True,1,0), Piece(True,2,0), Piece(True,3,0), Piece(True,4,0), Piece(True,5,0)]
-    self.playerTwoPieces: list[Piece] = [Piece(False,1,0), Piece(False,2,0), Piece(False,3,0), Piece(False,4,0), Piece(False,5,0)]
+    
+    self.playerPieces: list[Piece] = []
+    for playerOne in [True, False]:
+      self.playerPieces.append(Piece(playerOne, Creatues.QueenBee, 0))
+      for index in range(0,3):
+        self.playerPieces.append(Piece(playerOne, Creatues.Grasshopper, index))
+      for index in range(0,3):
+        self.playerPieces.append(Piece(playerOne, Creatues.SoldierAnt, index))
+      for index in range(0,2):
+        self.playerPieces.append(Piece(playerOne, Creatues.Spider, index))
+      for index in range(0,2):
+        self.playerPieces.append(Piece(playerOne, Creatues.Beetle, index))
+
     self.centerPosition: Position = Position(0,0)
     self._board: list[Tuple[Piece, Position]] = []
     self._playerOneTurns = True
@@ -36,14 +47,23 @@ class HiveGame:
   def getValidMoves(self) -> List[Tuple[Piece, Position]]:
     moves:list[Tuple[Piece, Position]] = []
     if(self._playerOneTurns):
-      for piece in self.playerOnePieces:
-        moves.append((piece, self.centerPosition))
+      for piece in self.playerPieces:
+        if(piece.firstPlayer == self._playerOneTurns and piece.index == 0):
+          moves.append((piece, self.centerPosition))
     else:
-      for piece in self.playerTwoPieces:
-        moves.append((piece, self._navigate(Direction.LEFT, self.centerPosition)))
+      for piece in self.playerPieces:
+        if(piece.firstPlayer == self._playerOneTurns and piece.index == 0):        
+          moves.append((piece, self._navigate(Direction.LEFT, self.centerPosition)))
 
     return moves
   
+  def getPlayerPieces(self, playerOne:bool) -> List[Piece]:
+    pieces: list[Piece] = []
+    for piece in self.playerPieces:
+      if(piece.firstPlayer == playerOne and piece.index == 0):
+        pieces.append(piece)
+    return pieces
+
   def getBoard(self) -> List[Tuple[Piece, Position]]:    
     return self._board
   

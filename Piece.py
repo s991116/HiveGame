@@ -9,10 +9,18 @@ class Direction(Enum):
     UP_RIGHT = "up right"
     DOWN_RIGHT = "down right"
 
+class Creatues(Enum):
+    QueenBee = "queen bee"
+    Spider = "spider"
+    Beetle = "beetle"
+    Grasshopper = "grasshopper"
+    SoldierAnt = "soldier ant"
+    Mosquity = "mosquito"
+
 @dataclass
 class Piece:
     firstPlayer: bool
-    type: int
+    type: Creatues
     index: int
 
 @dataclass
