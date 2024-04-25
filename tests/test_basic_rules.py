@@ -20,12 +20,11 @@ class TestBasicRules(unittest.TestCase):
         
         #Arrange
         hiveGame = HiveGame()
-        pieces = hiveGame.playerOnePieces
-        onePiece = pieces[0]
-        centerPosition = hiveGame.centerPosition
+        piecesP1 = hiveGame.playerOnePieces
+        move = (piecesP1[0],hiveGame.centerPosition)
 
         #Act
-        hiveGame.setPiece(onePiece, centerPosition)
+        hiveGame.setPiece(move)
 
         #Assert
         self.assertEqual(len(hiveGame.getBoard()), 1)
@@ -35,15 +34,14 @@ class TestBasicRules(unittest.TestCase):
         #Arrange
         hiveGame = HiveGame()
         piecesP1 = hiveGame.playerOnePieces
-        onePieceP1 = piecesP1[0]
-        centerPosition = hiveGame.centerPosition
-        hiveGame.setPiece(onePieceP1, centerPosition)
+        move1 = (piecesP1[0],hiveGame.centerPosition)
+        hiveGame.setPiece(move1)
+        
         piecesP2 = hiveGame.playerTwoPieces
-        onePieceP2 = piecesP2[0]
-        centerPosition = hiveGame.centerPosition
+        move2 = (piecesP2[0],hiveGame.centerPosition)
 
         #Act
-        hiveGame.setPiece(onePieceP2, centerPosition)
+        hiveGame.setPiece(move2)
 
         #Assert
         self.assertEqual(len(hiveGame.getBoard()), 2)
@@ -57,6 +55,24 @@ class TestBasicRules(unittest.TestCase):
 
         #Assert
         self.assertEqual(len(moves), 5)
+        for (piece, _) in moves:
+          self.assertTrue(piece.firstPlayer)
+
+
+    def test_get_valid_first_move_for_P2(self):
+        #Arrange
+        hiveGame = HiveGame()
+        moves = hiveGame.getValidMoves()
+        hiveGame.setPiece(hiveGame.getValidMoves()[0])
+
+        #Act
+        moves = hiveGame.getValidMoves()
+
+        #Assert
+        self.assertEqual(len(moves), 5)
+        for (piece, _) in moves:
+            self.assertFalse(piece.firstPlayer)
+
 
 
 if __name__ == "__main__":
