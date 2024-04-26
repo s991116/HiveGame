@@ -2,7 +2,6 @@ from typing import Tuple, Dict, List
 from Directions import Direction
 from Piece import Piece
 from Creatues import Creatues
-from Position import Position
 from Coordinate import Coordinate
 
 class HiveBoard:
@@ -15,40 +14,41 @@ class HiveBoard:
      Direction.DOWN_LEFT:  (-1,-1),
      Direction.DOWN_RIGHT: ( 0,-1)}
     
-    def __init__(self) -> None:        
-      self._board: list[Tuple[Piece, Position]] = []
-      self._centerCoordinate: Coordinate = Coordinate(0,0)
+    def __init__(self) -> None:
+      self._board: list[Piece] = []
+      self.centerCoordinate: Coordinate = Coordinate(0,0)
 
-    def getBoard(self) -> List[Tuple[Piece, Position]]:    
+    def getBoard(self) -> List[Piece]:    
       return self._board
   
     def isEmpty(self) -> bool:
       return len(self._board) == 0
 
-    def setPiece(self, move: Tuple[Piece, Position]) -> None:
+    def setPiece(self, move: Piece) -> None:
       self._board.append(move)
       self._normalizePosition()
 
     def _normalizePosition(self) -> None:
-      queenBeeP1 = Piece(True, Creatues.QueenBee, 0)
-      positions = self._getPositionForPiece(queenBeeP1)
-      if(len(positions) > 0):
-        self._calibratePosition(positions[0])
+      queenBeeP1 = Piece(True, Creatues.QueenBee, 0, Coordinate(0,0))
+      coordinates = self._getPositionForPiece(queenBeeP1)
+      if(len(coordinates) > 0):
+        self._calibratePositions(coordinates[0])
       pass
 
-    def _getPositionForPiece(self, piece: Piece) -> List[Position]:
-      for (boardPiece, boardPosition) in self._board:
-        if(piece == boardPiece):
-          return [boardPosition]     
+    def _getPositionForPiece(self, piece: Piece) -> List[Coordinate]:
+      for boardPiece in self._board:
+        if(piece.sameKind(boardPiece)):
+          return [boardPiece.coordinate]
       return []
       
-    def _calibratePosition(self, Position: Position) -> None:
-      for (_, boardPosition) in self._board:
-        boardPosition.offset(Position.coordinate)
+    def _calibratePositions(self, offset: Coordinate) -> None:
+      for piece in self._board:
+          piece.coordinate = self._offsetCoordinate(offset, piece.coordinate)
 
-
-    def getCenterCoordinate(self) -> Coordinate:
-      return self._centerCoordinate
+    def _offsetCoordinate(self, offset: Coordinate, coordinate: Coordinate):
+      x = coordinate.x - offset.x
+      y = coordinate.y - offset.y
+      return Coordinate(x,y)
 
     _shortPrint: Dict[Creatues, str] = {
         Creatues.Beetle: "B",
@@ -60,34 +60,34 @@ class HiveBoard:
         Creatues.Ladybug: "L",        
     }
 
-    def setPosition(self, boardPrint: str):
+    def setupPosition(self, boardPrint: str):
       boardPrintLines = boardPrint.splitlines()
       self._board = []
-      position = Position(Coordinate(0,0))
+      pieceCoordinate = Coordinate(0,0)
       for boardPrintLine in boardPrintLines:
         boardPrintLineReversed = boardPrintLine[::-1]
         for pieaceLetter in boardPrintLineReversed:
           if pieaceLetter.isalpha():
             creature = next(key for key, value in self._shortPrint.items() if value == pieaceLetter.upper())
             firstPlayer = pieaceLetter.isupper()
-            piece = Piece(firstPlayer, creature, 0)
-            piecePosition: tuple[Piece, Position] = (piece, position)
-            position = self.navigate(Direction.LEFT, position)
-            self.setPiece(piecePosition)
+            piece = Piece(firstPlayer, creature, 0, pieceCoordinate)
+            self.setPiece(piece)
+            pieceCoordinate = self._offsetCoordinate(Coordinate(1,0), pieceCoordinate)
+      self._normalizePosition()
     
-    def navigate(self, direction: Direction, position: Position) -> Position:
+    def navigate(self, direction: Direction, coordinate: Coordinate) -> Coordinate:
       (xstep, ystep) = self._directionVector[direction]
-      return Position(Coordinate(position.coordinate.x+xstep, position.coordinate.y+ystep))
+      return Coordinate(coordinate.x+xstep, coordinate.y+ystep)
 
     def printBoard(self) -> str:
       boardPrint: str = ""
       self._board.sort(key=self._boardPositionSorting)
       firstPieceInLine = True
-      for (piece, _) in self._board:
+      for piece in self._board:
         if piece.firstPlayer:
-          piecePrint = self._shortPrint[piece.type].upper()
+          piecePrint = self._shortPrint[piece.creature].upper()
         else:
-          piecePrint = self._shortPrint[piece.type].lower()
+          piecePrint = self._shortPrint[piece.creature].lower()
 
         if firstPieceInLine:
           boardPrint = boardPrint + piecePrint
@@ -96,8 +96,7 @@ class HiveBoard:
           boardPrint = boardPrint + "|" + piecePrint
       return boardPrint
   
-    def _boardPositionSorting(self, pieces: Tuple[Piece, Position]) -> int:
-      _, position = pieces
-      return position.coordinate.y*100+position.coordinate.x
+    def _boardPositionSorting(self, piece: Piece) -> int:
+      return piece.coordinate.y*100+piece.coordinate.x
 
 

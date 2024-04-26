@@ -1,5 +1,3 @@
-# test_my_module.py
-
 import unittest
 from HiveBoard import HiveBoard
 
@@ -18,7 +16,7 @@ class TestPrint(unittest.TestCase):
     def test_print_board_with_one_piece(self):
         #Arrange
         hiveBoard = HiveBoard()
-        hiveBoard.setPosition("Q")
+        hiveBoard.setupPosition("Q")
 
         #Act
         boardPrint = hiveBoard.printBoard()
@@ -29,7 +27,7 @@ class TestPrint(unittest.TestCase):
     def test_print_board_with_two_pieces(self):
         #Arrange
         hiveBoard = HiveBoard()
-        hiveBoard.setPosition("""
+        hiveBoard.setupPosition("""
                              q|Q
                              """)
 
