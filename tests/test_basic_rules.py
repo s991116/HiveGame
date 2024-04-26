@@ -50,7 +50,7 @@ class TestBasicRules(unittest.TestCase):
         move = hiveGame.getValidMoves()[0]
 
         #Act
-        hiveGame.move(move)
+        hiveGame.playMove(move)
 
         #Assert
         self.assertEqual(len(hiveGame.getBoard()), 1)
@@ -63,7 +63,7 @@ class TestBasicRules(unittest.TestCase):
 
         #Act
         move2 = hiveGame.getValidMoves()[0]
-        hiveGame.move(move2)
+        hiveGame.playMove(move2)
 
         #Assert
         self.assertEqual(len(hiveGame.getBoard()), 2)

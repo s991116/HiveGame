@@ -17,7 +17,7 @@ class HiveGame:
     self.board = HiveBoard()
     self._playerOneTurn = True
 
-  def move(self, move: Piece):
+  def playMove(self, move: Piece):
     self._playerOneTurn = not self._playerOneTurn
     self.board.setPiece(move)
 
