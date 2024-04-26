@@ -1,13 +1,13 @@
 # test_my_module.py
 
 import unittest
-from HiveGame import HiveGame
+from HiveBoard import HiveBoard
 
 class TestPrint(unittest.TestCase):
 
     def test_print_empty_board(self):
         #Arrange
-        hiveGame = HiveGame()
+        hiveGame = HiveBoard()
 
         #Act
         boardPrint = hiveGame.printBoard()
@@ -17,24 +17,24 @@ class TestPrint(unittest.TestCase):
         
     def test_print_board_with_one_piece(self):
         #Arrange
-        hiveGame = HiveGame()
-        hiveGame.setPosition("Q", False)
+        hiveBoard = HiveBoard()
+        hiveBoard.setPosition("Q")
 
         #Act
-        boardPrint = hiveGame.printBoard()
+        boardPrint = hiveBoard.printBoard()
 
         #Assert
         self.assertEqual(boardPrint, "Q")
 
     def test_print_board_with_two_pieces(self):
         #Arrange
-        hiveGame = HiveGame()
-        hiveGame.setPosition("""
+        hiveBoard = HiveBoard()
+        hiveBoard.setPosition("""
                              q|Q
-                             """, True)
+                             """)
 
         #Act
-        boardPrint = hiveGame.printBoard()
+        boardPrint = hiveBoard.printBoard()
 
         #Assert
         self.assertEqual(boardPrint, "q|Q")

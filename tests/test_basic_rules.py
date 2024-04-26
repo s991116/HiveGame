@@ -5,6 +5,7 @@ from HiveGame import HiveGame
 from Piece import Piece
 from Creatues import Creatues
 from Position import Position
+from Coordinate import Coordinate
 
 class TestBasicRules(unittest.TestCase):
 
@@ -28,7 +29,7 @@ class TestBasicRules(unittest.TestCase):
 
         #Assert
         board = hiveGame.getBoard()
-        self.assertListEqual(board,[(Piece(True,Creatues.QueenBee, 0), Position(0,0))])
+        self.assertListEqual(board,[(Piece(True,Creatues.QueenBee, 0), Position(Coordinate(0,0)))])
         self.assertEqual(playerOneTurn, hiveGame._playerOneTurn) # type: ignore
 
     def test_init_board_with_two_pieces(self):
@@ -40,8 +41,8 @@ class TestBasicRules(unittest.TestCase):
 
         #Assert
         board = hiveGame.getBoard()
-        pieceA = (Piece(True,Creatues.QueenBee, 0), Position(0,0)) 
-        pieceB = (Piece(False,Creatues.QueenBee, 0), Position(-1,0))
+        pieceA = (Piece(True,Creatues.QueenBee, 0), Position(Coordinate(0,0))) 
+        pieceB = (Piece(False,Creatues.QueenBee, 0), Position(Coordinate(-1,0)))
         self.assertListEqual(board,[pieceA, pieceB])
         self.assertEqual(playerOneTurn, hiveGame._playerOneTurn) # type: ignore
 
@@ -49,11 +50,10 @@ class TestBasicRules(unittest.TestCase):
         
         #Arrange
         hiveGame = HiveGame()
-        piecesP1 = hiveGame.getPlayerPieces(True)
-        move = (piecesP1[0],hiveGame.centerPosition)
+        move = hiveGame.getValidMoves()[0]
 
         #Act
-        hiveGame.setPiece(move)
+        hiveGame.move(move)
 
         #Assert
         self.assertEqual(len(hiveGame.getBoard()), 1)
@@ -65,9 +65,8 @@ class TestBasicRules(unittest.TestCase):
         hiveGame.setPosition("Q", False)
 
         #Act
-        piecesP2 = hiveGame.getPlayerPieces(False)
-        move2 = (piecesP2[0],hiveGame.centerPosition)
-        hiveGame.setPiece(move2)
+        move2 = hiveGame.getValidMoves()[0]
+        hiveGame.move(move2)
 
         #Assert
         self.assertEqual(len(hiveGame.getBoard()), 2)
@@ -83,7 +82,7 @@ class TestBasicRules(unittest.TestCase):
         self.assertEqual(len(moves), 5)
         for (piece, position) in moves:
           self.assertTrue(piece.firstPlayer)
-          self.assertEqual(position, hiveGame.centerPosition)
+          self.assertEqual(position, Position(hiveGame.board.getCenterCoordinate()))
 
     def test_get_valid_first_move_for_P2(self):
         #Arrange
@@ -97,7 +96,7 @@ class TestBasicRules(unittest.TestCase):
         self.assertEqual(len(moves), 5)
         for (piece, position) in moves:
             self.assertFalse(piece.firstPlayer)
-            self.assertNotEqual(position, hiveGame.centerPosition)
+            self.assertNotEqual(position, Position(hiveGame.board.getCenterCoordinate()))
 
     def test_get_valid_second_move_for_P1_Queen_Not_Played(self):
         #Arrange
