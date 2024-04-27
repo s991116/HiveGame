@@ -19,6 +19,12 @@ class Piece:
             self.firstPlayer == other.firstPlayer and 
             self.creature == other.creature and 
             self.index == other.index)
+    
+    def print(self) -> str:
+        if(self.firstPlayer):
+            return self.creature.value.upper() + str(self.index) + "(" + str(self.coordinate.x) + "," + str(self.coordinate.y) + ")"
+        else:
+            return self.creature.value.lower() + str(self.index) + "(" + str(self.coordinate.x) + "," + str(self.coordinate.y) + ")"
 
     def __eq__(self, other: any): # type: ignore
         if isinstance(other, Piece):

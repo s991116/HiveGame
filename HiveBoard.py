@@ -80,23 +80,33 @@ class HiveBoard:
       return Coordinate(coordinate.x+xstep, coordinate.y+ystep)
 
     def printBoard(self) -> str:
-      boardPrint: str = ""
       self._board.sort(key=self._boardPositionSorting)
-      firstPieceInLine = True
+      boardPrintLine1: str = ""
+      boardPrintLine2: str = ""
+      boardPrintLine3: str = ""
+
       for piece in self._board:
         if piece.firstPlayer:
           piecePrint = self._shortPrint[piece.creature].upper()
         else:
           piecePrint = self._shortPrint[piece.creature].lower()
 
-        if firstPieceInLine:
-          boardPrint = boardPrint + piecePrint
-          firstPieceInLine = False
-        else:
-          boardPrint = boardPrint + "|" + piecePrint
-      return boardPrint
+        boardPrintLine1 += "/--\\"
+        boardPrintLine2 += "|" + piecePrint + str(piece.index) + "|"
+        boardPrintLine3 += "\\--/"
+      return boardPrintLine1 + "\n" + boardPrintLine2 + "\n" + boardPrintLine3 + "\n"
   
     def _boardPositionSorting(self, piece: Piece) -> int:
       return piece.coordinate.y*100+piece.coordinate.x
 
 
+
+#   /--\/--\/--\/--\
+#   |B1||g1||B1||g1|
+#   \--/\--/\--/\--/
+#     /--\/--\/--\/--\
+#     |B1||g1||B1||g1|
+#     \--/\--/\--/\--/
+#   /--\/--\/--\/--\
+#   |B1||g1||B1||g1|
+#   \--/\--/\--/\--/

@@ -1,10 +1,10 @@
 from enum import Enum
 
 class Creatues(Enum):
-    QueenBee = "queen bee"
-    Spider = "spider"
-    Beetle = "beetle"
-    Grasshopper = "grasshopper"
-    SoldierAnt = "soldier ant"
-    Mosquity = "mosquito"
-    Ladybug = "ladybug"
+    QueenBee = "q"
+    Spider = "s"
+    Beetle = "b"
+    Grasshopper = "g"
+    SoldierAnt = "a"
+    Mosquity = "m"
+    Ladybug = "l"
