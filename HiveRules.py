@@ -3,12 +3,15 @@ from HiveBoard import HiveBoard
 from Piece import Piece
 from Creatues import Creatues
 from Directions import Direction
+from Coordinate import Coordinate
 
 class HiveRules:
 
   def __init__(self, board: HiveBoard) -> None:
     self.playerOneTurn = True
     self.board = board
+    self.QueenP1Placed = False
+    self.QueenP2Placed = False
 
     self.creatues: list[Creatues] = [
       Creatues.Beetle, 
@@ -18,8 +21,15 @@ class HiveRules:
       Creatues.Spider]
 
   def playMove(self, move: Piece):  
-    self._playerOneTurn = not self.playerOneTurn
+    
+    if(move.creature == Creatues.QueenBee):
+      if(self.playerOneTurn):
+        self.QueenP1Placed = True
+      else:
+        self.QueenP2Placed = True
+
     self.board.setPiece(move)
+    self.playerOneTurn = not self.playerOneTurn
 
   def getValidMoves(self) -> List[Piece]:
     moves:list[Piece] = []
@@ -34,9 +44,21 @@ class HiveRules:
         for coordinate in coordinates:
           for creature in self.creatues:
               moves.append(Piece(True, creature, 0, coordinate))
-
+        if(self.QueenP1Placed):
+          Q1P1 = Piece(True, Creatues.QueenBee, 0, Coordinate(0,0))
+          moves.append(self.board.findPiece(Q1P1)[0].pieceToMove(Direction.UP_LEFT))
     else:
       for creature in self.creatues:
         moves.append(Piece(False, creature, 0, self.board.navigate(Direction.LEFT, self.board.centerCoordinate)))
 
     return moves
+  
+  def updatePosition(self):
+    Q1P1 = Piece(True, Creatues.QueenBee, 0, Coordinate(0,0))
+    Q1P2 = Piece(False, Creatues.QueenBee, 0, Coordinate(0,0))
+
+    if(len(self.board.findPiece(Q1P1)) > 0):
+      self.QueenP1Placed = True
+
+    if(len(self.board.findPiece(Q1P2)) > 0):
+      self.QueenP2Placed = True      

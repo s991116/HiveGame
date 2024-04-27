@@ -105,7 +105,19 @@ class TestStartPlacingRules(unittest.TestCase):
 
         #Arrange
         self.assertEqual(len(moves), 10)
-    
+
+    def test_move_piece_after_P1_Queen_is_placed(self):
+        #Arrange
+        hiveGame = HiveGame()
+        hiveGame.setupPosition("b|Q", True)
+
+        #Act
+        moves = hiveGame.getValidMoves()
+
+        #Arrange
+        self.assertEqual(len(moves), 11)
+
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,6 +1,7 @@
 from __future__ import annotations
 from Creatues import Creatues
 from Coordinate import Coordinate
+from Directions import Direction
 
 class Piece:
 
@@ -9,6 +10,9 @@ class Piece:
         self.creature = creature
         self.index = index
         self.coordinate = coordinate
+
+    def pieceToMove(self, direction: Direction):
+        return Piece(self.firstPlayer, self.creature, self.index, self.coordinate.NeighbourCoordinate(direction))
 
     def sameKind(self, other: Piece):
         return(

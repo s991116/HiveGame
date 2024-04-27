@@ -20,3 +20,4 @@ class HiveGame:
   def setupPosition(self, boardPrint: str, playerOneTurn: bool):      
     self.board.setupPosition(boardPrint)
     self.rules.playerOneTurn = playerOneTurn
+    self.rules.updatePosition()

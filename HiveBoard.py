@@ -28,18 +28,18 @@ class HiveBoard:
       self._board.append(move)
       self._normalizePosition()
 
+    def findPiece(self, piece: Piece) -> List[Piece]:
+      for boardPiece in self._board:
+        if(boardPiece.sameKind(piece)):
+          return[boardPiece]
+      return []
+
     def _normalizePosition(self) -> None:
       queenBeeP1 = Piece(True, Creatues.QueenBee, 0, Coordinate(0,0))
-      coordinates = self._getPositionForPiece(queenBeeP1)
-      if(len(coordinates) > 0):
-        self._calibratePositions(coordinates[0])
+      piece = self.findPiece(queenBeeP1)
+      if(len(piece) > 0):
+        self._calibratePositions(piece[0].coordinate)
       pass
-
-    def _getPositionForPiece(self, piece: Piece) -> List[Coordinate]:
-      for boardPiece in self._board:
-        if(piece.sameKind(boardPiece)):
-          return [boardPiece.coordinate]
-      return []
       
     def _calibratePositions(self, offset: Coordinate) -> None:
       for piece in self._board:
