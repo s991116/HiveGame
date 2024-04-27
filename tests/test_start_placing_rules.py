@@ -4,7 +4,7 @@ from Piece import Piece
 from Creatues import Creatues
 from Coordinate import Coordinate
 
-class TestBasicRules(unittest.TestCase):
+class TestStartPlacingRules(unittest.TestCase):
 
     def test_start_with_empty_board(self):
         
