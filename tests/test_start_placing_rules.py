@@ -67,42 +67,43 @@ class TestStartPlacingRules(unittest.TestCase):
 
         #Act
         firstPlayer = True
-        freePiecesP1 = hiveGame.board.freePieces(firstPlayer)
+        freePiecesP1 = hiveGame.board.playableFreePieces(firstPlayer)
 
         firstPlayer = False
-        freePiecesP2 = hiveGame.board.freePieces(firstPlayer)
+        freePiecesP2 = hiveGame.board.playableFreePieces(firstPlayer)
 
         #Assert
-        self.assertEqual(len(freePiecesP1), 11)
-        self.assertEqual(len(freePiecesP2), 11)
+        self.assertEqual(len(freePiecesP1), 5)
+        self.assertEqual(len(freePiecesP2), 5)
 
-    def test_free_pieces_after_first_piece_is_played(self):
+    def test_free_pieces_after_QeenBeeP1_is_played(self):
         #Arrange
         hiveGame = HiveGame()
+        firstPlayer = True
 
         #Act
-        firstPlayer = True
-        hiveGame.playMove(hiveGame.getValidMoves()[0])
-        freePiecesP1 = hiveGame.board.freePieces(firstPlayer)
+        hiveGame.playMove(Piece(firstPlayer, Creatues.QueenBee,0,Coordinate(0,0)))
 
         #Assert
-        self.assertEqual(len(freePiecesP1), 10)
+        freePiecesP1 = hiveGame.board.playableFreePieces(firstPlayer)
+        self.assertEqual(len(freePiecesP1), 4)
 
-    def test_free_pieces_after_three_piece_is_played(self):
+    def test_free_pieces_after_Both_Qeen_and_AntP1_is_played(self):
         #Arrange
         hiveGame = HiveGame()
-
-        #Act
         firstPlayer = True
 
-        for _ in [0,1,2]:
-            hiveGame.playMove(hiveGame.getValidMoves()[0])
-        freePiecesP1 = hiveGame.board.freePieces(firstPlayer)
-        freePiecesP2 = hiveGame.board.freePieces(not firstPlayer)
+        #Act
+        hiveGame.playMove(Piece(firstPlayer, Creatues.QueenBee,0,Coordinate(0,0)))
+        hiveGame.playMove(Piece(not firstPlayer, Creatues.QueenBee,0,Coordinate(-1,0)))
+        hiveGame.playMove(Piece(firstPlayer, Creatues.SoldierAnt,0,Coordinate(1,0)))
 
         #Assert
-        self.assertEqual(len(freePiecesP1), 9)
-        self.assertEqual(len(freePiecesP2), 10)
+        freePiecesP1 = hiveGame.board.playableFreePieces(firstPlayer)
+        self.assertEqual(len(freePiecesP1), 4)
+        freePiecesP2 = hiveGame.board.playableFreePieces(firstPlayer)
+        self.assertEqual(len(freePiecesP2), 4)
+
 
     def test_add_first_piece(self):
         

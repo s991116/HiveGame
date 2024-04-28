@@ -42,7 +42,7 @@ class HiveRules:
                         self.board.navigate(Direction.UP_RIGHT, self.board.centerCoordinate),
                         self.board.navigate(Direction.RIGHT, self.board.centerCoordinate)]
         for coordinate in coordinates:
-          for p in self.board.PlayablePieces(self.playerOneTurn):
+          for p in self.board.playableFreePieces(self.playerOneTurn):
               moves.append(Piece(self.playerOneTurn, p.creature, p.index, coordinate))
         if(self.QueenP1Placed):
           Q1P1 = Piece(True, Creatues.QueenBee, 0, Coordinate(0,0))

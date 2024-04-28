@@ -40,11 +40,8 @@ class HiveBoard:
           return[boardPiece]
       return []
 
-    def freePieces(self, firstPlayer: bool) -> List[Piece]:
-      return self._pieces.freePieces(firstPlayer)
-
-    def PlayablePieces(self, firstPlayer:bool) -> List[Piece]:
-      return self._pieces.PlayablePieces(firstPlayer)
+    def playableFreePieces(self, firstPlayer:bool) -> List[Piece]:
+      return self._pieces.playableFreePieces(firstPlayer)
 
     def _normalizePosition(self) -> None:
       queenBeeP1 = Piece(True, Creatues.QueenBee, 0, Coordinate(0,0))

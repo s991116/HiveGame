@@ -10,7 +10,7 @@ class HivePieces:
 
   def startingPieces(self, firstPlayer:bool):
     c = Coordinate(0,0)
-    freePieces = [
+    startingPieces = [
       Piece(firstPlayer, Creatues.QueenBee,     0, c),
       Piece(firstPlayer, Creatues.Grasshopper,  0, c),
       Piece(firstPlayer, Creatues.Grasshopper,  1, c),
@@ -23,9 +23,9 @@ class HivePieces:
       Piece(firstPlayer, Creatues.Beetle,       0, c),
       Piece(firstPlayer, Creatues.Beetle,       1, c),
     ]
-    return freePieces
+    return startingPieces
 
-  def PlayablePieces(self, playerOne:bool):
+  def playableFreePieces(self, playerOne:bool):
     playableCreatures: List[Piece] = []
       
     for freePiece in self._freePiecesP1:
@@ -39,12 +39,6 @@ class HivePieces:
         playableCreatures.append(freePiece)
 
     return playableCreatures
-
-  def freePieces(self, firstPlayer: bool) -> List[Piece]:
-    if (firstPlayer):
-      return self._freePiecesP1
-    else:
-      return self._freePiecesP2
 
   def removeFromFreePieces(self, move: Piece) -> None:
       piece = self.findFreePiece(move)
