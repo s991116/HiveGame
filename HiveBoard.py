@@ -27,9 +27,12 @@ class HiveBoard:
       return len(self._board) == 0
 
     def setPiece(self, move: Piece) -> None:
+      self._setPiece(move)
+      self._normalizePosition()
+
+    def _setPiece(self, move: Piece) -> None:
       self._pieces.removeFromFreePieces(move)
       self._board.append(move)
-      self._normalizePosition()
 
     def findPiece(self, piece: Piece) -> List[Piece]:
       for boardPiece in self._board:
@@ -83,7 +86,7 @@ class HiveBoard:
             creature = next(key for key, value in self._shortPrint.items() if value == pieaceLetter.upper())
             firstPlayer = pieaceLetter.isupper()
             piece = Piece(firstPlayer, creature, index, pieceCoordinate)
-            self.setPiece(piece)
+            self._setPiece(piece)
             pieceCoordinate = self._offsetCoordinate(Coordinate(1,0), pieceCoordinate)
       self._normalizePosition()
     

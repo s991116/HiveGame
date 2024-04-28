@@ -43,6 +43,24 @@ class TestStartPlacingRules(unittest.TestCase):
         self.assertListEqual(board,[pieceA, pieceB])
         self.assertEqual(playerOneTurn, hiveGame.rules.playerOneTurn) # type: ignore
 
+    def test_init_board_with_three_pieces(self):
+        #Arrange
+        hiveGame = HiveGame()
+        playerOneTurn = True
+        #Act
+        hiveGame.setupPosition("q0|Q0|A0", not playerOneTurn)
+
+        #Assert
+        board = hiveGame.getBoard()
+        pieceA = Piece(True,Creatues.SoldierAnt, 0, Coordinate(1,0))
+        pieceB = Piece(True,Creatues.QueenBee, 0, Coordinate(0,0))
+        pieceC = Piece(False,Creatues.QueenBee, 0, Coordinate(-1,0))
+
+
+        self.assertListEqual(board,[pieceA, pieceB, pieceC])
+        self.assertEqual(not playerOneTurn, hiveGame.rules.playerOneTurn) # type: ignore
+
+
     def test_free_pieces_when_game_starts(self):
         #Arrange
         hiveGame = HiveGame()
