@@ -9,3 +9,4 @@ Implementation of the board Game Hive.
 - [ ] Vertical normalization
 - [ ] Multiple piece of same creature (index) on the board
 - [ ] Implement rules for winning and loosing
+- [ ] Add Layers of Beetles for Print Board when Beetles are on top of other creatures

@@ -10,7 +10,7 @@ class TestBoardNomalization(unittest.TestCase):
         hiveBoard = HiveBoard()
 
         #Act
-        hiveBoard.setupPosition("A|a|Q")        
+        hiveBoard.setupPosition("A0|a0|Q0")        
 
         #Assert
         board = hiveBoard.getBoard()
@@ -25,7 +25,7 @@ class TestBoardNomalization(unittest.TestCase):
         hiveBoard = HiveBoard()
 
         #Act
-        hiveBoard.setupPosition("A|Q|a")        
+        hiveBoard.setupPosition("A0|Q0|a0")        
 
         #Assert
         board = hiveBoard.getBoard()
