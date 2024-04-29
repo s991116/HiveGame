@@ -45,7 +45,7 @@ class HiveRules:
           for p in self.board.playableFreePieces(self.playerOneTurn):
               moves.append(BoardPiece(Piece(self.playerOneTurn, p.creature, p.index), coordinate))
         if(self.QueenP1Placed):
-          Q1P1 = Piece(True, Creatues.QueenBee, 0)
+          Q1P1 = self.board.pieces.QueenBeeP1
           moves.append(self.board.findPiece(Q1P1)[0].pieceToMove(Direction.UP_LEFT))
     else:
       for creature in self.creatues:
@@ -54,8 +54,8 @@ class HiveRules:
     return moves
   
   def updatePosition(self):
-    Q1P1 = Piece(True, Creatues.QueenBee, 0)
-    Q1P2 = Piece(False, Creatues.QueenBee, 0)
+    Q1P1 = self.board.pieces.QueenBeeP1
+    Q1P2 = self.board.pieces.QueenBeeP2
 
     if(len(self.board.findPiece(Q1P1)) > 0):
       self.QueenP1Placed = True

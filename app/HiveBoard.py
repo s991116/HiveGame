@@ -18,7 +18,7 @@ class HiveBoard:
     
     def __init__(self) -> None:
       self._board: list[BoardPiece] = []
-      self._pieces = HivePieces()
+      self.pieces = HivePieces()
       self.centerCoordinate: Coordinate = Coordinate(0,0)
   
     def getBoard(self) -> List[BoardPiece]:    
@@ -32,7 +32,7 @@ class HiveBoard:
       self._normalizePosition()
 
     def _setPiece(self, move: BoardPiece) -> None:
-      self._pieces.removeFromFreePieces(move.piece)
+      self.pieces.removeFromFreePieces(move.piece)
       self._board.append(move)
 
     def findPiece(self, piece: Piece) -> List[BoardPiece]:
@@ -42,11 +42,10 @@ class HiveBoard:
       return []
 
     def playableFreePieces(self, firstPlayer:bool) -> List[Piece]:
-      return self._pieces.playableFreePieces(firstPlayer)
+      return self.pieces.playableFreePieces(firstPlayer)
 
     def _normalizePosition(self) -> None:
-      queenBeeP1 = Piece(True, Creatues.QueenBee, 0)
-      piece = self.findPiece(queenBeeP1)
+      piece = self.findPiece(self.pieces.QueenBeeP1)
       if(len(piece) > 0):
         self._calibratePositions(piece[0].coordinate)
       pass

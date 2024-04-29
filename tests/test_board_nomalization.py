@@ -3,18 +3,18 @@ from app.HiveBoard import HiveBoard
 from app.Creatues import Creatues
 from app.Coordinate import Coordinate
 from app.BoardPiece import BoardPiece
-from app.Piece import Piece
 
 class TestBoardNomalization(unittest.TestCase):
 
     def test_center_P1_QueenBee(self):
         #Arrange
         hiveBoard = HiveBoard()
+        pieces = hiveBoard.pieces
 
         #Act
-        hiveBoard.setPiece(BoardPiece(Piece(True, Creatues.Spider, 0), Coordinate(0,0)))
-        hiveBoard.setPiece(BoardPiece(Piece(False, Creatues.Spider, 0), Coordinate(-1,0)))
-        hiveBoard.setPiece(BoardPiece(Piece(True, Creatues.QueenBee, 0), Coordinate(+1,0)))
+        hiveBoard.setPiece(BoardPiece(pieces.Spider_0_P1, Coordinate(0,0)))
+        hiveBoard.setPiece(BoardPiece(pieces.Spider_0_P2, Coordinate(-1,0)))
+        hiveBoard.setPiece(BoardPiece(pieces.QueenBeeP1, Coordinate(+1,0)))
 
         #Assert
         board = hiveBoard.getBoard()
@@ -27,11 +27,12 @@ class TestBoardNomalization(unittest.TestCase):
     def test_center_P1_QueenBee_PlacedFirst(self):
         #Arrange
         hiveBoard = HiveBoard()
+        pieces = hiveBoard.pieces
 
         #Act
-        hiveBoard.setPiece(BoardPiece(Piece(True, Creatues.QueenBee, 0), Coordinate(0,0)))
-        hiveBoard.setPiece(BoardPiece(Piece(False, Creatues.Spider, 0), Coordinate(-1,0)))
-        hiveBoard.setPiece(BoardPiece(Piece(True, Creatues.Spider, 0), Coordinate(+1,0)))
+        hiveBoard.setPiece(BoardPiece(pieces.QueenBeeP1, Coordinate(0,0)))
+        hiveBoard.setPiece(BoardPiece(pieces.Spider_0_P2, Coordinate(-1,0)))
+        hiveBoard.setPiece(BoardPiece(pieces.Spider_0_P1, Coordinate(+1,0)))
 
         #Assert
         board = hiveBoard.getBoard()
