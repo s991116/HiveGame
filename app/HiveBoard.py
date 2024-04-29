@@ -105,7 +105,14 @@ class HiveBoard:
           boardPrintLine2: str = "  "
           boardPrintLine3: str = "  "
 
+        boardPiecesLines = sorted(boardPiecesLines, key=lambda x: x.coordinate.x)
+        min_x_position = -10
         for boardPiece in boardPiecesLines:
+          for _ in range(1, boardPiece.coordinate.x - min_x_position):
+            boardPrintLine1 += "    "
+            boardPrintLine2 += "    "
+            boardPrintLine3 += "    "
+          min_x_position = boardPiece.coordinate.x+1
           piece = boardPiece.piece
            
           if piece.firstPlayer:
