@@ -5,6 +5,7 @@ from app.Piece import Piece
 from app.Creatues import Creatues
 from app.Coordinate import Coordinate
 from app.HivePieces import HivePieces
+from itertools import groupby
 
 class HiveBoard:
 
@@ -69,12 +70,12 @@ class HiveBoard:
         Creatues.Ladybug: "L",        
     }
 
-    def setupPosition(self, boardPrint: str):
-      boardPrintLines = boardPrint.splitlines()
+    def setupPosition(self, boardPrintLines: List[str]):
       self._board = []
-      pieceCoordinate = Coordinate(0,0)
+      lineNr = 0
       for boardPrintLine in boardPrintLines:
         boardPrintLineReversed = boardPrintLine[::-1]
+        pieceCoordinate = Coordinate(0,lineNr)
         for stringIndex in range(len(boardPrintLineReversed)):
           indexString = boardPrintLineReversed[stringIndex]
           if indexString.isdigit():
@@ -85,6 +86,7 @@ class HiveBoard:
             piece = BoardPiece(Piece(firstPlayer, creature, index), pieceCoordinate)
             self._setPiece(piece)
             pieceCoordinate = self._offsetCoordinate(Coordinate(1,0), pieceCoordinate)
+        lineNr += 1
       self._normalizePosition()
     
     def navigate(self, direction: Direction, coordinate: Coordinate) -> Coordinate:
@@ -93,21 +95,31 @@ class HiveBoard:
 
     def printBoard(self) -> str:
       self._board.sort(key=self._boardPositionSorting)
-      boardPrintLine1: str = ""
-      boardPrintLine2: str = ""
-      boardPrintLine3: str = ""
+      boardPrint = ""
+      for y_position, boardPiecesLines in groupby(self._board, lambda x: x.coordinate.y):
+        boardPrintLine1: str = ""
+        boardPrintLine2: str = ""
+        boardPrintLine3: str = ""
+        if(y_position % 2 == 1):
+          boardPrintLine1: str = "  "
+          boardPrintLine2: str = "  "
+          boardPrintLine3: str = "  "
 
-      for boardPiece in self._board:
-        piece = boardPiece.piece
-        if piece.firstPlayer:
-          piecePrint = self._shortPrint[piece.creature].upper()
-        else:
-          piecePrint = self._shortPrint[piece.creature].lower()
+        for boardPiece in boardPiecesLines:
+          piece = boardPiece.piece
+           
+          if piece.firstPlayer:
+            piecePrint = self._shortPrint[piece.creature].upper()
+          else:
+            piecePrint = self._shortPrint[piece.creature].lower()
 
-        boardPrintLine1 += "/--\\"
-        boardPrintLine2 += "|" + piecePrint + str(piece.index) + "|"
-        boardPrintLine3 += "\\--/"
-      return boardPrintLine1 + "\n" + boardPrintLine2 + "\n" + boardPrintLine3 + "\n"
+          boardPrintLine1 += "/--\\"
+          boardPrintLine2 += "|" + piecePrint + str(piece.index) + "|"
+          boardPrintLine3 += "\\--/"
+      
+        boardPrint += boardPrintLine1 + "\n" + boardPrintLine2 + "\n" + boardPrintLine3 + "\n"
+      
+      return boardPrint
   
     def _boardPositionSorting(self, piece: BoardPiece) -> int:
       return piece.coordinate.y*100+piece.coordinate.x

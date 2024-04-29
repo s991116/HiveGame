@@ -22,7 +22,7 @@ class TestStartPlacingRules(unittest.TestCase):
         playerOneTurn = False
 
         #Act
-        hiveGame.setupPosition("Q0", playerOneTurn)
+        hiveGame.setupPosition(["Q0"], playerOneTurn)
 
         #Assert
         board = hiveGame.getBoard()
@@ -36,7 +36,7 @@ class TestStartPlacingRules(unittest.TestCase):
         pieces = hiveGame.board.pieces
 
         #Act
-        hiveGame.setupPosition("q0|Q0", playerOneTurn)
+        hiveGame.setupPosition(["q0|Q0"], playerOneTurn)
 
         #Assert
         board = hiveGame.getBoard()
@@ -52,7 +52,7 @@ class TestStartPlacingRules(unittest.TestCase):
         pieces = hiveGame.board.pieces
 
         #Act
-        hiveGame.setupPosition("q0|Q0|A0", not playerOneTurn)
+        hiveGame.setupPosition(["q0|Q0|A0"], not playerOneTurn)
 
         #Assert
         board = hiveGame.getBoard()
@@ -125,7 +125,7 @@ class TestStartPlacingRules(unittest.TestCase):
     def test_add_second_piece(self):
         #Arrange
         hiveGame = HiveGame()
-        hiveGame.setupPosition("Q0", False)
+        hiveGame.setupPosition(["Q0"], False)
 
         #Act
         move2 = hiveGame.getValidMoves()[0]
@@ -150,7 +150,7 @@ class TestStartPlacingRules(unittest.TestCase):
     def test_get_valid_first_move_for_P2(self):
         #Arrange
         hiveGame = HiveGame()
-        hiveGame.setupPosition("B0", False)
+        hiveGame.setupPosition(["B0"], False)
 
         #Act
         moves = hiveGame.getValidMoves()
@@ -164,7 +164,7 @@ class TestStartPlacingRules(unittest.TestCase):
     def test_get_valid_second_move_for_P1_Queen_Not_Played(self):
         #Arrange
         hiveGame = HiveGame()
-        hiveGame.setupPosition("b0|B0", True)
+        hiveGame.setupPosition(["b0|B0"], True)
 
         #Act
         moves = hiveGame.getValidMoves()
@@ -175,7 +175,7 @@ class TestStartPlacingRules(unittest.TestCase):
     def test_move_piece_after_P1_Queen_is_placed(self):
         #Arrange
         hiveGame = HiveGame()
-        hiveGame.setupPosition("b0|Q0", True)
+        hiveGame.setupPosition(["b0|Q0"], True)
 
         #Act
         moves = hiveGame.getValidMoves()
