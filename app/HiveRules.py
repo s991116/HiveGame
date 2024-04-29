@@ -1,9 +1,9 @@
 from typing import List
-from HiveBoard import HiveBoard
-from Piece import Piece
-from Creatues import Creatues
-from Directions import Direction
-from Coordinate import Coordinate
+from app.HiveBoard import HiveBoard
+from app.Piece import Piece
+from app.Creatues import Creatues
+from app.Directions import Direction
+from app.Coordinate import Coordinate
 
 class HiveRules:
 

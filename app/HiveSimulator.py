@@ -1,4 +1,4 @@
-from HiveGame import HiveGame
+from app.HiveGame import HiveGame
 
 game = HiveGame()
 

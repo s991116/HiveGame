@@ -1,7 +1,7 @@
 import unittest
-from HiveBoard import HiveBoard
-from Creatues import Creatues
-from Coordinate import Coordinate
+from app.HiveBoard import HiveBoard
+from app.Creatues import Creatues
+from app.Coordinate import Coordinate
 
 class TestBoardNomalization(unittest.TestCase):
 

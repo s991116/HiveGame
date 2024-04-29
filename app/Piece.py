@@ -1,7 +1,7 @@
 from __future__ import annotations
-from Creatues import Creatues
-from Coordinate import Coordinate
-from Directions import Direction
+from app.Creatues import Creatues
+from app.Coordinate import Coordinate
+from app.Directions import Direction
 
 class Piece:
 

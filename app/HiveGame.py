@@ -1,7 +1,7 @@
 from typing import List
-from Piece import Piece
-from HiveBoard import HiveBoard
-from HiveRules import HiveRules
+from app.Piece import Piece
+from app.HiveBoard import HiveBoard
+from app.HiveRules import HiveRules
 class HiveGame:
 
   def __init__(self) -> None:  

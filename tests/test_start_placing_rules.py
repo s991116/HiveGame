@@ -1,8 +1,8 @@
 import unittest
-from HiveGame import HiveGame
-from Piece import Piece
-from Creatues import Creatues
-from Coordinate import Coordinate
+from app.HiveGame import HiveGame
+from app.Piece import Piece
+from app.Creatues import Creatues
+from app.Coordinate import Coordinate
 
 class TestStartPlacingRules(unittest.TestCase):
 

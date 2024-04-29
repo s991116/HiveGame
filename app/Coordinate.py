@@ -1,6 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
-from Directions import Direction
+from app.Directions import Direction
 
 @dataclass
 class Coordinate:

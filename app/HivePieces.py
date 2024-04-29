@@ -1,7 +1,7 @@
 from typing import List
-from Piece import Piece
-from Creatues import Creatues
-from Coordinate import Coordinate
+from app.Piece import Piece
+from app.Creatues import Creatues
+from app.Coordinate import Coordinate
 
 class HivePieces:
   def __init__(self) -> None:
