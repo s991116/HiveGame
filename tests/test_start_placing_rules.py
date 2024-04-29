@@ -1,5 +1,6 @@
 import unittest
 from app.HiveGame import HiveGame
+from app.BoardPiece import BoardPiece
 from app.Piece import Piece
 from app.Creatues import Creatues
 from app.Coordinate import Coordinate
@@ -26,7 +27,7 @@ class TestStartPlacingRules(unittest.TestCase):
 
         #Assert
         board = hiveGame.getBoard()
-        self.assertListEqual(board,[Piece(True,Creatues.QueenBee, 0, Coordinate(0,0))])
+        self.assertListEqual(board,[BoardPiece(Piece(True,Creatues.QueenBee, 0), Coordinate(0,0))])
         self.assertEqual(playerOneTurn, hiveGame.rules.playerOneTurn) # type: ignore
 
     def test_init_board_with_two_pieces(self):
@@ -38,8 +39,8 @@ class TestStartPlacingRules(unittest.TestCase):
 
         #Assert
         board = hiveGame.getBoard()
-        pieceA = Piece(True,Creatues.QueenBee, 0, Coordinate(0,0))
-        pieceB = Piece(False,Creatues.QueenBee, 0, Coordinate(-1,0))
+        pieceA = BoardPiece(Piece(True,Creatues.QueenBee, 0), Coordinate(0,0))
+        pieceB = BoardPiece(Piece(False,Creatues.QueenBee, 0), Coordinate(-1,0))
         self.assertListEqual(board,[pieceA, pieceB])
         self.assertEqual(playerOneTurn, hiveGame.rules.playerOneTurn) # type: ignore
 
@@ -52,9 +53,9 @@ class TestStartPlacingRules(unittest.TestCase):
 
         #Assert
         board = hiveGame.getBoard()
-        pieceA = Piece(True,Creatues.SoldierAnt, 0, Coordinate(1,0))
-        pieceB = Piece(True,Creatues.QueenBee, 0, Coordinate(0,0))
-        pieceC = Piece(False,Creatues.QueenBee, 0, Coordinate(-1,0))
+        pieceA = BoardPiece(Piece(True,Creatues.SoldierAnt, 0), Coordinate(1,0))
+        pieceB = BoardPiece(Piece(True,Creatues.QueenBee, 0), Coordinate(0,0))
+        pieceC = BoardPiece(Piece(False,Creatues.QueenBee, 0), Coordinate(-1,0))
 
 
         self.assertListEqual(board,[pieceA, pieceB, pieceC])
@@ -82,7 +83,7 @@ class TestStartPlacingRules(unittest.TestCase):
         firstPlayer = True
 
         #Act
-        hiveGame.playMove(Piece(firstPlayer, Creatues.QueenBee,0,Coordinate(0,0)))
+        hiveGame.playMove(BoardPiece(Piece(firstPlayer, Creatues.QueenBee,0),Coordinate(0,0)))
 
         #Assert
         freePiecesP1 = hiveGame.board.playableFreePieces(firstPlayer)
@@ -94,9 +95,9 @@ class TestStartPlacingRules(unittest.TestCase):
         firstPlayer = True
 
         #Act
-        hiveGame.playMove(Piece(firstPlayer, Creatues.QueenBee,0,Coordinate(0,0)))
-        hiveGame.playMove(Piece(not firstPlayer, Creatues.QueenBee,0,Coordinate(-1,0)))
-        hiveGame.playMove(Piece(firstPlayer, Creatues.SoldierAnt,0,Coordinate(1,0)))
+        hiveGame.playMove(BoardPiece(Piece(firstPlayer, Creatues.QueenBee,0),Coordinate(0,0)))
+        hiveGame.playMove(BoardPiece(Piece(not firstPlayer, Creatues.QueenBee,0),Coordinate(-1,0)))
+        hiveGame.playMove(BoardPiece(Piece(firstPlayer, Creatues.SoldierAnt,0),Coordinate(1,0)))
 
         #Assert
         freePiecesP1 = hiveGame.board.playableFreePieces(firstPlayer)
@@ -139,9 +140,9 @@ class TestStartPlacingRules(unittest.TestCase):
 
         #Assert
         self.assertEqual(len(moves), 5)
-        for piece in moves:
-          self.assertTrue(piece.firstPlayer)
-          self.assertEqual(piece.coordinate, hiveGame.board.centerCoordinate)
+        for boardPiece in moves:
+          self.assertTrue(boardPiece.piece.firstPlayer)
+          self.assertEqual(boardPiece.coordinate, hiveGame.board.centerCoordinate)
 
     def test_get_valid_first_move_for_P2(self):
         #Arrange
@@ -153,9 +154,9 @@ class TestStartPlacingRules(unittest.TestCase):
 
         #Assert
         self.assertEqual(len(moves), 5)
-        for piece in moves:
-            self.assertFalse(piece.firstPlayer)
-            self.assertNotEqual(piece.coordinate, hiveGame.board.centerCoordinate)
+        for boardPiece in moves:
+            self.assertFalse(boardPiece.piece.firstPlayer)
+            self.assertNotEqual(boardPiece.coordinate, hiveGame.board.centerCoordinate)
 
     def test_get_valid_second_move_for_P1_Queen_Not_Played(self):
         #Arrange

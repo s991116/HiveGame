@@ -2,6 +2,8 @@ import unittest
 from app.HiveBoard import HiveBoard
 from app.Creatues import Creatues
 from app.Coordinate import Coordinate
+from app.BoardPiece import BoardPiece
+from app.Piece import Piece
 
 class TestBoardNomalization(unittest.TestCase):
 
@@ -10,30 +12,48 @@ class TestBoardNomalization(unittest.TestCase):
         hiveBoard = HiveBoard()
 
         #Act
-        hiveBoard.setupPosition("A0|a0|Q0")        
+        hiveBoard.setPiece(BoardPiece(Piece(True, Creatues.Spider, 0), Coordinate(0,0)))
+        hiveBoard.setPiece(BoardPiece(Piece(False, Creatues.Spider, 0), Coordinate(-1,0)))
+        hiveBoard.setPiece(BoardPiece(Piece(True, Creatues.QueenBee, 0), Coordinate(+1,0)))
 
         #Assert
         board = hiveBoard.getBoard()
         
         self.assertEqual(len(board), 3)
-        for piece in board:
-            if(piece.creature == Creatues.QueenBee and piece.firstPlayer):
-                self.assertEqual(piece.coordinate, Coordinate(0,0))
+        for boardPiece in board:
+            if(boardPiece.piece.creature == Creatues.QueenBee and boardPiece.piece.firstPlayer):
+                self.assertEqual(boardPiece.coordinate, Coordinate(0,0))
         
     def test_center_P1_QueenBee_PlacedFirst(self):
         #Arrange
         hiveBoard = HiveBoard()
 
         #Act
-        hiveBoard.setupPosition("A0|Q0|a0")        
+        hiveBoard.setPiece(BoardPiece(Piece(True, Creatues.QueenBee, 0), Coordinate(0,0)))
+        hiveBoard.setPiece(BoardPiece(Piece(False, Creatues.Spider, 0), Coordinate(-1,0)))
+        hiveBoard.setPiece(BoardPiece(Piece(True, Creatues.Spider, 0), Coordinate(+1,0)))
 
         #Assert
         board = hiveBoard.getBoard()
         
         self.assertEqual(len(board), 3)
-        for piece in board:
-            if(piece.creature == Creatues.QueenBee and piece.firstPlayer):
-                self.assertEqual(piece.coordinate, Coordinate(0,0))
+        for boardPiece in board:
+            if(boardPiece.piece.creature == Creatues.QueenBee and boardPiece.piece.firstPlayer):
+                self.assertEqual(boardPiece.coordinate, Coordinate(0,0))
+
+    # def test_center_Rotate_P2_QueenBee(self):
+    #     #Arrange
+    #     #Arrange
+    #     hiveBoard = HiveBoard()
+    #     hiveBoard.setPiece(Piece(True, Creatues.QueenBee, 0, Coordinate(0,0)))
+    #     hiveBoard.setPiece(Piece(False, Creatues.Spider, 0, Coordinate(-1,0)))
+    #     hiveBoard.setPiece(Piece(True, Creatues.Spider, 0, Coordinate(+1,0)))
+
+    #     #Act
+    #     hiveBoard.setPiece(Piece(False, Creatues.QueenBee, 0, Coordinate(-1,1)))
+
+    #     #Assert
+    #     hiveBoard.findPiece(Piece(True, Creatues.QueenBee, 0, ))
 
 if __name__ == "__main__":
     unittest.main()

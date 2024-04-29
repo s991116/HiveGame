@@ -1,5 +1,6 @@
 from typing import Tuple, Dict, List
 from app.Directions import Direction
+from app.BoardPiece import BoardPiece
 from app.Piece import Piece
 from app.Creatues import Creatues
 from app.Coordinate import Coordinate
@@ -16,27 +17,27 @@ class HiveBoard:
      Direction.DOWN_RIGHT: ( 0,-1)}
     
     def __init__(self) -> None:
-      self._board: list[Piece] = []
+      self._board: list[BoardPiece] = []
       self._pieces = HivePieces()
       self.centerCoordinate: Coordinate = Coordinate(0,0)
   
-    def getBoard(self) -> List[Piece]:    
+    def getBoard(self) -> List[BoardPiece]:    
       return self._board
 
     def isEmpty(self) -> bool:
       return len(self._board) == 0
 
-    def setPiece(self, move: Piece) -> None:
+    def setPiece(self, move: BoardPiece) -> None:
       self._setPiece(move)
       self._normalizePosition()
 
-    def _setPiece(self, move: Piece) -> None:
-      self._pieces.removeFromFreePieces(move)
+    def _setPiece(self, move: BoardPiece) -> None:
+      self._pieces.removeFromFreePieces(move.piece)
       self._board.append(move)
 
-    def findPiece(self, piece: Piece) -> List[Piece]:
+    def findPiece(self, piece: Piece) -> List[BoardPiece]:
       for boardPiece in self._board:
-        if(boardPiece.sameKind(piece)):
+        if(boardPiece.samePiece(piece)):
           return[boardPiece]
       return []
 
@@ -44,7 +45,7 @@ class HiveBoard:
       return self._pieces.playableFreePieces(firstPlayer)
 
     def _normalizePosition(self) -> None:
-      queenBeeP1 = Piece(True, Creatues.QueenBee, 0, Coordinate(0,0))
+      queenBeeP1 = Piece(True, Creatues.QueenBee, 0)
       piece = self.findPiece(queenBeeP1)
       if(len(piece) > 0):
         self._calibratePositions(piece[0].coordinate)
@@ -82,7 +83,7 @@ class HiveBoard:
             pieaceLetter = boardPrintLineReversed[stringIndex+1]
             creature = next(key for key, value in self._shortPrint.items() if value == pieaceLetter.upper())
             firstPlayer = pieaceLetter.isupper()
-            piece = Piece(firstPlayer, creature, index, pieceCoordinate)
+            piece = BoardPiece(Piece(firstPlayer, creature, index), pieceCoordinate)
             self._setPiece(piece)
             pieceCoordinate = self._offsetCoordinate(Coordinate(1,0), pieceCoordinate)
       self._normalizePosition()
@@ -97,7 +98,8 @@ class HiveBoard:
       boardPrintLine2: str = ""
       boardPrintLine3: str = ""
 
-      for piece in self._board:
+      for boardPiece in self._board:
+        piece = boardPiece.piece
         if piece.firstPlayer:
           piecePrint = self._shortPrint[piece.creature].upper()
         else:
@@ -108,7 +110,7 @@ class HiveBoard:
         boardPrintLine3 += "\\--/"
       return boardPrintLine1 + "\n" + boardPrintLine2 + "\n" + boardPrintLine3 + "\n"
   
-    def _boardPositionSorting(self, piece: Piece) -> int:
+    def _boardPositionSorting(self, piece: BoardPiece) -> int:
       return piece.coordinate.y*100+piece.coordinate.x
 
 

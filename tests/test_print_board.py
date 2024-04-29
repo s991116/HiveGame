@@ -1,7 +1,5 @@
 import unittest
 from app.HiveBoard import HiveBoard
-from app.Creatues import Creatues
-from app.Coordinate import Coordinate
 
 class TestPrintBoard(unittest.TestCase):
 

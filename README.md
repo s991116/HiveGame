@@ -4,6 +4,7 @@
 Implementation of the board Game Hive.
 
 ## ToDo
+- [ ] Create list with all pieces in the game (without coordinates), that can be used to easy ref.
 - [ ] Fix coordinates for adding second pieces for P1 and P2
 - [ ] Test if piece in second move for P1 can move and add to valid moves
 - [ ] Vertical normalization

@@ -1,32 +1,20 @@
 from __future__ import annotations
 from app.Creatues import Creatues
-from app.Coordinate import Coordinate
-from app.Directions import Direction
 
 class Piece:
 
-    def __init__(self, firstPlayer: bool, creature: Creatues, index: int, coordinate: Coordinate) -> None:
+    def __init__(self, firstPlayer: bool, creature: Creatues, index: int) -> None:
         self.firstPlayer = firstPlayer
         self.creature = creature
         self.index = index
-        self.coordinate = coordinate
 
-    def pieceToMove(self, direction: Direction):
-        return Piece(self.firstPlayer, self.creature, self.index, self.coordinate.NeighbourCoordinate(direction))
-
-    def sameKind(self, other: Piece):
-        return(
-            self.firstPlayer == other.firstPlayer and 
-            self.creature == other.creature and 
-            self.index == other.index)
-    
     def print(self) -> str:
         if(self.firstPlayer):
-            return self.creature.value.upper() + str(self.index) + "(" + str(self.coordinate.x) + "," + str(self.coordinate.y) + ")"
+            return self.creature.value.upper() + str(self.index)
         else:
-            return self.creature.value.lower() + str(self.index) + "(" + str(self.coordinate.x) + "," + str(self.coordinate.y) + ")"
+            return self.creature.value.lower() + str(self.index)
 
     def __eq__(self, other: any): # type: ignore
         if isinstance(other, Piece):
-            return self.sameKind(other) and self.coordinate == other.coordinate # type: ignore
+            return self.firstPlayer == other.firstPlayer and self.creature == other.creature and self.index == other.index # type: ignore
         return False

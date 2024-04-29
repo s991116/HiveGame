@@ -1,5 +1,5 @@
 from typing import List
-from app.Piece import Piece
+from app.BoardPiece import BoardPiece
 from app.HiveBoard import HiveBoard
 from app.HiveRules import HiveRules
 class HiveGame:
@@ -8,13 +8,13 @@ class HiveGame:
     self.board = HiveBoard()
     self.rules = HiveRules(self.board)
 
-  def playMove(self, move: Piece):
+  def playMove(self, move: BoardPiece):
     self.rules.playMove(move)
 
-  def getValidMoves(self) -> List[Piece]:
+  def getValidMoves(self) -> List[BoardPiece]:
     return self.rules.getValidMoves()
   
-  def getBoard(self) -> List[Piece]:
+  def getBoard(self) -> List[BoardPiece]:
     return self.board.getBoard()
   
   def setupPosition(self, boardPrint: str, playerOneTurn: bool):      

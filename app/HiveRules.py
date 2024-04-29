@@ -1,9 +1,9 @@
 from typing import List
 from app.HiveBoard import HiveBoard
+from app.BoardPiece import BoardPiece
 from app.Piece import Piece
 from app.Creatues import Creatues
 from app.Directions import Direction
-from app.Coordinate import Coordinate
 
 class HiveRules:
 
@@ -20,9 +20,9 @@ class HiveRules:
       Creatues.SoldierAnt, 
       Creatues.Spider]
 
-  def playMove(self, move: Piece):  
+  def playMove(self, move: BoardPiece):  
     
-    if(move.creature == Creatues.QueenBee):
+    if(move.piece.creature == Creatues.QueenBee):
       if(self.playerOneTurn):
         self.QueenP1Placed = True
       else:
@@ -31,31 +31,31 @@ class HiveRules:
     self.board.setPiece(move)
     self.playerOneTurn = not self.playerOneTurn
 
-  def getValidMoves(self) -> List[Piece]:
-    moves:list[Piece] = []
+  def getValidMoves(self) -> List[BoardPiece]:
+    moves:list[BoardPiece] = []
     if(self.playerOneTurn):
       if(self.board.isEmpty()):
         for creature in self.creatues:
-            moves.append(Piece(True, creature, 0, self.board.centerCoordinate))
+            moves.append(BoardPiece(Piece(True, creature, 0), self.board.centerCoordinate))
       else:
         coordinates = [
                         self.board.navigate(Direction.UP_RIGHT, self.board.centerCoordinate),
                         self.board.navigate(Direction.RIGHT, self.board.centerCoordinate)]
         for coordinate in coordinates:
           for p in self.board.playableFreePieces(self.playerOneTurn):
-              moves.append(Piece(self.playerOneTurn, p.creature, p.index, coordinate))
+              moves.append(BoardPiece(Piece(self.playerOneTurn, p.creature, p.index), coordinate))
         if(self.QueenP1Placed):
-          Q1P1 = Piece(True, Creatues.QueenBee, 0, Coordinate(0,0))
+          Q1P1 = Piece(True, Creatues.QueenBee, 0)
           moves.append(self.board.findPiece(Q1P1)[0].pieceToMove(Direction.UP_LEFT))
     else:
       for creature in self.creatues:
-        moves.append(Piece(False, creature, 0, self.board.navigate(Direction.LEFT, self.board.centerCoordinate)))
+        moves.append(BoardPiece(Piece(False, creature, 0), self.board.navigate(Direction.LEFT, self.board.centerCoordinate)))
 
     return moves
   
   def updatePosition(self):
-    Q1P1 = Piece(True, Creatues.QueenBee, 0, Coordinate(0,0))
-    Q1P2 = Piece(False, Creatues.QueenBee, 0, Coordinate(0,0))
+    Q1P1 = Piece(True, Creatues.QueenBee, 0)
+    Q1P2 = Piece(False, Creatues.QueenBee, 0)
 
     if(len(self.board.findPiece(Q1P1)) > 0):
       self.QueenP1Placed = True

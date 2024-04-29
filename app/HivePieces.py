@@ -1,7 +1,6 @@
 from typing import List
 from app.Piece import Piece
 from app.Creatues import Creatues
-from app.Coordinate import Coordinate
 
 class HivePieces:
   def __init__(self) -> None:
@@ -9,19 +8,18 @@ class HivePieces:
     self._freePiecesP2 = self.startingPieces(False)
 
   def startingPieces(self, firstPlayer:bool):
-    c = Coordinate(0,0)
     startingPieces = [
-      Piece(firstPlayer, Creatues.QueenBee,     0, c),
-      Piece(firstPlayer, Creatues.Grasshopper,  0, c),
-      Piece(firstPlayer, Creatues.Grasshopper,  1, c),
-      Piece(firstPlayer, Creatues.Grasshopper,  2, c),
-      Piece(firstPlayer, Creatues.Spider,       0, c),
-      Piece(firstPlayer, Creatues.Spider,       1, c),
-      Piece(firstPlayer, Creatues.SoldierAnt,   0, c),
-      Piece(firstPlayer, Creatues.SoldierAnt,   1, c),
-      Piece(firstPlayer, Creatues.SoldierAnt,   2, c),
-      Piece(firstPlayer, Creatues.Beetle,       0, c),
-      Piece(firstPlayer, Creatues.Beetle,       1, c),
+      Piece(firstPlayer, Creatues.QueenBee,     0),
+      Piece(firstPlayer, Creatues.Grasshopper,  0),
+      Piece(firstPlayer, Creatues.Grasshopper,  1),
+      Piece(firstPlayer, Creatues.Grasshopper,  2),
+      Piece(firstPlayer, Creatues.Spider,       0),
+      Piece(firstPlayer, Creatues.Spider,       1),
+      Piece(firstPlayer, Creatues.SoldierAnt,   0),
+      Piece(firstPlayer, Creatues.SoldierAnt,   1),
+      Piece(firstPlayer, Creatues.SoldierAnt,   2),
+      Piece(firstPlayer, Creatues.Beetle,       0),
+      Piece(firstPlayer, Creatues.Beetle,       1),
     ]
     return startingPieces
 
@@ -51,11 +49,11 @@ class HivePieces:
   def findFreePiece(self, piece: Piece) -> List[Piece]:
       if(piece.firstPlayer):
         for freePiece in self._freePiecesP1:
-          if(piece.sameKind(freePiece)):
+          if(piece == freePiece):
             return[freePiece]
         return []
       else:
         for freePiece in self._freePiecesP2:
-          if(piece.sameKind(freePiece)):
+          if(piece == freePiece):
             return[freePiece]
         return []
