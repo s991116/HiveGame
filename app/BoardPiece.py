@@ -20,7 +20,7 @@ class BoardPiece:
             return []
 
     def print(self) -> str:
-        return self.print() + "(" + str(self.coordinate.x) + "," + str(self.coordinate.y) + ")"
+        return self.piece.print() + "(" + str(self.coordinate.x) + "," + str(self.coordinate.y) + ")"
 
     def __eq__(self, other: any): # type: ignore
         if isinstance(other, BoardPiece):
