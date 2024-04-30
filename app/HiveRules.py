@@ -55,10 +55,12 @@ class HiveRules:
         return moves
       
       freePlacements = self.getLegalPlacement(False)
+      
       for freePlacement in freePlacements:
-        playablePieces = self.board.playableFreePieces(False)
-        for playablePiece in playablePieces:
-          moves.append(BoardPiece(playablePiece, freePlacement))
+        if(not (self.straightLine() and not self.downCoordinate(freePlacement))):      
+          playablePieces = self.board.playableFreePieces(False)
+          for playablePiece in playablePieces:
+            moves.append(BoardPiece(playablePiece, freePlacement))
   
     return moves
 
@@ -78,6 +80,15 @@ class HiveRules:
       if(self.board.isPlacePlayerPiece(neighbourCoordinate, oppositPlayer)):
         return False
     return True
+
+  def straightLine(self) -> bool:
+    for boardPiece in self.board.getBoard():
+      if boardPiece.coordinate.y != 0:
+        return False
+    return True
+
+  def downCoordinate(self, coordinate: Coordinate) -> bool:
+    return coordinate.y != -1
 
   def updatePosition(self):
     Q1P1 = self.board.pieces.QueenBeeP1
