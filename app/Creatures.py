@@ -1,6 +1,6 @@
 from enum import Enum
 
-class Creatues(Enum):
+class Creatures(Enum):
     QueenBee = "q"
     Spider = "s"
     Beetle = "b"

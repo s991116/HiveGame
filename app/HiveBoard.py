@@ -1,8 +1,8 @@
-from typing import Tuple, Dict, List
+from typing import Dict, List
 from app.Directions import Direction
 from app.BoardPiece import BoardPiece
 from app.Piece import Piece
-from app.Creatues import Creatues
+from app.Creatures import Creatures
 from app.Coordinate import Coordinate
 from app.HivePieces import HivePieces
 from itertools import groupby
@@ -73,14 +73,14 @@ class HiveBoard:
       y = coordinate.y - offset.y
       return Coordinate(x,y)
 
-    _shortPrint: Dict[Creatues, str] = {
-        Creatues.Beetle: "B",
-        Creatues.Grasshopper: "G",
-        Creatues.QueenBee: "Q",
-        Creatues.SoldierAnt: "A",
-        Creatues.Spider: "S",
-        Creatues.Mosquity: "M",
-        Creatues.Ladybug: "L",        
+    _shortPrint: Dict[Creatures, str] = {
+        Creatures.Beetle: "B",
+        Creatures.Grasshopper: "G",
+        Creatures.QueenBee: "Q",
+        Creatures.SoldierAnt: "A",
+        Creatures.Spider: "S",
+        Creatures.Mosquity: "M",
+        Creatures.Ladybug: "L",        
     }
 
     def setupPosition(self, boardPrintLines: List[str]):
