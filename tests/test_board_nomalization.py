@@ -12,9 +12,9 @@ class TestBoardNomalization(unittest.TestCase):
         pieces = hiveBoard.pieces
 
         #Act
-        hiveBoard.setPiece(BoardPiece(pieces.Spider_0_P1, Coordinate(0,0)))
-        hiveBoard.setPiece(BoardPiece(pieces.Spider_0_P2, Coordinate(-1,0)))
-        hiveBoard.setPiece(BoardPiece(pieces.QueenBeeP1, Coordinate(+1,0)))
+        hiveBoard.movePiece(BoardPiece(pieces.Spider_0_P1, Coordinate(0,0)))
+        hiveBoard.movePiece(BoardPiece(pieces.Spider_0_P2, Coordinate(-1,0)))
+        hiveBoard.movePiece(BoardPiece(pieces.QueenBeeP1, Coordinate(+1,0)))
 
         #Assert
         board = hiveBoard.getBoard()
@@ -30,9 +30,9 @@ class TestBoardNomalization(unittest.TestCase):
         pieces = hiveBoard.pieces
 
         #Act
-        hiveBoard.setPiece(BoardPiece(pieces.QueenBeeP1, Coordinate(0,0)))
-        hiveBoard.setPiece(BoardPiece(pieces.Spider_0_P2, Coordinate(-1,0)))
-        hiveBoard.setPiece(BoardPiece(pieces.Spider_0_P1, Coordinate(+1,0)))
+        hiveBoard.movePiece(BoardPiece(pieces.QueenBeeP1, Coordinate(0,0)))
+        hiveBoard.movePiece(BoardPiece(pieces.Spider_0_P2, Coordinate(-1,0)))
+        hiveBoard.movePiece(BoardPiece(pieces.Spider_0_P1, Coordinate(+1,0)))
 
         #Assert
         board = hiveBoard.getBoard()
@@ -46,12 +46,12 @@ class TestBoardNomalization(unittest.TestCase):
     #     #Arrange
     #     #Arrange
     #     hiveBoard = HiveBoard()
-    #     hiveBoard.setPiece(Piece(True, Creatues.QueenBee, 0, Coordinate(0,0)))
-    #     hiveBoard.setPiece(Piece(False, Creatues.Spider, 0, Coordinate(-1,0)))
-    #     hiveBoard.setPiece(Piece(True, Creatues.Spider, 0, Coordinate(+1,0)))
+    #     hiveBoard.movePiece(Piece(True, Creatues.QueenBee, 0, Coordinate(0,0)))
+    #     hiveBoard.movePiece(Piece(False, Creatues.Spider, 0, Coordinate(-1,0)))
+    #     hiveBoard.movePiece(Piece(True, Creatues.Spider, 0, Coordinate(+1,0)))
 
     #     #Act
-    #     hiveBoard.setPiece(Piece(False, Creatues.QueenBee, 0, Coordinate(-1,1)))
+    #     hiveBoard.movePiece(Piece(False, Creatues.QueenBee, 0, Coordinate(-1,1)))
 
     #     #Assert
     #     hiveBoard.findPiece(Piece(True, Creatues.QueenBee, 0, ))

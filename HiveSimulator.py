@@ -23,3 +23,11 @@ while(True):
 
   #Print Board
   print(game.board.printBoard())
+
+  print("\n")
+  boardCoordinatePrint = ""
+  for piece in game.board.getBoard():
+    boardCoordinatePrint += piece.print()
+    boardCoordinatePrint += "; "
+  
+  print(boardCoordinatePrint)
