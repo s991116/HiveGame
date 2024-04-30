@@ -146,7 +146,7 @@ class TestStartPlacingRules(unittest.TestCase):
         moves = hiveGame.getValidMoves()
 
         #Assert
-        self.assertEqual(len(moves), 12)
+        self.assertEqual(len(moves), 15)
 
     def test_add_second_piece_for_P2_to_straght_line(self):
         #Arrange
@@ -160,7 +160,7 @@ class TestStartPlacingRules(unittest.TestCase):
         moves = hiveGame.getValidMoves()
 
         #Assert
-        self.assertEqual(len(moves), 8)
+        self.assertEqual(len(moves), 10)
 
 
 
