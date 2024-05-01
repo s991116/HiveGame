@@ -202,6 +202,22 @@ class TestStartPlacingRules(unittest.TestCase):
         #Arrange
         self.assertEqual(len(moves), 10)
 
+    def test_get_no_dublicate_move2_for_4_pieces_in_a_row(self):
+        #Arrange
+        hiveGame = HiveGame()
+        pieces = hiveGame.board.pieces
+        hiveGame.playMove(BoardPiece(pieces.Ant_0_P1,Coordinate( 0,0)))
+        hiveGame.playMove(BoardPiece(pieces.Ant_0_P2,Coordinate(-1,0)))
+        hiveGame.playMove(BoardPiece(pieces.Ant_1_P1,Coordinate( 1,0)))
+        hiveGame.playMove(BoardPiece(pieces.Ant_1_P2,Coordinate(-2,0)))
+
+        #Act
+        moves = hiveGame.getValidMoves()
+
+        #Assert
+        self.assertEqual(len(moves), 3*5)
+
+
     def test_move_piece_after_P1_Queen_is_placed(self):
         #Arrange
         hiveGame = HiveGame()

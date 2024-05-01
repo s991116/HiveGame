@@ -39,7 +39,6 @@ class HiveRules:
       return moves
 
     moves = self.addPlacementMoves(moves)
-
     moves = self.addMovementMoves(moves)
 
     return moves
@@ -63,14 +62,16 @@ class HiveRules:
     return moves
 
   def getLegalPlacement(self, firstPlayer:bool) -> List[Coordinate]:
-      legalPlacement: List[Coordinate] = []
-      playerBoardPieces = self.board.getPlayerBoardPieces(firstPlayer)
-      for playerBoardPiece in playerBoardPieces:
-        placementCoordinates = self.board.getNeighbourCoordinates(playerBoardPiece.coordinate)
-        for placementCoordinate in placementCoordinates:
-          if self.board.isPlaceFree(placementCoordinate) and self.noNeighbourOppositePlayerPiece(placementCoordinate, not firstPlayer):
-            legalPlacement.append(placementCoordinate)
-      return legalPlacement
+    legalPlacement: List[Coordinate] = []
+    playerBoardPieces = self.board.getPlayerBoardPieces(firstPlayer)
+    for playerBoardPiece in playerBoardPieces:
+      placementCoordinates = self.board.getNeighbourCoordinates(playerBoardPiece.coordinate)
+      for placementCoordinate in placementCoordinates:
+        if self.board.isPlaceFree(placementCoordinate) and self.noNeighbourOppositePlayerPiece(placementCoordinate, not firstPlayer):
+          legalPlacement.append(placementCoordinate)
+      
+    legalPlacement = self.removeDubpliceCoordinate(legalPlacement)
+    return legalPlacement
 
   def noNeighbourOppositePlayerPiece(self, centerCoordinate: Coordinate, oppositPlayer: bool) -> bool:
     neighbourCoordinates = self.board.getNeighbourCoordinates(centerCoordinate)
@@ -85,6 +86,10 @@ class HiveRules:
         return False
     return True
 
+  def removeDubpliceCoordinate(self, legalPlacement: List[Coordinate]):
+    withoutDublicate = list(set(legalPlacement))
+    return withoutDublicate
+  
   def downCoordinate(self, coordinate: Coordinate) -> bool:
     return coordinate.y != -1
 

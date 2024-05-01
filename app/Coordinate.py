@@ -2,7 +2,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from app.Directions import Direction
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class Coordinate:
   x: int
   y: int
