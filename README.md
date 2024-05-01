@@ -8,7 +8,7 @@ Implementation of the board Game Hive.
 2. Run HiveSimulator from app folder
 
 ## ToDo
-- [ ] Print multiple lines
+- [ ] Fix double move in movelist for new placements (e.q. placing 2 black and 2 white Grasshoppers on a line)
   [ ] Normalize should sort board array, after placement
 - [ ] Fix coordinates for adding second pieces for P1 and P2
 - [ ] Test if piece in second move for P1 can move and add to valid moves

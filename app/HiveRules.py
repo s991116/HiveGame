@@ -1,7 +1,6 @@
 from typing import List
 from app.HiveBoard import HiveBoard
 from app.BoardPiece import BoardPiece
-from app.Piece import Piece
 from app.Creatures import Creatures
 from app.Directions import Direction
 from app.Coordinate import Coordinate
@@ -13,13 +12,6 @@ class HiveRules:
     self.board = board
     self.QueenP1Placed = False
     self.QueenP2Placed = False
-
-    self.creatures: list[Creatures] = [
-      Creatures.Beetle, 
-      Creatures.Grasshopper, 
-      Creatures.QueenBee, 
-      Creatures.SoldierAnt, 
-      Creatures.Spider]
 
   def playMove(self, move: BoardPiece):  
     
@@ -33,37 +25,41 @@ class HiveRules:
     self.playerOneTurn = not self.playerOneTurn
 
   def getValidMoves(self) -> List[BoardPiece]:
-    moves:list[BoardPiece] = []
-    if(self.playerOneTurn):
-      if(self.board.isEmpty()):
-        for playablePiece in self.board.playableFreePieces(self.playerOneTurn):
-            moves.append(BoardPiece(playablePiece, self.board.centerCoordinate))
-      else:
-        freePlacements = self.getLegalPlacement(self.playerOneTurn)
-      
-        for freePlacement in freePlacements:
-          if(not (self.straightLine() and not self.downCoordinate(freePlacement))):      
-            playablePieces = self.board.playableFreePieces(self.playerOneTurn)
-            for playablePiece in playablePieces:
-              moves.append(BoardPiece(playablePiece, freePlacement))
 
-        if(self.QueenP1Placed):
-          Q1P1 = self.board.pieces.QueenBeeP1
-          moves.append(self.board.findPiece(Q1P1)[0].pieceToMove(Direction.UP_LEFT))
-    else:
-      if(len(self.board.getBoard())==1):
-        for creature in self.creatures:
-          moves.append(BoardPiece(Piece(self.playerOneTurn, creature, 0), self.board.navigate(Direction.LEFT, self.board.centerCoordinate)))
-        return moves
+    moves:list[BoardPiece] = []
+
+    if(self.board.isEmpty()):
+      for playablePiece in self.board.playableFreePieces(self.playerOneTurn):
+          moves.append(BoardPiece(playablePiece, self.board.centerCoordinate))
+      return moves
+
+    if(len(self.board.getBoard())==1):
+      for playablePiece in self.board.playableFreePieces(self.playerOneTurn):
+        moves.append(BoardPiece(playablePiece, self.board.navigate(Direction.LEFT, self.board.centerCoordinate)))
+      return moves
+
+    moves = self.addPlacementMoves(moves)
+
+    moves = self.addMovementMoves(moves)
+
+    return moves
+
+  def addMovementMoves(self, moves: List[BoardPiece]) -> List[BoardPiece]:
+    if(self.playerOneTurn):
+      if(self.QueenP1Placed):
+        Q1P1 = self.board.pieces.QueenBeeP1
+        moves.append(self.board.findPiece(Q1P1)[0].pieceToMove(Direction.UP_LEFT))
+
+    return moves
+
+  def addPlacementMoves(self, moves: List[BoardPiece]) -> List[BoardPiece]:
+    freePlacements = self.getLegalPlacement(self.playerOneTurn)
       
-      freePlacements = self.getLegalPlacement(self.playerOneTurn)
-      
-      for freePlacement in freePlacements:
-        if(not (self.straightLine() and not self.downCoordinate(freePlacement))):      
-          playablePieces = self.board.playableFreePieces(self.playerOneTurn)
-          for playablePiece in playablePieces:
-            moves.append(BoardPiece(playablePiece, freePlacement))
-  
+    for freePlacement in freePlacements:
+      if(not (self.straightLine() and not self.downCoordinate(freePlacement))):      
+        playablePieces = self.board.playableFreePieces(self.playerOneTurn)
+        for playablePiece in playablePieces:
+          moves.append(BoardPiece(playablePiece, freePlacement))
     return moves
 
   def getLegalPlacement(self, firstPlayer:bool) -> List[Coordinate]:
