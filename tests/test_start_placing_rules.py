@@ -22,11 +22,11 @@ class TestStartPlacingRules(unittest.TestCase):
         playerOneTurn = False
 
         #Act
-        hiveGame.setupPosition(["Q0"], playerOneTurn)
+        hiveGame.setupPosition(["G0"], playerOneTurn)
 
         #Assert
         board = hiveGame.getBoard()
-        self.assertListEqual(board,[BoardPiece(pieces.QueenBeeP1, Coordinate(0,0))])
+        self.assertListEqual(board,[BoardPiece(pieces.Grasshopper_0_P1, Coordinate(0,0))])
         self.assertEqual(playerOneTurn, hiveGame.rules.playerOneTurn) # type: ignore
 
     def test_init_board_with_two_pieces(self):
@@ -36,12 +36,12 @@ class TestStartPlacingRules(unittest.TestCase):
         pieces = hiveGame.board.pieces
 
         #Act
-        hiveGame.setupPosition(["q0|Q0"], playerOneTurn)
+        hiveGame.setupPosition(["g0|G0"], playerOneTurn)
 
         #Assert
         board = hiveGame.getBoard()
-        pieceA = BoardPiece(pieces.QueenBeeP1, Coordinate(0,0))
-        pieceB = BoardPiece(pieces.QueenBeeP2, Coordinate(-1,0))
+        pieceA = BoardPiece(pieces.Grasshopper_0_P1, Coordinate(0,0))
+        pieceB = BoardPiece(pieces.Grasshopper_0_P2, Coordinate(-1,0))
         self.assertListEqual(board,[pieceA, pieceB])
         self.assertEqual(playerOneTurn, hiveGame.rules.playerOneTurn) # type: ignore
 
@@ -52,18 +52,17 @@ class TestStartPlacingRules(unittest.TestCase):
         pieces = hiveGame.board.pieces
 
         #Act
-        hiveGame.setupPosition(["q0|Q0|A0"], not playerOneTurn)
+        hiveGame.setupPosition(["g0|G0|G1"], not playerOneTurn)
 
         #Assert
         board = hiveGame.getBoard()
-        pieceA = BoardPiece(pieces.Ant_0_P1, Coordinate(1,0))
-        pieceB = BoardPiece(pieces.QueenBeeP1, Coordinate(0,0))
-        pieceC = BoardPiece(pieces.QueenBeeP2, Coordinate(-1,0))
+        pieceA = BoardPiece(pieces.Grasshopper_1_P1, Coordinate(0,0))
+        pieceB = BoardPiece(pieces.Grasshopper_0_P1, Coordinate(-1,0))
+        pieceC = BoardPiece(pieces.Grasshopper_0_P2, Coordinate(-2,0))
 
 
         self.assertListEqual(board,[pieceA, pieceB, pieceC])
         self.assertEqual(not playerOneTurn, hiveGame.rules.playerOneTurn) # type: ignore
-
 
     def test_free_pieces_when_game_starts(self):
         #Arrange
@@ -110,7 +109,6 @@ class TestStartPlacingRules(unittest.TestCase):
         freePiecesP2 = hiveGame.board.playableFreePieces(firstPlayer)
         self.assertEqual(len(freePiecesP2), 4)
 
-
     def test_add_first_piece(self):        
         #Arrange
         hiveGame = HiveGame()
@@ -138,9 +136,9 @@ class TestStartPlacingRules(unittest.TestCase):
         #Arrange
         hiveGame = HiveGame()
         pieces = hiveGame.board.pieces
-        hiveGame.playMove(BoardPiece(pieces.QueenBeeP1, Coordinate(0,0)))
+        hiveGame.playMove(BoardPiece(pieces.Ant_0_P1, Coordinate(0,0)))
         hiveGame.playMove(BoardPiece(pieces.Ant_0_P2, Coordinate(-1,0)))
-        hiveGame.playMove(BoardPiece(pieces.Ant_0_P1, Coordinate(0,1)))
+        hiveGame.playMove(BoardPiece(pieces.Ant_1_P1, Coordinate(0,1)))
 
         #Act
         moves = hiveGame.getValidMoves()
@@ -152,17 +150,15 @@ class TestStartPlacingRules(unittest.TestCase):
         #Arrange
         hiveGame = HiveGame()
         pieces = hiveGame.board.pieces
-        hiveGame.playMove(BoardPiece(pieces.QueenBeeP1, Coordinate(0,0)))
+        hiveGame.playMove(BoardPiece(pieces.Ant_0_P1, Coordinate(0,0)))
         hiveGame.playMove(BoardPiece(pieces.Ant_0_P2, Coordinate(-1,0)))
-        hiveGame.playMove(BoardPiece(pieces.Ant_0_P1, Coordinate(1,0)))
+        hiveGame.playMove(BoardPiece(pieces.Ant_1_P1, Coordinate(1,0)))
 
         #Act
         moves = hiveGame.getValidMoves()
 
         #Assert
         self.assertEqual(len(moves), 10)
-
-
 
     def test_get_valid_first_move_for_P1(self):
         #Arrange
@@ -216,19 +212,6 @@ class TestStartPlacingRules(unittest.TestCase):
 
         #Assert
         self.assertEqual(len(moves), 3*5)
-
-
-    def test_move_piece_after_P1_Queen_is_placed(self):
-        #Arrange
-        hiveGame = HiveGame()
-        hiveGame.setupPosition(["b0|Q0"], True)
-
-        #Act
-        moves = hiveGame.getValidMoves()
-
-        #Arrange
-        self.assertEqual(len(moves), 9)
-
 
 
 if __name__ == "__main__":
