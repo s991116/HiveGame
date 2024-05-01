@@ -28,14 +28,14 @@ class HiveRules:
 
     moves:list[BoardPiece] = []
 
-    if(self.board.isEmpty()):
+    if(len(self.board.getBoard())<=1):
+      if(self.playerOneTurn):
+        startPosition = self.board.centerCoordinate
+      else:
+        startPosition = self.board.navigate(Direction.LEFT, self.board.centerCoordinate)
+        
       for playablePiece in self.board.playableFreePieces(self.playerOneTurn):
-          moves.append(BoardPiece(playablePiece, self.board.centerCoordinate))
-      return moves
-
-    if(len(self.board.getBoard())==1):
-      for playablePiece in self.board.playableFreePieces(self.playerOneTurn):
-        moves.append(BoardPiece(playablePiece, self.board.navigate(Direction.LEFT, self.board.centerCoordinate)))
+        moves.append(BoardPiece(playablePiece, startPosition))
       return moves
 
     moves = self.addPlacementMoves(moves)
@@ -44,10 +44,13 @@ class HiveRules:
     return moves
 
   def addMovementMoves(self, moves: List[BoardPiece]) -> List[BoardPiece]:
-    if(self.playerOneTurn):
-      if(self.QueenP1Placed):
-        Q1P1 = self.board.pieces.QueenBeeP1
-        moves.append(self.board.findPiece(Q1P1)[0].pieceToMove(Direction.UP_LEFT))
+    if(self.playerOneTurn and self.QueenP1Placed):
+        QueenP1 = self.board.pieces.QueenBeeP1
+        moves.append(self.board.findPiece(QueenP1)[0].pieceToMove(Direction.UP_LEFT))
+
+    if(not self.playerOneTurn and self.QueenP2Placed):
+        QueenP2 = self.board.pieces.QueenBeeP1
+        moves.append(self.board.findPiece(QueenP2)[0].pieceToMove(Direction.UP_LEFT))
 
     return moves
 
