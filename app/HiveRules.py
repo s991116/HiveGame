@@ -54,8 +54,20 @@ class HiveRules:
 
     return moves
 
+  def moveablePieces(self) -> List[BoardPiece]:
+
+    moveablePieces: List[BoardPiece] = []
+
+    playerBoardPieces = self.board.getPlayerBoardPieces(self.playerOneTurn)
+    for playerBoardPiece in playerBoardPieces:
+      bridgingPieces = self.board.getBridgingPieces(playerBoardPiece)
+      if bridgingPieces is None or not self.board.isConnectionBetweenPieces(bridgingPieces):
+        moveablePieces.append(playerBoardPiece)
+
+    return moveablePieces
+
   def addPlacementMoves(self, moves: List[BoardPiece]) -> List[BoardPiece]:
-    freePlacements = self.getLegalPlacement(self.playerOneTurn)
+    freePlacements = self.getLegalPlacement()
       
     for freePlacement in freePlacements:
       if(not (self.straightLine() and not self.downCoordinate(freePlacement))):      
@@ -64,13 +76,13 @@ class HiveRules:
           moves.append(BoardPiece(playablePiece, freePlacement))
     return moves
 
-  def getLegalPlacement(self, firstPlayer:bool) -> List[Coordinate]:
+  def getLegalPlacement(self) -> List[Coordinate]:
     legalPlacement: List[Coordinate] = []
-    playerBoardPieces = self.board.getPlayerBoardPieces(firstPlayer)
+    playerBoardPieces = self.board.getPlayerBoardPieces(self.playerOneTurn)
     for playerBoardPiece in playerBoardPieces:
       placementCoordinates = self.board.getNeighbourCoordinates(playerBoardPiece.coordinate)
       for placementCoordinate in placementCoordinates:
-        if self.board.isPlaceFree(placementCoordinate) and self.noNeighbourOppositePlayerPiece(placementCoordinate, not firstPlayer):
+        if self.board.isPlaceFree(placementCoordinate) and self.noNeighbourOppositePlayerPiece(placementCoordinate, not self.playerOneTurn):
           legalPlacement.append(placementCoordinate)
       
     legalPlacement = self.removeDubpliceCoordinate(legalPlacement)

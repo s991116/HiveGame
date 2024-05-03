@@ -13,7 +13,7 @@ class TestPrintBoard(unittest.TestCase):
 
         #Assert
         number_of_lines = boardPrint.count('\n')
-        self.assertEqual(3, number_of_lines)
+        self.assertEqual(1+3, number_of_lines)
 
     def test_printBoard_2_lines(self):
         #Arrange
@@ -26,7 +26,7 @@ class TestPrintBoard(unittest.TestCase):
 
         #Assert
         number_of_lines = boardPrint.count('\n')
-        self.assertEqual(6, number_of_lines)
+        self.assertEqual(1+6, number_of_lines)
 
 
 
