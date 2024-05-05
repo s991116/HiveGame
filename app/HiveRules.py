@@ -45,12 +45,14 @@ class HiveRules:
 
   def addMovementMoves(self, moves: List[BoardPiece]) -> List[BoardPiece]:
     if(self.playerOneTurn and self.QueenP1Placed):
-        QueenP1 = self.board.pieces.QueenBeeP1
-        moves.append(self.board.findPiece(QueenP1)[0].pieceToMove(Direction.UP_LEFT))
+        queenP1 = self.board.findPiece(self.board.pieces.QueenBeeP1)
+        if queenP1 is not None:
+          moves.append(queenP1.pieceToMove(Direction.UP_LEFT))
 
     if(not self.playerOneTurn and self.QueenP2Placed):
-        QueenP2 = self.board.pieces.QueenBeeP1
-        moves.append(self.board.findPiece(QueenP2)[0].pieceToMove(Direction.UP_LEFT))
+        queenP2 = self.board.findPiece(self.board.pieces.QueenBeeP2)
+        if queenP2 is not None:
+          moves.append(queenP2.pieceToMove(Direction.UP_LEFT))
 
     return moves
 
@@ -112,8 +114,8 @@ class HiveRules:
     Q1P1 = self.board.pieces.QueenBeeP1
     Q1P2 = self.board.pieces.QueenBeeP2
 
-    if(len(self.board.findPiece(Q1P1)) > 0):
+    if self.board.findPiece(Q1P1) is not None:
       self.QueenP1Placed = True
 
-    if(len(self.board.findPiece(Q1P2)) > 0):
+    if self.board.findPiece(Q1P2) is not None:
       self.QueenP2Placed = True      

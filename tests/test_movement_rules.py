@@ -1,6 +1,6 @@
 import unittest
 from typing import List, Tuple, Optional
-from parameterized import parameterized
+from parameterized import parameterized # type: ignore
 from app.HiveGame import HiveGame
 from app.HiveBoard import HiveBoard
 from app.BoardPiece import BoardPiece
@@ -8,6 +8,9 @@ from app.Piece import Piece
 from app.Creatures import Creatures
 from app.Coordinate import Coordinate
 from app.Directions import Direction
+
+
+param_list = [('a', 'a'), ('a', 'b'), ('b', 'b')]
 
 class TestMovmentRules(unittest.TestCase):
 
@@ -67,7 +70,7 @@ class TestMovmentRules(unittest.TestCase):
         #Arrange
         self.assertEqual(len(movementMoves), 1)
 
-    @parameterized.expand([
+    @parameterized.expand([ # type: ignore
         ([True,  False, False, False, False, False], False),
         ([True,  False, True,  False, False, False], True),
         ([True,  False, True,  False, False, True ], True),

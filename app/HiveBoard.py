@@ -28,11 +28,11 @@ class HiveBoard:
       self.pieces.removeFromFreePieces(move.piece)
       self._board.append(move)
 
-    def findPiece(self, piece: Piece) -> List[BoardPiece]:
+    def findPiece(self, piece: Piece) -> Optional[BoardPiece]:
       for boardPiece in self._board:
         if(boardPiece.samePiece(piece)):
-          return[boardPiece]
-      return []
+          return boardPiece
+      return None
 
     def getPlayerBoardPieces(self, firstPlayer: bool) -> List[BoardPiece]:
       playerBoardPieces: List[BoardPiece] = []
@@ -128,8 +128,8 @@ class HiveBoard:
 
     def _normalizePosition(self) -> None:
       piece = self.findPiece(self.pieces.QueenBeeP1)
-      if(len(piece) > 0):
-        self._calibratePositions(piece[0].coordinate)
+      if(piece is not None):
+        self._calibratePositions(piece.coordinate)
       pass
       
     def _calibratePositions(self, offset: Coordinate) -> None:
