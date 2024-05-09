@@ -2,6 +2,7 @@ import unittest
 from app.HiveGame import HiveGame
 from app.BoardPiece import BoardPiece
 from app.Coordinate import Coordinate
+from app.HivePieces import HivePieces
 
 class TestStartPlacingRules(unittest.TestCase):
 
@@ -26,7 +27,7 @@ class TestStartPlacingRules(unittest.TestCase):
 
         #Assert
         board = hiveGame.getBoard()
-        self.assertListEqual(board,[BoardPiece(pieces.Grasshopper_0_P1, Coordinate(0,0))])
+        self.assertListEqual(board,[HivePieces.CreatePieceWithCoordinate(pieces.Grasshopper_0_P1.piece, Coordinate(0,0))])
         self.assertEqual(playerOneTurn, hiveGame.rules.playerOneTurn) # type: ignore
 
     def test_init_board_with_two_pieces(self):
@@ -40,8 +41,8 @@ class TestStartPlacingRules(unittest.TestCase):
 
         #Assert
         board = hiveGame.getBoard()
-        pieceA = BoardPiece(pieces.Grasshopper_0_P1, Coordinate(0,0))
-        pieceB = BoardPiece(pieces.Grasshopper_0_P2, Coordinate(-1,0))
+        pieceA = HivePieces.CreatePieceWithCoordinate(pieces.Grasshopper_0_P1.piece, Coordinate(0,0))
+        pieceB = HivePieces.CreatePieceWithCoordinate(pieces.Grasshopper_0_P2.piece, Coordinate(-1,0))
         self.assertListEqual(board,[pieceA, pieceB])
         self.assertEqual(playerOneTurn, hiveGame.rules.playerOneTurn) # type: ignore
 
@@ -56,9 +57,9 @@ class TestStartPlacingRules(unittest.TestCase):
 
         #Assert
         board = hiveGame.getBoard()
-        pieceA = BoardPiece(pieces.Grasshopper_1_P1, Coordinate(0,0))
-        pieceB = BoardPiece(pieces.Grasshopper_0_P1, Coordinate(-1,0))
-        pieceC = BoardPiece(pieces.Grasshopper_0_P2, Coordinate(-2,0))
+        pieceA = HivePieces.CreatePieceWithCoordinate(pieces.Grasshopper_1_P1.piece, Coordinate(0,0))
+        pieceB = HivePieces.CreatePieceWithCoordinate(pieces.Grasshopper_0_P1.piece, Coordinate(-1,0))
+        pieceC = HivePieces.CreatePieceWithCoordinate(pieces.Grasshopper_0_P2.piece, Coordinate(-2,0))
 
 
         self.assertListEqual(board,[pieceA, pieceB, pieceC])
@@ -86,7 +87,7 @@ class TestStartPlacingRules(unittest.TestCase):
         pieces = hiveGame.board.pieces
 
         #Act
-        hiveGame.playMove(BoardPiece(pieces.QueenBeeP1, Coordinate(0,0)))
+        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.QueenBee_P1.piece, Coordinate(0,0)))
 
         #Assert
         freePiecesP1 = hiveGame.board.playableFreePieces(firstPlayer)
@@ -99,9 +100,9 @@ class TestStartPlacingRules(unittest.TestCase):
         pieces = hiveGame.board.pieces
 
         #Act
-        hiveGame.playMove(BoardPiece(pieces.QueenBeeP1,Coordinate(0,0)))
-        hiveGame.playMove(BoardPiece(pieces.QueenBeeP2,Coordinate(-1,0)))
-        hiveGame.playMove(BoardPiece(pieces.Ant_0_P1,Coordinate(1,0)))
+        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.QueenBee_P1.piece, Coordinate(0,0)))
+        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.QueenBee_P2.piece, Coordinate(-1,0)))
+        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.Ant_0_P1.piece, Coordinate(1,0)))
 
         #Assert
         freePiecesP1 = hiveGame.board.playableFreePieces(firstPlayer)
@@ -136,9 +137,9 @@ class TestStartPlacingRules(unittest.TestCase):
         #Arrange
         hiveGame = HiveGame()
         pieces = hiveGame.board.pieces
-        hiveGame.playMove(BoardPiece(pieces.Ant_0_P1, Coordinate(0,0)))
-        hiveGame.playMove(BoardPiece(pieces.Ant_0_P2, Coordinate(-1,0)))
-        hiveGame.playMove(BoardPiece(pieces.Ant_1_P1, Coordinate(0,1)))
+        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.Ant_0_P1.piece, Coordinate(0,0)))
+        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.Ant_0_P2.piece, Coordinate(-1,0)))
+        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.Ant_1_P1.piece, Coordinate(0,1)))
 
         #Act
         moves = hiveGame.getValidMoves()
@@ -150,9 +151,9 @@ class TestStartPlacingRules(unittest.TestCase):
         #Arrange
         hiveGame = HiveGame()
         pieces = hiveGame.board.pieces
-        hiveGame.playMove(BoardPiece(pieces.Ant_0_P1, Coordinate(0,0)))
-        hiveGame.playMove(BoardPiece(pieces.Ant_0_P2, Coordinate(-1,0)))
-        hiveGame.playMove(BoardPiece(pieces.Ant_1_P1, Coordinate(1,0)))
+        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.Ant_0_P1.piece, Coordinate(0,0)))
+        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.Ant_0_P2.piece, Coordinate(-1,0)))
+        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.Ant_1_P1.piece, Coordinate(1,0)))
 
         #Act
         moves = hiveGame.getValidMoves()
@@ -202,10 +203,10 @@ class TestStartPlacingRules(unittest.TestCase):
         #Arrange
         hiveGame = HiveGame()
         pieces = hiveGame.board.pieces
-        hiveGame.playMove(BoardPiece(pieces.Ant_0_P1,Coordinate( 0,0)))
-        hiveGame.playMove(BoardPiece(pieces.Ant_0_P2,Coordinate(-1,0)))
-        hiveGame.playMove(BoardPiece(pieces.Ant_1_P1,Coordinate( 1,0)))
-        hiveGame.playMove(BoardPiece(pieces.Ant_1_P2,Coordinate(-2,0)))
+        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.Ant_0_P1.piece, Coordinate( 0,0)))
+        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.Ant_0_P2.piece, Coordinate(-1,0)))
+        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.Ant_1_P1.piece, Coordinate( 1,0)))
+        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.Ant_1_P2.piece, Coordinate(-2,0)))
 
         #Act
         moves = hiveGame.getValidMoves()

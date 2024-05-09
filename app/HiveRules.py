@@ -1,6 +1,7 @@
 from typing import List
 from app.HiveBoard import HiveBoard
 from app.BoardPiece import BoardPiece
+from app.HivePieces import HivePieces
 from app.Creatures import Creatures
 from app.Directions import Direction
 from app.HiveRulesMove import HiveRulesMove
@@ -38,31 +39,31 @@ class HiveRules:
         startPosition = self.board.navigate(Direction.LEFT, self.board.centerCoordinate)
         
       for playablePiece in self.board.playableFreePieces(self.playerOneTurn):
-        moves.append(BoardPiece(playablePiece, startPosition))
+        moves.append(HivePieces.CreatePieceWithCoordinate(playablePiece, startPosition))
       return moves
 
-    moves = self.hiveRulesPlacement.addPlacementMoves(moves, self.playerOneTurn)
-    moves = self.addMovementMoves(moves)
+    moves += self.hiveRulesPlacement.getPlacementMoves(self.playerOneTurn)
+    moves += self.getMovementMoves()
     return moves    
 
   def moveablePieces(self) -> List[BoardPiece]:
     queenPlaced = self.isQueenPlaced()
     return self.hiveRulesMove.moveablePieces(self.playerOneTurn, queenPlaced)
 
-  def addMovementMoves(self, moves: List[BoardPiece]):
+  def getMovementMoves(self):
     queenPlaced = self.isQueenPlaced()
-    moves = self.hiveRulesMove.addMovementMoves(moves, self.playerOneTurn, queenPlaced)
+    moves = self.hiveRulesMove.getMovementMoves(self.playerOneTurn, queenPlaced)
     return moves
 
   def isQueenPlaced(self) -> bool:
     return (self.playerOneTurn and self.QueenP1Placed) or (not self.playerOneTurn and self.QueenP2Placed)
 
   def updatePosition(self):
-    Q1P1 = self.board.pieces.QueenBeeP1
-    Q1P2 = self.board.pieces.QueenBeeP2
+    Q1P1 = self.board.pieces.QueenBee_P1
+    Q1P2 = self.board.pieces.QueenBee_P2
 
-    if self.board.findPiece(Q1P1) is not None:
+    if self.board.findPiece(Q1P1.piece) is not None:
       self.QueenP1Placed = True
 
-    if self.board.findPiece(Q1P2) is not None:
+    if self.board.findPiece(Q1P2.piece) is not None:
       self.QueenP2Placed = True      

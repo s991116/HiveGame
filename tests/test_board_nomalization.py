@@ -2,7 +2,7 @@ import unittest
 from app.HiveBoard import HiveBoard
 from app.Creatures import Creatures
 from app.Coordinate import Coordinate
-from app.BoardPiece import BoardPiece
+from app.HivePieces import HivePieces
 
 class TestBoardNomalization(unittest.TestCase):
 
@@ -12,9 +12,9 @@ class TestBoardNomalization(unittest.TestCase):
         pieces = hiveBoard.pieces
 
         #Act
-        hiveBoard.movePiece(BoardPiece(pieces.Spider_0_P1, Coordinate(0,0)))
-        hiveBoard.movePiece(BoardPiece(pieces.Spider_0_P2, Coordinate(-1,0)))
-        hiveBoard.movePiece(BoardPiece(pieces.QueenBeeP1, Coordinate(+1,0)))
+        hiveBoard.movePiece(HivePieces.CreatePieceWithCoordinate(pieces.Spider_0_P1.piece, Coordinate(0,0)))
+        hiveBoard.movePiece(HivePieces.CreatePieceWithCoordinate(pieces.Spider_0_P2.piece, Coordinate(-1,0)))
+        hiveBoard.movePiece(HivePieces.CreatePieceWithCoordinate(pieces.QueenBee_P1.piece, Coordinate(+1,0)))
 
         #Assert
         board = hiveBoard.getBoard()
@@ -30,9 +30,9 @@ class TestBoardNomalization(unittest.TestCase):
         pieces = hiveBoard.pieces
 
         #Act
-        hiveBoard.movePiece(BoardPiece(pieces.QueenBeeP1, Coordinate(0,0)))
-        hiveBoard.movePiece(BoardPiece(pieces.Spider_0_P2, Coordinate(-1,0)))
-        hiveBoard.movePiece(BoardPiece(pieces.Spider_0_P1, Coordinate(+1,0)))
+        hiveBoard.movePiece(HivePieces.CreatePieceWithCoordinate(pieces.QueenBee_P1.piece, Coordinate(0,0)))
+        hiveBoard.movePiece(HivePieces.CreatePieceWithCoordinate(pieces.Spider_0_P2.piece, Coordinate(-1,0)))
+        hiveBoard.movePiece(HivePieces.CreatePieceWithCoordinate(pieces.Spider_0_P1.piece, Coordinate(+1,0)))
 
         #Assert
         board = hiveBoard.getBoard()
@@ -41,20 +41,6 @@ class TestBoardNomalization(unittest.TestCase):
         for boardPiece in board:
             if(boardPiece.piece.creature == Creatures.QueenBee and boardPiece.piece.firstPlayer):
                 self.assertEqual(boardPiece.coordinate, Coordinate(0,0))
-
-    # def test_center_Rotate_P2_QueenBee(self):
-    #     #Arrange
-    #     #Arrange
-    #     hiveBoard = HiveBoard()
-    #     hiveBoard.movePiece(Piece(True, Creatures.QueenBee, 0, Coordinate(0,0)))
-    #     hiveBoard.movePiece(Piece(False, Creatures.Spider, 0, Coordinate(-1,0)))
-    #     hiveBoard.movePiece(Piece(True, Creatures.Spider, 0, Coordinate(+1,0)))
-
-    #     #Act
-    #     hiveBoard.movePiece(Piece(False, Creatures.QueenBee, 0, Coordinate(-1,1)))
-
-    #     #Assert
-    #     hiveBoard.findPiece(Piece(True, Creatures.QueenBee, 0, ))
 
 if __name__ == "__main__":
     unittest.main()

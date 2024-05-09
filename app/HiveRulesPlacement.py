@@ -1,5 +1,6 @@
 from typing import List
 from app.HiveBoard import HiveBoard
+from app.HivePieces import HivePieces
 from app.BoardPiece import BoardPiece
 from app.Coordinate import Coordinate
 
@@ -8,14 +9,15 @@ class HiveRulesPlacement:
   def __init__(self, board: HiveBoard) -> None:
     self.board =  board
     
-  def addPlacementMoves(self, moves: List[BoardPiece], playerOneTurn: bool) -> List[BoardPiece]:
+  def getPlacementMoves(self, playerOneTurn: bool) -> List[BoardPiece]:
     freePlacements = self.getLegalPlacement(playerOneTurn)
-      
+
+    moves: List[BoardPiece] = []  
     for freePlacement in freePlacements:
       if(not (self.straightLine() and not self.downCoordinate(freePlacement))):      
         playablePieces = self.board.playableFreePieces(playerOneTurn)
         for playablePiece in playablePieces:
-          moves.append(BoardPiece(playablePiece, freePlacement))
+          moves.append(HivePieces.CreatePieceWithCoordinate(playablePiece, freePlacement))
     return moves
 
   def getLegalPlacement(self, playerOneTurn: bool) -> List[Coordinate]:

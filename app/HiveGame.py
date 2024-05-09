@@ -1,6 +1,6 @@
 from typing import List
-from app.BoardPiece import BoardPiece
 from app.HiveBoard import HiveBoard
+from app.BoardPiece import BoardPiece
 from app.HiveRules import HiveRules
 class HiveGame:
 

@@ -1,10 +1,10 @@
 from typing import Dict, List, Optional
+from app.HivePieces import HivePieces
 from app.Directions import Direction
 from app.BoardPiece import BoardPiece
 from app.Piece import Piece
 from app.Creatures import Creatures
 from app.Coordinate import Coordinate
-from app.HivePieces import HivePieces
 from itertools import groupby
 
 class HiveBoard:
@@ -30,7 +30,7 @@ class HiveBoard:
 
     def findPiece(self, piece: Piece) -> Optional[BoardPiece]:
       for boardPiece in self._board:
-        if(boardPiece.samePiece(piece)):
+        if(boardPiece.piece == piece):
           return boardPiece
       return None
 
@@ -64,14 +64,14 @@ class HiveBoard:
       return self.pieces.playableFreePieces(firstPlayer)
 
     def _normalizePosition(self) -> None:
-      piece = self.findPiece(self.pieces.QueenBeeP1)
+      piece = self.findPiece(self.pieces.QueenBee_P1.piece)
       if(piece is not None):
         self._calibratePositions(piece.coordinate)
       pass
       
     def _calibratePositions(self, offset: Coordinate) -> None:
       for piece in self._board:
-          piece.coordinate = piece.coordinate.getOffsetCoordinate(offset)
+          piece.coordinate = self.getOffsetCoordinate(piece.coordinate, offset)
 
     _shortPrint: Dict[Creatures, str] = {
         Creatures.Beetle: "B",
@@ -79,8 +79,6 @@ class HiveBoard:
         Creatures.QueenBee: "Q",
         Creatures.SoldierAnt: "A",
         Creatures.Spider: "S",
-        Creatures.Mosquity: "M",
-        Creatures.Ladybug: "L",        
     }
 
     def setupPosition(self, boardPrintLines: List[str]):
@@ -96,12 +94,18 @@ class HiveBoard:
             pieaceLetter = boardPrintLineReversed[stringIndex+1]
             creature = next(key for key, value in self._shortPrint.items() if value == pieaceLetter.upper())
             firstPlayer = pieaceLetter.isupper()
-            piece = BoardPiece(Piece(firstPlayer, creature, index), pieceCoordinate)
+            piece = HivePieces.CreatePiece(firstPlayer, creature, index, pieceCoordinate)
             self._setPiece(piece)
-            pieceCoordinate = pieceCoordinate.getOffsetCoordinate(Coordinate(1,0))
+            pieceCoordinate = self.getOffsetCoordinate(pieceCoordinate,Coordinate(1,0))
         lineNr += 1
       self._normalizePosition()
     
+    def getOffsetCoordinate(self, coordinate: Coordinate, offset: Coordinate):
+      x = coordinate.x - offset.x
+      y = coordinate.y - offset.y
+      return Coordinate(x,y)
+
+
     def navigate(self, direction: Direction, coordinate: Coordinate) -> Coordinate:
       if direction == Direction.LEFT:
         return Coordinate(coordinate.x-1, coordinate.y)

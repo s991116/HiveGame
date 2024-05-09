@@ -9,19 +9,15 @@ class HiveRulesMove:
   def __init__(self, board: HiveBoard) -> None:
     self.board = board
 
-  def addMovementMoves(self, moves: List[BoardPiece], playerOneTurn: bool, queenPlaced: bool) -> List[BoardPiece]:
+  def getMovementMoves(self, playerOneTurn: bool, queenPlaced: bool) -> List[BoardPiece]:
     if not queenPlaced:
-      return moves
+      return []
     
-    if(playerOneTurn):
-        queenP1 = self.board.findPiece(self.board.pieces.QueenBeeP1)
-        if queenP1 is not None:
-          moves.append(queenP1.pieceToMove(Direction.UP_LEFT))
-
-    if(not playerOneTurn):
-        queenP2 = self.board.findPiece(self.board.pieces.QueenBeeP2)
-        if queenP2 is not None:
-          moves.append(queenP2.pieceToMove(Direction.UP_LEFT))
+    moves: List[BoardPiece] = []
+    moveableBoardPieces = self.moveablePieces(playerOneTurn, queenPlaced)
+    for moveableBoardPiece in moveableBoardPieces:
+      
+      moves += moveableBoardPiece.getMoves(self.board.getBoard())
 
     return moves
 
