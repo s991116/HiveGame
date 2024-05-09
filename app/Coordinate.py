@@ -23,3 +23,8 @@ class Coordinate:
       return Coordinate(self.x,self.y-1)
     
     raise Exception("Unknown Direction")
+  
+  def getOffsetCoordinate(self, offset: Coordinate):
+    x = self.x - offset.x
+    y = self.y - offset.y
+    return Coordinate(x,y)

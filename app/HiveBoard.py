@@ -134,12 +134,7 @@ class HiveBoard:
       
     def _calibratePositions(self, offset: Coordinate) -> None:
       for piece in self._board:
-          piece.coordinate = self._offsetCoordinate(offset, piece.coordinate)
-
-    def _offsetCoordinate(self, offset: Coordinate, coordinate: Coordinate):
-      x = coordinate.x - offset.x
-      y = coordinate.y - offset.y
-      return Coordinate(x,y)
+          piece.coordinate = piece.coordinate.getOffsetCoordinate(offset)
 
     _shortPrint: Dict[Creatures, str] = {
         Creatures.Beetle: "B",
@@ -166,7 +161,7 @@ class HiveBoard:
             firstPlayer = pieaceLetter.isupper()
             piece = BoardPiece(Piece(firstPlayer, creature, index), pieceCoordinate)
             self._setPiece(piece)
-            pieceCoordinate = self._offsetCoordinate(Coordinate(1,0), pieceCoordinate)
+            pieceCoordinate = pieceCoordinate.getOffsetCoordinate(Coordinate(1,0))
         lineNr += 1
       self._normalizePosition()
     
