@@ -3,7 +3,8 @@ from app.HiveBoard import HiveBoard
 from app.BoardPiece import BoardPiece
 from app.Creatures import Creatures
 from app.Directions import Direction
-from app.Coordinate import Coordinate
+from app.HiveRulesMove import HiveRulesMove
+from app.HiveRulesPlacement import HiveRulesPlacement
 
 class HiveRules:
 
@@ -12,6 +13,8 @@ class HiveRules:
     self.board = board
     self.QueenP1Placed = False
     self.QueenP2Placed = False
+    self.hiveRulesMove = HiveRulesMove(self.board)
+    self.hiveRulesPlacement = HiveRulesPlacement(self.board)
 
   def playMove(self, move: BoardPiece):  
     
@@ -38,77 +41,21 @@ class HiveRules:
         moves.append(BoardPiece(playablePiece, startPosition))
       return moves
 
-    moves = self.addPlacementMoves(moves)
+    moves = self.hiveRulesPlacement.addPlacementMoves(moves, self.playerOneTurn)
     moves = self.addMovementMoves(moves)
-
-    return moves
-
-  def addMovementMoves(self, moves: List[BoardPiece]) -> List[BoardPiece]:
-    if(self.playerOneTurn and self.QueenP1Placed):
-        queenP1 = self.board.findPiece(self.board.pieces.QueenBeeP1)
-        if queenP1 is not None:
-          moves.append(queenP1.pieceToMove(Direction.UP_LEFT))
-
-    if(not self.playerOneTurn and self.QueenP2Placed):
-        queenP2 = self.board.findPiece(self.board.pieces.QueenBeeP2)
-        if queenP2 is not None:
-          moves.append(queenP2.pieceToMove(Direction.UP_LEFT))
-
-    return moves
+    return moves    
 
   def moveablePieces(self) -> List[BoardPiece]:
+    queenPlaced = self.isQueenPlaced()
+    return self.hiveRulesMove.moveablePieces(self.playerOneTurn, queenPlaced)
 
-    moveablePieces: List[BoardPiece] = []
-
-    playerBoardPieces = self.board.getPlayerBoardPieces(self.playerOneTurn)
-    for playerBoardPiece in playerBoardPieces:
-      bridgingPieces = self.board.getBridgingPieces(playerBoardPiece)
-      if bridgingPieces is None or not self.board.isConnectionBetweenPieces(bridgingPieces):
-        moveablePieces.append(playerBoardPiece)
-
-    return moveablePieces
-
-  def addPlacementMoves(self, moves: List[BoardPiece]) -> List[BoardPiece]:
-    freePlacements = self.getLegalPlacement()
-      
-    for freePlacement in freePlacements:
-      if(not (self.straightLine() and not self.downCoordinate(freePlacement))):      
-        playablePieces = self.board.playableFreePieces(self.playerOneTurn)
-        for playablePiece in playablePieces:
-          moves.append(BoardPiece(playablePiece, freePlacement))
+  def addMovementMoves(self, moves: List[BoardPiece]):
+    queenPlaced = self.isQueenPlaced()
+    moves = self.hiveRulesMove.addMovementMoves(moves, self.playerOneTurn, queenPlaced)
     return moves
 
-  def getLegalPlacement(self) -> List[Coordinate]:
-    legalPlacement: List[Coordinate] = []
-    playerBoardPieces = self.board.getPlayerBoardPieces(self.playerOneTurn)
-    for playerBoardPiece in playerBoardPieces:
-      placementCoordinates = self.board.getNeighbourCoordinates(playerBoardPiece.coordinate)
-      for placementCoordinate in placementCoordinates:
-        if self.board.isPlaceFree(placementCoordinate) and self.noNeighbourOppositePlayerPiece(placementCoordinate, not self.playerOneTurn):
-          legalPlacement.append(placementCoordinate)
-      
-    legalPlacement = self.removeDubpliceCoordinate(legalPlacement)
-    return legalPlacement
-
-  def noNeighbourOppositePlayerPiece(self, centerCoordinate: Coordinate, oppositPlayer: bool) -> bool:
-    neighbourCoordinates = self.board.getNeighbourCoordinates(centerCoordinate)
-    for neighbourCoordinate in neighbourCoordinates:
-      if(self.board.isPlacePlayerPiece(neighbourCoordinate, oppositPlayer)):
-        return False
-    return True
-
-  def straightLine(self) -> bool:
-    for boardPiece in self.board.getBoard():
-      if boardPiece.coordinate.y != 0:
-        return False
-    return True
-
-  def removeDubpliceCoordinate(self, legalPlacement: List[Coordinate]):
-    withoutDublicate = list(set(legalPlacement))
-    return withoutDublicate
-  
-  def downCoordinate(self, coordinate: Coordinate) -> bool:
-    return coordinate.y != -1
+  def isQueenPlaced(self) -> bool:
+    return (self.playerOneTurn and self.QueenP1Placed) or (not self.playerOneTurn and self.QueenP2Placed)
 
   def updatePosition(self):
     Q1P1 = self.board.pieces.QueenBeeP1

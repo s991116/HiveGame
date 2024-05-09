@@ -24,7 +24,7 @@ class TestMovmentRules(unittest.TestCase):
         #Act
         movementMoves = hiveGame.rules.addMovementMoves([])
 
-        #Arrange
+        #Assert
         self.assertEqual(len(movementMoves), 0)
 
 
@@ -39,7 +39,7 @@ class TestMovmentRules(unittest.TestCase):
         #Act
         movementMoves = hiveGame.rules.addMovementMoves([])
 
-        #Arrange
+        #Assert
         self.assertEqual(len(movementMoves), 0)
 
 
@@ -53,7 +53,7 @@ class TestMovmentRules(unittest.TestCase):
         #Act
         movementMoves = hiveGame.rules.addMovementMoves([])
 
-        #Arrange
+        #Assert
         self.assertEqual(len(movementMoves), 1)
 
     def test_movement_for_P2_after_P2_Queen_is_placed(self):
@@ -67,7 +67,7 @@ class TestMovmentRules(unittest.TestCase):
         #Act
         movementMoves = hiveGame.rules.addMovementMoves([])
 
-        #Arrange
+        #Assert
         self.assertEqual(len(movementMoves), 1)
 
     @parameterized.expand([ # type: ignore
@@ -110,6 +110,26 @@ class TestMovmentRules(unittest.TestCase):
         else:
             self.assertIsNone(pieces)            
 
+    def test_no_movement_when_queen_is_not_placed(self):
+        #Arrange
+        hiveGame = HiveGame()
+        pieces = hiveGame.board.pieces
+        hiveGame.playMove(BoardPiece(pieces.Beetle_0_P1, Coordinate(0,0)))
+        hiveGame.playMove(BoardPiece(pieces.Beetle_0_P2, Coordinate(-1,0)))
+        hiveGame.playMove(BoardPiece(pieces.Ant_0_P1, Coordinate(0,1)))
+        hiveGame.playMove(BoardPiece(pieces.Ant_0_P2, Coordinate(-2,0)))
+        hiveGame.playMove(BoardPiece(pieces.Ant_1_P1, Coordinate(1,0)))
+        hiveGame.playMove(BoardPiece(pieces.Ant_1_P2, Coordinate(-3,0)))
+
+        print(hiveGame.board.printBoard())
+
+        #Act
+        moveablePieces = hiveGame.rules.moveablePieces()
+
+        #Assert
+        self.assertEqual(len(moveablePieces), 0)
+
+
     def test_movement_possibple_for_all_moveable_pieces(self):
         #Arrange
         hiveGame = HiveGame()
@@ -126,7 +146,7 @@ class TestMovmentRules(unittest.TestCase):
         #Act
         moveablePieces = hiveGame.rules.moveablePieces()
 
-        #Arrange
+        #Assert
         self.assertEqual(len(moveablePieces), 2)
 
 
