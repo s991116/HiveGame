@@ -8,6 +8,7 @@ from app.Piece import Piece
 from app.Creatures import Creatures
 from app.Coordinate import Coordinate
 from app.Directions import Direction
+from app.HiveRulesMove import HiveRulesMove
 
 
 param_list = [('a', 'a'), ('a', 'b'), ('b', 'b')]
@@ -101,8 +102,10 @@ class TestMovmentRules(unittest.TestCase):
                 neighbourCoordinate = board.navigate(navigationCircle[directionIndex], centerPiece.coordinate)
                 board.movePiece(BoardPiece(Piece(True, Creatures.Grasshopper,directionIndex), neighbourCoordinate))
 
+        movementRules = HiveRulesMove(board)
+
         #Act
-        pieces: Optional[Tuple[BoardPiece, BoardPiece]] = board.getBridgingPieces(centerPiece)
+        pieces: Optional[Tuple[BoardPiece, BoardPiece]] = movementRules.getBridgingPieces(centerPiece)
 
         #Assert
         if(gapExpected):

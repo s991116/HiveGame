@@ -1,4 +1,4 @@
-from typing import Dict, List, Tuple, Optional
+from typing import Dict, List, Optional
 from app.Directions import Direction
 from app.BoardPiece import BoardPiece
 from app.Piece import Piece
@@ -62,69 +62,6 @@ class HiveBoard:
 
     def playableFreePieces(self, firstPlayer:bool) -> List[Piece]:
       return self.pieces.playableFreePieces(firstPlayer)
-
-    def getBridgingPieces(self, boardPiece: BoardPiece) -> Optional[Tuple[BoardPiece, BoardPiece]]:
-
-      navigationCircle = [
-        Direction.LEFT,
-        Direction.UP_LEFT,
-        Direction.UP_RIGHT,
-        Direction.RIGHT,
-        Direction.DOWN_RIGHT,
-        Direction.DOWN_LEFT
-      ]
-      pieceCoordinate = boardPiece.coordinate
-      gapCount = 0
-      findGap = self.getBoardPiece(self.navigate(navigationCircle[5], pieceCoordinate)) != None
-
-      connectionPieces: List[BoardPiece] = []
-      for direction in navigationCircle:
-        neighbourPiece: Optional[BoardPiece] = self.getBoardPiece(self.navigate(direction, pieceCoordinate))
-        if neighbourPiece is not None and not findGap:
-          connectionPieces.append(boardPiece)
-          findGap = True
-
-        elif neighbourPiece is None and findGap:
-          findGap = False
-          gapCount += 1
-
-      if gapCount == 2:
-        return (connectionPieces[0], connectionPieces[1])
-      
-      return None
-
-    def isConnectionBetweenPieces(self, boardPieces: Tuple[BoardPiece, BoardPiece]) -> bool:
-      connectionCoordinate: List[Coordinate] = []
-      connectionCount = self.getCoonectionCount(boardPieces[0], connectionCoordinate)
-
-      return boardPieces[1].coordinate in connectionCount
-
-    def getCoonectionCount(self, boarPiece: BoardPiece, connectionCoordinate: List[Coordinate]) -> List[Coordinate]:
-      if boarPiece.coordinate in connectionCoordinate:
-        return connectionCoordinate
-      
-      connectionCoordinate.append(boarPiece.coordinate)
-
-      neighboardPiece = self.getBoardPiece(self.navigate(Direction.LEFT, boarPiece.coordinate))
-      if(neighboardPiece is not None):
-        return self.getCoonectionCount(neighboardPiece, connectionCoordinate)
-      neighboardPiece = self.getBoardPiece(self.navigate(Direction.UP_LEFT, boarPiece.coordinate))
-      if(neighboardPiece is not None):
-        return self.getCoonectionCount(neighboardPiece, connectionCoordinate)
-      neighboardPiece = self.getBoardPiece(self.navigate(Direction.UP_RIGHT, boarPiece.coordinate))
-      if(neighboardPiece is not None):
-        return self.getCoonectionCount(neighboardPiece, connectionCoordinate)
-      neighboardPiece = self.getBoardPiece(self.navigate(Direction.RIGHT, boarPiece.coordinate))
-      if(neighboardPiece is not None):
-        return self.getCoonectionCount(neighboardPiece, connectionCoordinate)
-      neighboardPiece = self.getBoardPiece(self.navigate(Direction.DOWN_RIGHT, boarPiece.coordinate))
-      if(neighboardPiece is not None):
-        return self.getCoonectionCount(neighboardPiece, connectionCoordinate)
-      neighboardPiece = self.getBoardPiece(self.navigate(Direction.DOWN_LEFT, boarPiece.coordinate))
-      if(neighboardPiece is not None):
-        return self.getCoonectionCount(neighboardPiece, connectionCoordinate)
-
-      return connectionCoordinate
 
     def _normalizePosition(self) -> None:
       piece = self.findPiece(self.pieces.QueenBeeP1)
