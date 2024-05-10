@@ -1,39 +1,42 @@
 from typing import List, Optional
-from app.PieceGrasshopper import PieceGrasshopper
 from app.Coordinate import Coordinate
-from app.PieceQueenBee import PieceQueenBee
-from app.PieceSoldierAnt import PieceSoldierAnt
-from app.PieceSpider import PieceSpider
-from app.PieceBeetle import PieceBeetle
-from app.Creatures import Creatures
 from app.BoardPiece import BoardPiece
+from app.Piece import Piece
+from app.Creatures import Creatures
+#from app.PieceQueenBee import PieceQueenBee
+#from app.PieceGrasshopper import PieceGrasshopper
+#from app.PieceSoldierAnt import PieceSoldierAnt
+#from app.PieceSpider import PieceSpider
+#from app.PieceBeetle import PieceBeetle
+#from app.Creatures import Creatures
+#from app.BoardPiece import BoardPiece
 
 class HivePieces:
   def __init__(self) -> None:
     c = Coordinate(0,0)
-    self.QueenBee_P1       =PieceQueenBee(True, 0, c)
-    self.Grasshopper_0_P1 = PieceGrasshopper(True, 0, c)
-    self.Grasshopper_1_P1 = PieceGrasshopper(True, 1, c)
-    self.Grasshopper_2_P1 = PieceGrasshopper(True, 2, c)
-    self.Spider_0_P1      = PieceSpider(True, 0, c)
-    self.Spider_1_P1      = PieceSpider(True, 1, c)
-    self.Ant_0_P1         = PieceSoldierAnt(True, 0, c)
-    self.Ant_1_P1         = PieceSoldierAnt(True, 1, c)
-    self.Ant_2_P1         = PieceSoldierAnt(True, 2, c)
-    self.Beetle_0_P1      = PieceBeetle(True, 0, c)
-    self.Beetle_1_P1      = PieceBeetle(True, 1, c)
+    self.QueenBee_P1       = HivePieces.CreateBoardPiece(True, Creatures.QueenBee, 0, c)
+    self.Grasshopper_0_P1 = HivePieces.CreateBoardPiece(True, Creatures.Grasshopper, 0, c)
+    self.Grasshopper_1_P1 = HivePieces.CreateBoardPiece(True, Creatures.Grasshopper, 1, c)
+    self.Grasshopper_2_P1 = HivePieces.CreateBoardPiece(True, Creatures.Grasshopper, 2, c)
+    self.Spider_0_P1      = HivePieces.CreateBoardPiece(True, Creatures.Spider, 0, c)
+    self.Spider_1_P1      = HivePieces.CreateBoardPiece(True, Creatures.Spider, 1, c)
+    self.Ant_0_P1         = HivePieces.CreateBoardPiece(True, Creatures.SoldierAnt, 0, c)
+    self.Ant_1_P1         = HivePieces.CreateBoardPiece(True, Creatures.SoldierAnt, 1, c)
+    self.Ant_2_P1         = HivePieces.CreateBoardPiece(True, Creatures.SoldierAnt, 2, c)
+    self.Beetle_0_P1      = HivePieces.CreateBoardPiece(True, Creatures.Beetle, 0, c)
+    self.Beetle_1_P1      = HivePieces.CreateBoardPiece(True, Creatures.Beetle, 1, c)
 
-    self.QueenBee_P2      = PieceQueenBee(False, 0, c)
-    self.Grasshopper_0_P2 = PieceGrasshopper(False, 0, c)
-    self.Grasshopper_1_P2 = PieceGrasshopper(False, 1, c)
-    self.Grasshopper_2_P2 = PieceGrasshopper(False, 2, c)
-    self.Spider_0_P2      = PieceSpider(False, 0, c)
-    self.Spider_1_P2      = PieceSpider(False, 1, c)
-    self.Ant_0_P2         = PieceSoldierAnt(False, 0, c)
-    self.Ant_1_P2         = PieceSoldierAnt(False, 1, c)
-    self.Ant_2_P2         = PieceSoldierAnt(False, 2, c)
-    self.Beetle_0_P2      = PieceBeetle(False, 0, c)
-    self.Beetle_1_P2      = PieceBeetle(False, 1, c)
+    self.QueenBee_P2      = HivePieces.CreateBoardPiece(False, Creatures.QueenBee, 0, c)
+    self.Grasshopper_0_P2 = HivePieces.CreateBoardPiece(False, Creatures.Grasshopper, 0, c)
+    self.Grasshopper_1_P2 = HivePieces.CreateBoardPiece(False, Creatures.Grasshopper, 1, c)
+    self.Grasshopper_2_P2 = HivePieces.CreateBoardPiece(False, Creatures.Grasshopper, 2, c)
+    self.Spider_0_P2      = HivePieces.CreateBoardPiece(False, Creatures.Spider, 0, c)
+    self.Spider_1_P2      = HivePieces.CreateBoardPiece(False, Creatures.Spider, 1, c)
+    self.Ant_0_P2         = HivePieces.CreateBoardPiece(False, Creatures.SoldierAnt, 0, c)
+    self.Ant_1_P2         = HivePieces.CreateBoardPiece(False, Creatures.SoldierAnt, 1, c)
+    self.Ant_2_P2         = HivePieces.CreateBoardPiece(False, Creatures.SoldierAnt, 2, c)
+    self.Beetle_0_P2      = HivePieces.CreateBoardPiece(False, Creatures.Beetle, 0, c)
+    self.Beetle_1_P2      = HivePieces.CreateBoardPiece(False, Creatures.Beetle, 1, c)
 
     self._freePiecesP1: List[BoardPiece] = [
       self.QueenBee_P1,
@@ -64,18 +67,8 @@ class HivePieces:
     ]
 
   @staticmethod
-  def CreateBoardPiece(firstPlayer: bool, creature: Creatures, index: int, coordinate: Coordinate) -> BoardPiece:
-    
-    if creature == Creatures.Beetle:
-      return PieceBeetle(firstPlayer, index, coordinate)
-    if creature == Creatures.Grasshopper:
-      return PieceGrasshopper(firstPlayer, index, coordinate)
-    if creature == Creatures.SoldierAnt:
-      return PieceSoldierAnt(firstPlayer, index, coordinate)
-    if creature == Creatures.QueenBee:
-      return PieceQueenBee(firstPlayer, index, coordinate)
-    if creature == Creatures.Spider:
-      return PieceSpider(firstPlayer, index, coordinate)
+  def CreateBoardPiece(firstPlayer: bool, creature: Creatures, index: int, coordinate: Coordinate) -> BoardPiece:    
+    return BoardPiece(Piece(firstPlayer, creature, index), coordinate)
 
   @staticmethod
   def CreateCloneWithCoordinate(boardPiece: BoardPiece, coordinate: Coordinate) -> BoardPiece:
