@@ -1,15 +1,12 @@
+from __future__ import annotations
 from typing import List, Optional
 from app.Coordinate import Coordinate
 from app.BoardPiece import BoardPiece
 from app.Piece import Piece
 from app.Creatures import Creatures
-#from app.PieceQueenBee import PieceQueenBee
-#from app.PieceGrasshopper import PieceGrasshopper
-#from app.PieceSoldierAnt import PieceSoldierAnt
-#from app.PieceSpider import PieceSpider
-#from app.PieceBeetle import PieceBeetle
-#from app.Creatures import Creatures
-#from app.BoardPiece import BoardPiece
+
+from app.PieceRules import PieceRules
+from app.PieceRulesGrasshopper import PieceRulesGrasshopper
 
 class HivePieces:
   def __init__(self) -> None:
@@ -68,7 +65,12 @@ class HivePieces:
 
   @staticmethod
   def CreateBoardPiece(firstPlayer: bool, creature: Creatures, index: int, coordinate: Coordinate) -> BoardPiece:    
-    return BoardPiece(Piece(firstPlayer, creature, index), coordinate)
+    pr = PieceRules()
+
+    if creature == Creatures.Grasshopper:
+      pr = PieceRulesGrasshopper()
+
+    return BoardPiece(Piece(firstPlayer, creature, index), coordinate, pr)
 
   @staticmethod
   def CreateCloneWithCoordinate(boardPiece: BoardPiece, coordinate: Coordinate) -> BoardPiece:

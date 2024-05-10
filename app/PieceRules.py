@@ -1,10 +1,12 @@
+from __future__ import annotations
 from typing import List
-from app.BoardPiece import BoardPiece
-from app.HiveBoard import HiveBoard
+
+import app.BoardPiece as BP
+import app.HiveBoard as HB
 
 class PieceRules:
 
-  def getMoves(self, boardPiece: BoardPiece, board: HiveBoard) -> List[BoardPiece]:
+  def getMoves(self, boardPiece: BP.BoardPiece, board: HB.HiveBoard) -> List[BP.BoardPiece]:
     return []
 
 
