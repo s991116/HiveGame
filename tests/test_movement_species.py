@@ -12,10 +12,10 @@ class TestMovmentSpecies(unittest.TestCase):
         #Arrange
         hiveGame = HiveGame()
         pieces = hiveGame.board.pieces
-        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.QueenBee_P1.piece, Coordinate(0,0)))
-        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.Ant_0_P2.piece, Coordinate(-1,0)))
-        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.Grasshopper_0_P1.piece, Coordinate(1,0)))
-        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.Ant_1_P2.piece, Coordinate(-2,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.QueenBee_P1, Coordinate(0,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P2, Coordinate(-1,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Grasshopper_0_P1, Coordinate(1,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_1_P2, Coordinate(-2,0)))
 
         print(hiveGame.board.printBoard)
 
@@ -30,8 +30,8 @@ class TestMovmentSpecies(unittest.TestCase):
         #Arrange
         hiveGame = HiveGame()
         pieces = hiveGame.board.pieces
-        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.QueenBee_P1.piece, Coordinate(0,0)))
-        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.QueenBee_P2.piece, Coordinate(-1,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.QueenBee_P1, Coordinate(0,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.QueenBee_P2, Coordinate(-1,0)))
 
         #Act
         movementMoves = hiveGame.rules.getMovementMoves()
@@ -46,9 +46,9 @@ class TestMovmentSpecies(unittest.TestCase):
         #Arrange
         hiveGame = HiveGame()
         pieces = hiveGame.board.pieces
-        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.QueenBee_P1.piece, Coordinate(0,0)))
-        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.QueenBee_P2.piece, Coordinate(-1,0)))
-        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.Ant_0_P1.piece, Coordinate(1,0)))        
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.QueenBee_P1, Coordinate(0,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.QueenBee_P2, Coordinate(-1,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P1, Coordinate(1,0)))        
 
         #Act
         movementMoves = hiveGame.rules.getMovementMoves()

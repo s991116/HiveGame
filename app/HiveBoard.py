@@ -25,7 +25,7 @@ class HiveBoard:
       self._normalizePosition()
 
     def _setPiece(self, move: BoardPiece) -> None:
-      self.pieces.removeFromFreePieces(move.piece)
+      self.pieces.removeFromFreePieces(move)
       self._board.append(move)
 
     def findPiece(self, piece: Piece) -> Optional[BoardPiece]:
@@ -60,7 +60,7 @@ class HiveBoard:
           return True
       return False
 
-    def playableFreePieces(self, firstPlayer:bool) -> List[Piece]:
+    def playableFreePieces(self, firstPlayer:bool) -> List[BoardPiece]:
       return self.pieces.playableFreePieces(firstPlayer)
 
     def _normalizePosition(self) -> None:
@@ -94,8 +94,8 @@ class HiveBoard:
             pieaceLetter = boardPrintLineReversed[stringIndex+1]
             creature = next(key for key, value in self._shortPrint.items() if value == pieaceLetter.upper())
             firstPlayer = pieaceLetter.isupper()
-            piece = HivePieces.CreatePiece(firstPlayer, creature, index, pieceCoordinate)
-            self._setPiece(piece)
+            boardPiece = HivePieces.CreateBoardPiece(firstPlayer, creature, index, pieceCoordinate)
+            self._setPiece(boardPiece)
             pieceCoordinate = self.getOffsetCoordinate(pieceCoordinate,Coordinate(1,0))
         lineNr += 1
       self._normalizePosition()

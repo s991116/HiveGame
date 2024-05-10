@@ -17,7 +17,7 @@ class HiveRulesPlacement:
       if(not (self.straightLine() and not self.downCoordinate(freePlacement))):      
         playablePieces = self.board.playableFreePieces(playerOneTurn)
         for playablePiece in playablePieces:
-          moves.append(HivePieces.CreatePieceWithCoordinate(playablePiece, freePlacement))
+          moves.append(HivePieces.CreateCloneWithCoordinate(playablePiece, freePlacement))
     return moves
 
   def getLegalPlacement(self, playerOneTurn: bool) -> List[Coordinate]:

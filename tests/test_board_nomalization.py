@@ -12,9 +12,9 @@ class TestBoardNomalization(unittest.TestCase):
         pieces = hiveBoard.pieces
 
         #Act
-        hiveBoard.movePiece(HivePieces.CreatePieceWithCoordinate(pieces.Spider_0_P1.piece, Coordinate(0,0)))
-        hiveBoard.movePiece(HivePieces.CreatePieceWithCoordinate(pieces.Spider_0_P2.piece, Coordinate(-1,0)))
-        hiveBoard.movePiece(HivePieces.CreatePieceWithCoordinate(pieces.QueenBee_P1.piece, Coordinate(+1,0)))
+        hiveBoard.movePiece(HivePieces.CreateCloneWithCoordinate(pieces.Spider_0_P1, Coordinate(0,0)))
+        hiveBoard.movePiece(HivePieces.CreateCloneWithCoordinate(pieces.Spider_0_P2, Coordinate(-1,0)))
+        hiveBoard.movePiece(HivePieces.CreateCloneWithCoordinate(pieces.QueenBee_P1, Coordinate(+1,0)))
 
         #Assert
         board = hiveBoard.getBoard()
@@ -30,9 +30,9 @@ class TestBoardNomalization(unittest.TestCase):
         pieces = hiveBoard.pieces
 
         #Act
-        hiveBoard.movePiece(HivePieces.CreatePieceWithCoordinate(pieces.QueenBee_P1.piece, Coordinate(0,0)))
-        hiveBoard.movePiece(HivePieces.CreatePieceWithCoordinate(pieces.Spider_0_P2.piece, Coordinate(-1,0)))
-        hiveBoard.movePiece(HivePieces.CreatePieceWithCoordinate(pieces.Spider_0_P1.piece, Coordinate(+1,0)))
+        hiveBoard.movePiece(HivePieces.CreateCloneWithCoordinate(pieces.QueenBee_P1, Coordinate(0,0)))
+        hiveBoard.movePiece(HivePieces.CreateCloneWithCoordinate(pieces.Spider_0_P2, Coordinate(-1,0)))
+        hiveBoard.movePiece(HivePieces.CreateCloneWithCoordinate(pieces.Spider_0_P1, Coordinate(+1,0)))
 
         #Assert
         board = hiveBoard.getBoard()

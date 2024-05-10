@@ -4,7 +4,6 @@ from parameterized import parameterized # type: ignore
 from app.HiveGame import HiveGame
 from app.HiveBoard import HiveBoard
 from app.BoardPiece import BoardPiece
-from app.Piece import Piece
 from app.Creatures import Creatures
 from app.Coordinate import Coordinate
 from app.Directions import Direction
@@ -20,8 +19,8 @@ class TestMovmentRules(unittest.TestCase):
         #Arrange
         hiveGame = HiveGame()
         pieces = hiveGame.board.pieces
-        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.Ant_0_P1.piece, Coordinate(0,0)))
-        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.QueenBee_P2.piece, Coordinate(-1,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P1, Coordinate(0,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.QueenBee_P2, Coordinate(-1,0)))
 
         #Act
         movementMoves = hiveGame.rules.getMovementMoves()
@@ -33,9 +32,9 @@ class TestMovmentRules(unittest.TestCase):
         #Arrange
         hiveGame = HiveGame()
         pieces = hiveGame.board.pieces
-        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.QueenBee_P1.piece, Coordinate(0,0)))
-        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.Ant_0_P2.piece, Coordinate(-1,0)))
-        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.Ant_0_P1.piece, Coordinate(1,0)))        
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.QueenBee_P1, Coordinate(0,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P2, Coordinate(-1,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P1, Coordinate(1,0)))        
 
         #Act
         movementMoves = hiveGame.rules.getMovementMoves()
@@ -67,13 +66,13 @@ class TestMovmentRules(unittest.TestCase):
         ]
 
         board = HiveBoard()
-        centerPiece = HivePieces.CreatePieceWithCoordinate(Piece(True, Creatures.Grasshopper,0), Coordinate(1,1))
+        centerPiece = HivePieces.CreateBoardPiece(True, Creatures.Grasshopper,0, Coordinate(1,1))
         board.movePiece(centerPiece)
 
         for directionIndex in range(0,6):
             if(neighbourPiecesPresent[directionIndex]):
                 neighbourCoordinate = board.navigate(navigationCircle[directionIndex], centerPiece.coordinate)
-                board.movePiece(HivePieces.CreatePieceWithCoordinate(Piece(True, Creatures.Grasshopper,directionIndex), neighbourCoordinate))
+                board.movePiece(HivePieces.CreateBoardPiece(True, Creatures.Grasshopper,directionIndex, neighbourCoordinate))
 
         movementRules = HiveRulesMove(board)
 
@@ -90,12 +89,12 @@ class TestMovmentRules(unittest.TestCase):
         #Arrange
         hiveGame = HiveGame()
         pieces = hiveGame.board.pieces
-        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.Beetle_0_P1.piece, Coordinate(0,0)))
-        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.Beetle_0_P2.piece, Coordinate(-1,0)))
-        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.Ant_0_P1.piece, Coordinate(0,1)))
-        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.Ant_0_P2.piece, Coordinate(-2,0)))
-        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.Ant_1_P1.piece, Coordinate(1,0)))
-        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.Ant_1_P2.piece, Coordinate(-3,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Beetle_0_P1, Coordinate(0,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Beetle_0_P2, Coordinate(-1,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P1, Coordinate(0,1)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P2, Coordinate(-2,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_1_P1, Coordinate(1,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_1_P2, Coordinate(-3,0)))
 
         print(hiveGame.board.printBoard())
 
@@ -109,12 +108,12 @@ class TestMovmentRules(unittest.TestCase):
         #Arrange
         hiveGame = HiveGame()
         pieces = hiveGame.board.pieces
-        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.QueenBee_P1.piece, Coordinate(0,0)))
-        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.QueenBee_P2.piece, Coordinate(-1,0)))
-        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.Ant_0_P1.piece, Coordinate(0,1)))
-        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.Ant_0_P2.piece, Coordinate(-2,0)))
-        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.Ant_1_P1.piece, Coordinate(1,0)))
-        hiveGame.playMove(HivePieces.CreatePieceWithCoordinate(pieces.Ant_1_P2.piece, Coordinate(-3,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.QueenBee_P1, Coordinate(0,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.QueenBee_P2, Coordinate(-1,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P1, Coordinate(0,1)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P2, Coordinate(-2,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_1_P1, Coordinate(1,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_1_P2, Coordinate(-3,0)))
 
         print(hiveGame.board.printBoard())
 

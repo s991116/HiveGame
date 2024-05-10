@@ -39,7 +39,7 @@ class HiveRules:
         startPosition = self.board.navigate(Direction.LEFT, self.board.centerCoordinate)
         
       for playablePiece in self.board.playableFreePieces(self.playerOneTurn):
-        moves.append(HivePieces.CreatePieceWithCoordinate(playablePiece, startPosition))
+        moves.append(HivePieces.CreateCloneWithCoordinate(playablePiece, startPosition))
       return moves
 
     moves += self.hiveRulesPlacement.getPlacementMoves(self.playerOneTurn)

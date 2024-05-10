@@ -1,6 +1,5 @@
 from typing import List, Optional
 from app.PieceGrasshopper import PieceGrasshopper
-from app.Piece import Piece
 from app.Coordinate import Coordinate
 from app.PieceQueenBee import PieceQueenBee
 from app.PieceSoldierAnt import PieceSoldierAnt
@@ -36,36 +35,36 @@ class HivePieces:
     self.Beetle_0_P2      = PieceBeetle(False, 0, c)
     self.Beetle_1_P2      = PieceBeetle(False, 1, c)
 
-    self._freePiecesP1: List[Piece] = [
-      self.QueenBee_P1.piece,
-      self.Grasshopper_0_P1.piece,
-      self.Grasshopper_1_P1.piece,
-      self.Grasshopper_2_P1.piece,
-      self.Spider_0_P1.piece,
-      self.Spider_1_P1.piece,
-      self.Ant_0_P1.piece,
-      self.Ant_1_P1.piece,
-      self.Ant_2_P1.piece,
-      self.Beetle_0_P1.piece,
-      self.Beetle_1_P1.piece,
+    self._freePiecesP1: List[BoardPiece] = [
+      self.QueenBee_P1,
+      self.Grasshopper_0_P1,
+      self.Grasshopper_1_P1,
+      self.Grasshopper_2_P1,
+      self.Spider_0_P1,
+      self.Spider_1_P1,
+      self.Ant_0_P1,
+      self.Ant_1_P1,
+      self.Ant_2_P1,
+      self.Beetle_0_P1,
+      self.Beetle_1_P1,
     ]
 
-    self._freePiecesP2: List[Piece] = [
-      self.QueenBee_P2.piece,
-      self.Grasshopper_0_P2.piece,
-      self.Grasshopper_1_P2.piece,
-      self.Grasshopper_2_P2.piece,
-      self.Spider_0_P2.piece,
-      self.Spider_1_P2.piece,
-      self.Ant_0_P2.piece,
-      self.Ant_1_P2.piece,
-      self.Ant_2_P2.piece,
-      self.Beetle_0_P2.piece,
-      self.Beetle_1_P2.piece,
+    self._freePiecesP2: List[BoardPiece] = [
+      self.QueenBee_P2,
+      self.Grasshopper_0_P2,
+      self.Grasshopper_1_P2,
+      self.Grasshopper_2_P2,
+      self.Spider_0_P2,
+      self.Spider_1_P2,
+      self.Ant_0_P2,
+      self.Ant_1_P2,
+      self.Ant_2_P2,
+      self.Beetle_0_P2,
+      self.Beetle_1_P2,
     ]
 
   @staticmethod
-  def CreatePiece(firstPlayer: bool, creature: Creatures, index: int, coordinate: Coordinate) -> BoardPiece:
+  def CreateBoardPiece(firstPlayer: bool, creature: Creatures, index: int, coordinate: Coordinate) -> BoardPiece:
     
     if creature == Creatures.Beetle:
       return PieceBeetle(firstPlayer, index, coordinate)
@@ -79,45 +78,45 @@ class HivePieces:
       return PieceSpider(firstPlayer, index, coordinate)
 
   @staticmethod
-  def CreatePieceWithCoordinate(piece: Piece, coordinate: Coordinate) -> BoardPiece:
-    return HivePieces.CreatePiece(piece.firstPlayer, piece.creature, piece.index, coordinate)
+  def CreateCloneWithCoordinate(boardPiece: BoardPiece, coordinate: Coordinate) -> BoardPiece:
+    return HivePieces.CreateBoardPiece(boardPiece.piece.firstPlayer, boardPiece.piece.creature, boardPiece.piece.index, coordinate)
 
   def playableFreePieces(self, playerOne:bool):
-    playableCreatures: List[Piece] = []
+    playableCreatures: List[BoardPiece] = []
 
     if playerOne:
       freePieces = self._freePiecesP1
     else:
       freePieces = self._freePiecesP2
     
-    for piece in freePieces:
+    for boardPiece in freePieces:
       foundPiece = False
       for playableCreature in playableCreatures:
-        if(playableCreature.creature == piece.creature):
+        if(playableCreature.piece.creature == boardPiece.piece.creature):
           foundPiece = True
           break
 
       if(not foundPiece):
-        playableCreatures.append(piece)
+        playableCreatures.append(boardPiece)
 
     return playableCreatures
 
-  def removeFromFreePieces(self, move: Piece) -> None:
-      piece = self.findFreePiece(move)
-      if piece is not None:
-        if(move.firstPlayer):
-          self._freePiecesP1.remove(piece)
+  def removeFromFreePieces(self, boardPiece: BoardPiece) -> None:
+      freeBoardPiece = self.findFreePiece(boardPiece)
+      if freeBoardPiece is not None:
+        if(freeBoardPiece.piece.firstPlayer):
+          self._freePiecesP1.remove(freeBoardPiece)
         else:
-          self._freePiecesP2.remove(piece)
+          self._freePiecesP2.remove(freeBoardPiece)
 
-  def findFreePiece(self, piece: Piece) -> Optional[Piece]:
-      if(piece.firstPlayer):
-        for freePiece in self._freePiecesP1:
-          if(piece == freePiece):
-            return freePiece
+  def findFreePiece(self, boardPiece: BoardPiece) -> Optional[BoardPiece]:
+      if(boardPiece.piece.firstPlayer):
+        for freeBoardPiece in self._freePiecesP1:
+          if(boardPiece == freeBoardPiece):
+            return freeBoardPiece
         return None
       else:
-        for freePiece in self._freePiecesP2:
-          if(piece == freePiece):
-            return freePiece
+        for freeBoardPiece in self._freePiecesP2:
+          if(boardPiece == freeBoardPiece):
+            return freeBoardPiece
         return None
