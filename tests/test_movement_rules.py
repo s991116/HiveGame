@@ -52,6 +52,7 @@ class TestMovmentRules(unittest.TestCase):
         ([False, False, True,  True,  False, False], False),
         ([True,  False, False, False, False, True ], False),
         ([False, True,  False, True,  False, False], True),
+        ([True, False,  True, True,  False, False], True),
     ])
 
     def test_detectBridgingCombinations(self, neighbourPiecesPresent: List[bool], gapExpected: bool):
@@ -66,7 +67,7 @@ class TestMovmentRules(unittest.TestCase):
         ]
 
         board = HiveBoard()
-        centerPiece = HivePieces.CreateBoardPiece(True, Creatures.Grasshopper,0, Coordinate(1,1))
+        centerPiece = HivePieces.CreateBoardPiece(True, Creatures.Grasshopper,0, Coordinate(0,0))
         board.movePiece(centerPiece)
 
         for directionIndex in range(0,6):
@@ -104,7 +105,7 @@ class TestMovmentRules(unittest.TestCase):
         #Assert
         self.assertEqual(len(moveablePieces), 0)
 
-    def test_movement_possibple_for_all_moveable_pieces(self):
+    def test_movement_possible_for_all_moveable_pieces(self):
         #Arrange
         hiveGame = HiveGame()
         pieces = hiveGame.board.pieces
@@ -115,13 +116,36 @@ class TestMovmentRules(unittest.TestCase):
         hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_1_P1, Coordinate(1,0)))
         hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_1_P2, Coordinate(-3,0)))
 
+        #Act
+        moveablePieces = hiveGame.rules.moveablePieces()
+
+        #Assert
+        self.assertEqual(len(moveablePieces), 2)
+
+    def test_allpieces_in_loop_can_move(self):
+        #Arrange
+        hiveGame = HiveGame()
+        pieces = hiveGame.board.pieces
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.QueenBee_P1,      Coordinate( 0, 0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.QueenBee_P2,      Coordinate(-1, 0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P1,         Coordinate( 1, 0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P2,         Coordinate(-2, 0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_1_P1,         Coordinate( 1, 1)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_1_P2,         Coordinate(-3, 0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_2_P1,         Coordinate( 1, 2)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_2_P2,         Coordinate(-4,-1)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Grasshopper_0_P1, Coordinate( 0, 2)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Grasshopper_0_P2, Coordinate(-4,-2)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Grasshopper_1_P1, Coordinate(-1, 1)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Grasshopper_1_P2, Coordinate(-3,-2)))
+
         print(hiveGame.board.printBoard())
 
         #Act
         moveablePieces = hiveGame.rules.moveablePieces()
 
         #Assert
-        self.assertEqual(len(moveablePieces), 2)
+        self.assertEqual(len(moveablePieces), 6)
 
 if __name__ == "__main__":
     unittest.main()

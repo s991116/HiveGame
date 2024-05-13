@@ -1,5 +1,8 @@
 import unittest
 from app.HiveBoard import HiveBoard
+from app.HivePieces import HivePieces
+from app.Coordinate import Coordinate
+from app.Directions import Direction
 
 class TestPrintBoard(unittest.TestCase):
 
@@ -28,6 +31,30 @@ class TestPrintBoard(unittest.TestCase):
         number_of_lines = boardPrint.count('\n')
         self.assertEqual(1+6, number_of_lines)
 
+    def test_printBoard_3_lines(self):
+        #Arrange
+        hiveBoard = HiveBoard()
+        hivePieces = HivePieces()
+
+        centerCoordination = Coordinate(1,1)
+
+        hiveBoard.movePiece(HivePieces.CreateCloneWithCoordinate(hivePieces.Beetle_0_P1, centerCoordination))
+
+        hiveBoard.movePiece(HivePieces.CreateCloneWithCoordinate(hivePieces.Ant_0_P1, hiveBoard.navigate(Direction.LEFT, centerCoordination)))
+        hiveBoard.movePiece(HivePieces.CreateCloneWithCoordinate(hivePieces.Ant_1_P1, hiveBoard.navigate(Direction.DOWN_LEFT, centerCoordination)))
+        hiveBoard.movePiece(HivePieces.CreateCloneWithCoordinate(hivePieces.Ant_2_P1, hiveBoard.navigate(Direction.DOWN_RIGHT, centerCoordination)))
+
+        hiveBoard.movePiece(HivePieces.CreateCloneWithCoordinate(hivePieces.Grasshopper_0_P1, hiveBoard.navigate(Direction.RIGHT, centerCoordination)))
+        hiveBoard.movePiece(HivePieces.CreateCloneWithCoordinate(hivePieces.Grasshopper_0_P1, hiveBoard.navigate(Direction.UP_RIGHT, centerCoordination)))
+        hiveBoard.movePiece(HivePieces.CreateCloneWithCoordinate(hivePieces.Grasshopper_0_P1, hiveBoard.navigate(Direction.UP_LEFT, centerCoordination)))
+
+        #Act
+        boardPrint = hiveBoard.printBoard()
+        print(boardPrint)
+
+        #Assert
+        number_of_lines = boardPrint.count('\n')
+        self.assertEqual(1+9, number_of_lines)
 
 
 if __name__ == "__main__":

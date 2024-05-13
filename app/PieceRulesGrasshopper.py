@@ -1,7 +1,6 @@
 from __future__ import annotations
 from typing import List
 from app.PieceRules import PieceRules
-from app.Coordinate import Coordinate
 from app.Directions import Direction
 import app.BoardPiece as BP
 import app.HiveBoard as HB

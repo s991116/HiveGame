@@ -7,6 +7,8 @@ from app.Creatures import Creatures
 
 from app.PieceRules import PieceRules
 from app.PieceRulesGrasshopper import PieceRulesGrasshopper
+from app.PieceRulesQueenBee import PieceRulesQueenBee
+
 
 class HivePieces:
   def __init__(self) -> None:
@@ -69,6 +71,10 @@ class HivePieces:
 
     if creature == Creatures.Grasshopper:
       pr = PieceRulesGrasshopper()
+
+    if creature == Creatures.QueenBee:
+      pr = PieceRulesQueenBee()
+
 
     return BoardPiece(Piece(firstPlayer, creature, index), coordinate, pr)
 

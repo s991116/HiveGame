@@ -17,7 +17,7 @@ class HiveRulesMove:
     moveableBoardPieces = self.moveablePieces(playerOneTurn, queenPlaced)
     for moveableBoardPiece in moveableBoardPieces:
       
-      moves += moveableBoardPiece.getMoves(self.board.getBoard())
+      moves += moveableBoardPiece.getMoves(self.board)
 
     return moves
 
@@ -29,41 +29,61 @@ class HiveRulesMove:
     playerBoardPieces = self.board.getPlayerBoardPieces(playerOneTurn)
     for playerBoardPiece in playerBoardPieces:
       bridgingPieces = self.getBridgingPieces(playerBoardPiece)
-      if bridgingPieces is None or not self.isConnectionBetweenPieces(bridgingPieces):
+      
+      if bridgingPieces is None or self.isConnectionBetween2Pieces(bridgingPieces[0].coordinate, bridgingPieces[1].coordinate, playerBoardPiece.coordinate, [bridgingPieces[0].coordinate]):
+      #if bridgingPieces is None or not self.isConnectionBetweenPieces(bridgingPieces):
         moveablePieces.append(playerBoardPiece)
 
     return moveablePieces
   
   def isConnectionBetweenPieces(self, boardPieces: Tuple[BoardPiece, BoardPiece]) -> bool:
     connectionCoordinate: List[Coordinate] = []
-    connectionCount = self.getCoonectionCount(boardPieces[0], connectionCoordinate)
+    connectionCount = self.getConnectionCount(boardPieces[0], connectionCoordinate)
 
     return boardPieces[1].coordinate in connectionCount
 
-  def getCoonectionCount(self, boarPiece: BoardPiece, connectionCoordinate: List[Coordinate]) -> List[Coordinate]:
-    if boarPiece.coordinate in connectionCoordinate:
+
+  def isConnectionBetween2Pieces(self, coordinateA: Coordinate, coordinateB: Coordinate, removedCoordinate: Coordinate, searchedCoordinates: List[Coordinate]) -> bool:
+    if(coordinateA == coordinateB):
+      return True
+    
+    directions = [Direction.LEFT, Direction.UP_LEFT, Direction.UP_RIGHT, Direction.RIGHT, Direction.DOWN_RIGHT, Direction.DOWN_LEFT]
+
+    for searchDirection in directions:
+      searchCoordinate = self.board.navigate(searchDirection, coordinateA)
+      if searchCoordinate !=removedCoordinate:
+        isCoordinateEmpty = self.board.isPlaceFree(searchCoordinate)  
+        if not isCoordinateEmpty and searchCoordinate not in searchedCoordinates:
+          searchedCoordinates.append(searchCoordinate)
+          if self.isConnectionBetween2Pieces(searchCoordinate, coordinateB, removedCoordinate, searchedCoordinates):
+            return True
+
+    return False
+
+  def getConnectionCount(self, boardPiece: BoardPiece, connectionCoordinate: List[Coordinate]) -> List[Coordinate]:
+    if boardPiece.coordinate in connectionCoordinate:
       return connectionCoordinate
       
-    connectionCoordinate.append(boarPiece.coordinate)
+    connectionCoordinate.append(boardPiece.coordinate)
 
-    neighboardPiece = self.board.getBoardPiece(self.board.navigate(Direction.LEFT, boarPiece.coordinate))
+    neighboardPiece = self.board.getBoardPiece(self.board.navigate(Direction.LEFT, boardPiece.coordinate))
     if(neighboardPiece is not None):
-      return self.getCoonectionCount(neighboardPiece, connectionCoordinate)
-    neighboardPiece = self.board.getBoardPiece(self.board.navigate(Direction.UP_LEFT, boarPiece.coordinate))
+      return self.getConnectionCount(neighboardPiece, connectionCoordinate)
+    neighboardPiece = self.board.getBoardPiece(self.board.navigate(Direction.UP_LEFT, boardPiece.coordinate))
     if(neighboardPiece is not None):
-      return self.getCoonectionCount(neighboardPiece, connectionCoordinate)
-    neighboardPiece = self.board.getBoardPiece(self.board.navigate(Direction.UP_RIGHT, boarPiece.coordinate))
+      return self.getConnectionCount(neighboardPiece, connectionCoordinate)
+    neighboardPiece = self.board.getBoardPiece(self.board.navigate(Direction.UP_RIGHT, boardPiece.coordinate))
     if(neighboardPiece is not None):
-      return self.getCoonectionCount(neighboardPiece, connectionCoordinate)
-    neighboardPiece = self.board.getBoardPiece(self.board.navigate(Direction.RIGHT, boarPiece.coordinate))
+      return self.getConnectionCount(neighboardPiece, connectionCoordinate)
+    neighboardPiece = self.board.getBoardPiece(self.board.navigate(Direction.RIGHT, boardPiece.coordinate))
     if(neighboardPiece is not None):
-      return self.getCoonectionCount(neighboardPiece, connectionCoordinate)
-    neighboardPiece = self.board.getBoardPiece(self.board.navigate(Direction.DOWN_RIGHT, boarPiece.coordinate))
+      return self.getConnectionCount(neighboardPiece, connectionCoordinate)
+    neighboardPiece = self.board.getBoardPiece(self.board.navigate(Direction.DOWN_RIGHT, boardPiece.coordinate))
     if(neighboardPiece is not None):
-      return self.getCoonectionCount(neighboardPiece, connectionCoordinate)
-    neighboardPiece = self.board.getBoardPiece(self.board.navigate(Direction.DOWN_LEFT, boarPiece.coordinate))
+      return self.getConnectionCount(neighboardPiece, connectionCoordinate)
+    neighboardPiece = self.board.getBoardPiece(self.board.navigate(Direction.DOWN_LEFT, boardPiece.coordinate))
     if(neighboardPiece is not None):
-      return self.getCoonectionCount(neighboardPiece, connectionCoordinate)
+      return self.getConnectionCount(neighboardPiece, connectionCoordinate)
 
     return connectionCoordinate
 
@@ -79,13 +99,14 @@ class HiveRulesMove:
     ]
     pieceCoordinate = boardPiece.coordinate
     gapCount = 0
-    findGap = self.board.getBoardPiece(self.board.navigate(navigationCircle[5], pieceCoordinate)) != None
+    endCoordinate = self.board.navigate(navigationCircle[5], pieceCoordinate)
+    findGap = not self.board.isPlaceFree(endCoordinate)
 
     connectionPieces: List[BoardPiece] = []
     for direction in navigationCircle:
       neighbourPiece: Optional[BoardPiece] = self.board.getBoardPiece(self.board.navigate(direction, pieceCoordinate))
       if neighbourPiece is not None and not findGap:
-        connectionPieces.append(boardPiece)
+        connectionPieces.append(neighbourPiece)
         findGap = True
 
       elif neighbourPiece is None and findGap:

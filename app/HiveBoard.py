@@ -156,7 +156,7 @@ class HiveBoard:
             boardPrintLine1 += "    "
             boardPrintLine2 += "    "
             boardPrintLine3 += "    "
-          min_x_position = boardPiece.coordinate.x+1
+          min_x_position = boardPiece.coordinate.x
           piece = boardPiece.piece
            
           if piece.firstPlayer:
@@ -173,7 +173,7 @@ class HiveBoard:
       return boardPrint
   
     def _boardPositionSorting(self, piece: BoardPiece) -> int:
-      return piece.coordinate.y*100+piece.coordinate.x
+      return -100*piece.coordinate.y + piece.coordinate.x
 
 
 

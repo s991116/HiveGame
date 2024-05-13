@@ -8,7 +8,6 @@ Implementation of the board Game Hive.
 2. Run HiveSimulator from app folder
 
 ## ToDo
-- [ ] Fix movement Test
 - [ ] Normalize should sort board array, after placement
 - [ ] Test if piece in second move for P1 can move and add to valid moves
 - [ ] Vertical normalization
