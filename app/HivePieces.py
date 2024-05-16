@@ -113,11 +113,11 @@ class HivePieces:
   def findFreePiece(self, boardPiece: BoardPiece) -> Optional[BoardPiece]:
       if(boardPiece.piece.firstPlayer):
         for freeBoardPiece in self._freePiecesP1:
-          if(boardPiece == freeBoardPiece):
+          if(boardPiece.piece == freeBoardPiece.piece):
             return freeBoardPiece
         return None
       else:
         for freeBoardPiece in self._freePiecesP2:
-          if(boardPiece == freeBoardPiece):
+          if(boardPiece.piece == freeBoardPiece.piece):
             return freeBoardPiece
         return None

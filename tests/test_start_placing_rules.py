@@ -213,6 +213,38 @@ class TestStartPlacingRules(unittest.TestCase):
         #Assert
         self.assertEqual(len(moves), 3*5)
 
+    def test_piece_updated_index_when_placing_same_creature(self):
+        #Arrange
+        hiveGame = HiveGame()
+        pieces = hiveGame.board.pieces
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P1, Coordinate( 0,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P2, Coordinate(-1,0)))
+
+        #Act
+        moves = hiveGame.getValidMoves()
+
+        #Assert
+        antWithNewIndex = HivePieces.CreateCloneWithCoordinate(pieces.Ant_1_P1, Coordinate(1,0))
+        self.assertIn(antWithNewIndex, moves)
+
+    def test_piece_updated_index_when_placing_same_creature_after_Queen_is_placed(self):
+        #Arrange
+        hiveGame = HiveGame()
+        pieces = hiveGame.board.pieces
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.QueenBee_P1, Coordinate( 0,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.QueenBee_P2, Coordinate(-1,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P1,    Coordinate( 1,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P2,    Coordinate(-2,0)))
+
+        #Act
+        moves = hiveGame.getValidMoves()
+        print(hiveGame.board.printBoard())
+
+        #Assert
+        antWithNewIndex = HivePieces.CreateCloneWithCoordinate(pieces.Ant_1_P1, Coordinate(2,0))
+        self.assertIn(antWithNewIndex, moves)
+
+
 
 if __name__ == "__main__":
     unittest.main()
