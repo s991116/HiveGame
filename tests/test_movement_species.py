@@ -16,9 +16,9 @@ class TestMovmentSpecies(unittest.TestCase):
         hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.QueenBee_P1, Coordinate(0,0)))
         hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P2, Coordinate(-1,0)))
         hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Grasshopper_0_P1, Coordinate(1,0)))
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P2, Coordinate(-2,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_1_P2, Coordinate(-2,0)))
         hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_1_P1, Coordinate(0,1)))
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_1_P2, Coordinate(-3,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_2_P2, Coordinate(-3,0)))
 
         #Act
         g = hiveGame.board.findPiece(pieces.Grasshopper_0_P1.piece)
@@ -27,6 +27,7 @@ class TestMovmentSpecies(unittest.TestCase):
         else:
             grassHopperMoves = []
 
+        print(hiveGame.board.printBoard())
         #Assert
         self.assertEqual(len(grassHopperMoves), 2)
         move1 = HivePieces.CreateCloneWithCoordinate(pieces.Grasshopper_0_P1, Coordinate(-4,0))

@@ -25,6 +25,7 @@ class HiveBoard:
       self._normalizePosition()
 
     def _setPiece(self, move: BoardPiece) -> None:
+      self.removeIfPleaceOnBoard(move)
       self.pieces.removeFromFreePieces(move)
       self._board.append(move)
 
@@ -33,6 +34,12 @@ class HiveBoard:
         if(boardPiece.piece == piece):
           return boardPiece
       return None
+
+    def removeIfPleaceOnBoard(self, boardPiece: BoardPiece):
+      boardPieceFound = self.findPiece(boardPiece.piece)
+      if boardPieceFound is not None:
+        self._board.remove(boardPieceFound)
+
 
     def getPlayerBoardPieces(self, firstPlayer: bool) -> List[BoardPiece]:
       playerBoardPieces: List[BoardPiece] = []

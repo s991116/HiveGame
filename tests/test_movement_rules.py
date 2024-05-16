@@ -147,5 +147,25 @@ class TestMovmentRules(unittest.TestCase):
         #Assert
         self.assertEqual(len(moveablePieces), 6)
 
+    def test_movement_should_remove_piece_from_starting_point_on_the_board(self):
+        #Arrange
+        hiveGame = HiveGame()
+        pieces = hiveGame.board.pieces
+        startingPiecePlacement = HivePieces.CreateCloneWithCoordinate(pieces.Grasshopper_0_P1, Coordinate(1,0))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.QueenBee_P1, Coordinate(0,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.QueenBee_P2, Coordinate(-1,0)))
+        hiveGame.playMove(startingPiecePlacement)
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Grasshopper_0_P2, Coordinate(-2,0)))
+
+
+        #Act
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Grasshopper_0_P1, Coordinate(-3,0)))
+        print(hiveGame.board.printBoard())
+        
+        #Assert
+        board = hiveGame.getBoard()
+        self.assertNotIn(startingPiecePlacement, board)
+
+
 if __name__ == "__main__":
     unittest.main()
