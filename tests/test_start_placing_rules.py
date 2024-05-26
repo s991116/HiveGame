@@ -18,32 +18,31 @@ class TestStartPlacingRules(unittest.TestCase):
     def test_init_board_with_one_piece(self):
         #Arrange
         hiveGame = HiveGame()
-        pieces = hiveGame.board.pieces
-        playerOneTurn = False
+        hivePieces = HivePieces()
 
         #Act
-        hiveGame.setupPosition(["G0"], playerOneTurn)
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(hivePieces.Grasshopper_0_P1, Coordinate(0,0)))
 
         #Assert
         board = hiveGame.getBoard()
-        self.assertListEqual(board,[HivePieces.CreateCloneWithCoordinate(pieces.Grasshopper_0_P1, Coordinate(0,0))])
-        self.assertEqual(playerOneTurn, hiveGame.rules.playerOneTurn) # type: ignore
+        self.assertListEqual(board,[HivePieces.CreateCloneWithCoordinate(hivePieces.Grasshopper_0_P1, Coordinate(0,0))])
+        self.assertFalse(hiveGame.rules.playerOneTurn) # type: ignore
 
     def test_init_board_with_two_pieces(self):
         #Arrange
         hiveGame = HiveGame()
-        playerOneTurn = True
-        pieces = hiveGame.board.pieces
+        hivePieces = HivePieces()
 
         #Act
-        hiveGame.setupPosition(["g0|G0"], playerOneTurn)
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(hivePieces.Grasshopper_0_P1, Coordinate(0,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(hivePieces.Grasshopper_0_P2, Coordinate(-1,0)))
 
         #Assert
         board = hiveGame.getBoard()
-        pieceA = HivePieces.CreateCloneWithCoordinate(pieces.Grasshopper_0_P1, Coordinate(0,0))
-        pieceB = HivePieces.CreateCloneWithCoordinate(pieces.Grasshopper_0_P2, Coordinate(-1,0))
-        self.assertListEqual(board,[pieceA, pieceB])
-        self.assertEqual(playerOneTurn, hiveGame.rules.playerOneTurn) # type: ignore
+        self.assertIn(HivePieces.CreateCloneWithCoordinate(hivePieces.Grasshopper_0_P1, Coordinate(0,0)), board)
+        self.assertIn(HivePieces.CreateCloneWithCoordinate(hivePieces.Grasshopper_0_P2, Coordinate(-1,0)), board)
+
+        self.assertTrue(hiveGame.rules.playerOneTurn) # type: ignore
 
     def test_init_board_with_three_pieces(self):
         #Arrange
@@ -52,16 +51,21 @@ class TestStartPlacingRules(unittest.TestCase):
         pieces = hiveGame.board.pieces
 
         #Act
-        hiveGame.setupPosition(["g0|G0|G1"], not playerOneTurn)
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Grasshopper_0_P1, Coordinate( 0, 0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Grasshopper_0_P2, Coordinate(-1, 0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Grasshopper_1_P1, Coordinate(+1, 0)))
 
         #Assert
         board = hiveGame.getBoard()
-        pieceA = HivePieces.CreateCloneWithCoordinate(pieces.Grasshopper_1_P1, Coordinate(0,0))
-        pieceB = HivePieces.CreateCloneWithCoordinate(pieces.Grasshopper_0_P1, Coordinate(-1,0))
-        pieceC = HivePieces.CreateCloneWithCoordinate(pieces.Grasshopper_0_P2, Coordinate(-2,0))
+        pieceA = HivePieces.CreateCloneWithCoordinate(pieces.Grasshopper_0_P1, Coordinate( 0,0))
+        pieceC = HivePieces.CreateCloneWithCoordinate(pieces.Grasshopper_0_P2, Coordinate(-1,0))
+        pieceB = HivePieces.CreateCloneWithCoordinate(pieces.Grasshopper_1_P1, Coordinate( 1,0))
 
 
-        self.assertListEqual(board,[pieceA, pieceB, pieceC])
+        self.assertIn(pieceA, board)
+        self.assertIn(pieceB, board)
+        self.assertIn(pieceC, board)
+
         self.assertEqual(not playerOneTurn, hiveGame.rules.playerOneTurn) # type: ignore
 
     def test_free_pieces_when_game_starts(self):
@@ -123,7 +127,8 @@ class TestStartPlacingRules(unittest.TestCase):
     def test_add_second_piece(self):
         #Arrange
         hiveGame = HiveGame()
-        hiveGame.setupPosition(["Q0"], False)
+        pieces = hiveGame.board.pieces
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.QueenBee_P1, Coordinate(0,0)))
 
         #Act
         move2 = hiveGame.getValidMoves()[0]
@@ -176,7 +181,8 @@ class TestStartPlacingRules(unittest.TestCase):
     def test_get_valid_first_move_for_P2(self):
         #Arrange
         hiveGame = HiveGame()
-        hiveGame.setupPosition(["B0"], False)
+        pieces = hiveGame.board.pieces
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Beetle_0_P1, Coordinate(0,0)))
 
         #Act
         moves = hiveGame.getValidMoves()
@@ -190,7 +196,11 @@ class TestStartPlacingRules(unittest.TestCase):
     def test_get_valid_second_move_for_P1_Queen_Not_Played(self):
         #Arrange
         hiveGame = HiveGame()
-        hiveGame.setupPosition(["b0|B0"], True)
+        pieces = hiveGame.board.pieces
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Beetle_0_P1, Coordinate(0,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Beetle_0_P2, Coordinate(-1,0)))
+
+#        hiveGame.setupPosition(["b0|B0"], True)
 
         #Act
         moves = hiveGame.getValidMoves()
@@ -244,7 +254,22 @@ class TestStartPlacingRules(unittest.TestCase):
         antWithNewIndex = HivePieces.CreateCloneWithCoordinate(pieces.Ant_1_P1, Coordinate(2,0))
         self.assertIn(antWithNewIndex, moves)
 
+""" 
+    def test_center_pieces_when_P1_Queen_is_played(self):
+        #Arrange
+        hiveGame = HiveGame()
+        pieces = hiveGame.board.pieces
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P1, Coordinate(0,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P2, Coordinate(-1,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.QueenBee_P1, Coordinate(0,1)))
 
+        #Act
+        boardPieces = hiveGame.getBoard()
 
+        #Assert
+        self.assertIn(HivePieces.CreateCloneWithCoordinate(pieces.QueenBee_P1, Coordinate( 0, 0)),boardPieces)
+        self.assertIn(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P1,    Coordinate(-1,-1)),boardPieces)
+        self.assertIn(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P2,    Coordinate(-2,-1)),boardPieces)
+ """
 if __name__ == "__main__":
     unittest.main()

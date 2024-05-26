@@ -87,25 +87,6 @@ class HiveBoard:
         Creatures.SoldierAnt: "A",
         Creatures.Spider: "S",
     }
-
-    def setupPosition(self, boardPrintLines: List[str]):
-      self._board = []
-      lineNr = 0
-      for boardPrintLine in boardPrintLines:
-        boardPrintLineReversed = boardPrintLine[::-1]
-        pieceCoordinate = Coordinate(0,lineNr)
-        for stringIndex in range(len(boardPrintLineReversed)):
-          indexString = boardPrintLineReversed[stringIndex]
-          if indexString.isdigit():
-            index = int(indexString)
-            pieaceLetter = boardPrintLineReversed[stringIndex+1]
-            creature = next(key for key, value in self._shortPrint.items() if value == pieaceLetter.upper())
-            firstPlayer = pieaceLetter.isupper()
-            boardPiece = HivePieces.CreateBoardPiece(firstPlayer, creature, index, pieceCoordinate)
-            self._setPiece(boardPiece)
-            pieceCoordinate = self.getOffsetCoordinate(pieceCoordinate,Coordinate(1,0))
-        lineNr += 1
-      self._normalizePosition()
     
     def getOffsetCoordinate(self, coordinate: Coordinate, offset: Coordinate):
       x = coordinate.x - offset.x

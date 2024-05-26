@@ -1,4 +1,5 @@
 import unittest
+from app.HiveGame import HiveGame
 from app.HiveBoard import HiveBoard
 from app.HivePieces import HivePieces
 from app.Coordinate import Coordinate
@@ -8,11 +9,15 @@ class TestPrintBoard(unittest.TestCase):
 
     def test_printBoard_inline(self):
         #Arrange
-        hiveBoard = HiveBoard()
-        hiveBoard.setupPosition(["A0|a0|Q0"])
+        hiveGame = HiveGame()
+        pieces = HivePieces()
+
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.QueenBee_P1, Coordinate(0,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Grasshopper_0_P2, Coordinate(-1,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Grasshopper_0_P1, Coordinate(1,0)))
 
         #Act
-        boardPrint = hiveBoard.printBoard()
+        boardPrint = hiveGame.board.printBoard()
 
         #Assert
         number_of_lines = boardPrint.count('\n')
@@ -20,12 +25,15 @@ class TestPrintBoard(unittest.TestCase):
 
     def test_printBoard_2_lines(self):
         #Arrange
-        hiveBoard = HiveBoard()
-        hiveBoard.setupPosition(["A0|a0|Q0",
-                                 " |  |S0"])
+        hiveGame = HiveGame()
+        pieces = HivePieces()
+
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.QueenBee_P1, Coordinate(0,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Grasshopper_0_P2, Coordinate(-1,0)))
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Grasshopper_0_P1, Coordinate(0,1)))
 
         #Act
-        boardPrint = hiveBoard.printBoard()
+        boardPrint = hiveGame.board.printBoard()
 
         #Assert
         number_of_lines = boardPrint.count('\n')

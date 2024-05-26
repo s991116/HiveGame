@@ -16,8 +16,3 @@ class HiveGame:
   
   def getBoard(self) -> List[BoardPiece]:
     return self.board.getBoard()
-  
-  def setupPosition(self, boardPrint: List[str], playerOneTurn: bool):      
-    self.board.setupPosition(boardPrint)
-    self.rules.playerOneTurn = playerOneTurn
-    self.rules.updatePosition()
