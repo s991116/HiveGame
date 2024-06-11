@@ -72,9 +72,9 @@ class HiveBoard:
 
     def _normalizePosition(self) -> None:
       piece = self.findPiece(self.pieces.QueenBee_P1.piece)
-      if(piece is not None):
-        self._calibratePositions(piece.coordinate)
-      pass
+
+      if(piece is not None and piece.coordinate is not Coordinate(0,0)):
+          self._calibratePositions(piece.coordinate)
       
     def _calibratePositions(self, offset: Coordinate) -> None:
       for piece in self._board:
@@ -89,7 +89,11 @@ class HiveBoard:
     }
     
     def getOffsetCoordinate(self, coordinate: Coordinate, offset: Coordinate):
-      x = coordinate.x - offset.x
+      xOffset = 0
+      if(offset.y % 2 == 1 and coordinate.y % 2 == 0):
+        xOffset = -1
+
+      x = coordinate.x - offset.x + xOffset
       y = coordinate.y - offset.y
       return Coordinate(x,y)
 

@@ -254,22 +254,21 @@ class TestStartPlacingRules(unittest.TestCase):
         antWithNewIndex = HivePieces.CreateCloneWithCoordinate(pieces.Ant_1_P1, Coordinate(2,0))
         self.assertIn(antWithNewIndex, moves)
 
-""" 
     def test_center_pieces_when_P1_Queen_is_played(self):
         #Arrange
         hiveGame = HiveGame()
         pieces = hiveGame.board.pieces
         hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P1, Coordinate(0,0)))
         hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P2, Coordinate(-1,0)))
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.QueenBee_P1, Coordinate(0,1)))
 
         #Act
-        boardPieces = hiveGame.getBoard()
+        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.QueenBee_P1, Coordinate(0,1)))
 
         #Assert
+        boardPieces = hiveGame.getBoard()
         self.assertIn(HivePieces.CreateCloneWithCoordinate(pieces.QueenBee_P1, Coordinate( 0, 0)),boardPieces)
         self.assertIn(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P1,    Coordinate(-1,-1)),boardPieces)
         self.assertIn(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P2,    Coordinate(-2,-1)),boardPieces)
- """
+ 
 if __name__ == "__main__":
     unittest.main()
