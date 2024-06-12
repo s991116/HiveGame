@@ -98,21 +98,6 @@ class HivePieces:
     ]
 
   @staticmethod
-  def CreateBoardPiece2(hivePiece: HivePiece, coordinate:Coordinate) -> BoardPiece:
-    (creature, index, firstPlayer) = HivePieces.HivePiecesDictionary[hivePiece]
-    pr = PieceRules()
-
-    if creature == Creatures.Grasshopper:
-      pr = PieceRulesGrasshopper()
-
-    if creature == Creatures.QueenBee:
-      pr = PieceRulesQueenBee()
-
-    return BoardPiece(Piece(firstPlayer, creature, index), coordinate, pr)
-
-
-
-  @staticmethod
   def CreateBoardPiece(firstPlayer: bool, creature: Creatures, index: int, coordinate: Coordinate) -> BoardPiece:    
     pr = PieceRules()
 
