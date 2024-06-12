@@ -1,18 +1,20 @@
 from __future__ import annotations
 
 from typing import Dict
-from app.Creatures import Creatures
-from app.HivePiece import HivePiece
+
 from app.Coordinate import Coordinate
 from app.BoardPiece import BoardPiece
 from app.Piece import Piece
+from app.Creatures import Creatures
 
 from app.PieceRules import PieceRules
 from app.PieceRulesGrasshopper import PieceRulesGrasshopper
 from app.PieceRulesQueenBee import PieceRulesQueenBee
+from app.HivePiece import HivePiece
+from app. PieceBuilder import PieceBuilder
 
-class HivePieceBuilder:
-  
+class BoardPieceBuilder:
+
   HivePiecesDictionary: Dict[HivePiece, tuple[Creatures, int, bool]] = {
     HivePiece.QueenBee_P1: (Creatures.QueenBee, 0, True),
     HivePiece.QueenBee_P2: (Creatures.QueenBee, 0, False),
@@ -43,41 +45,34 @@ class HivePieceBuilder:
   }
 
   def __init__(self) -> None:
-    self._creature = Creatures.Grasshopper
-    self._index = 0
-    self._firstPlayer = True
     self._coordinate = Coordinate(0,0)
     self._pr = PieceRules()
+    self._piece = PieceBuilder().Build()
 
-  def Piece(self, hivePiece: HivePiece, coordinate:Coordinate) -> HivePieceBuilder:
-    (self._creature, self._index, self._firstPlayer) = HivePieceBuilder.HivePiecesDictionary[hivePiece]
-    self._coordinate = coordinate
-    
+  def updateRules(self, creature: Creatures):
     self._pr = PieceRules()
 
-    if self._creature == Creatures.Grasshopper:
+    if creature == Creatures.Grasshopper:
       self._pr = PieceRulesGrasshopper()
 
-    if self._creature == Creatures.QueenBee:
+    if creature == Creatures.QueenBee:
       self._pr = PieceRulesQueenBee()
 
+  def WithPiece(self, piece: Piece):
+    self._piece = piece
+    self.updateRules(piece.creature)
     return self
 
-  def Creature(self, creature: Creatures):
-    self._creature = creature
-    return self
-  
-  def FirstPlayer(self, firstPlayer:bool):
-    self._firstPlayer = firstPlayer
+  def WithHivePiece(self, hivePiece: HivePiece, coordinate: Coordinate) -> BoardPieceBuilder:
+    (creature, index, firstPlayer) = BoardPieceBuilder.HivePiecesDictionary[hivePiece]
+    self._piece = PieceBuilder().With(creature, index, firstPlayer).Build()
+    self.updateRules(creature)
+    self.WithCoordinate(coordinate)
     return self
 
-  def Index(self, index: int):
-    self._index = index
-    return self
-  
-  def Coordinate(self, coordinate: Coordinate):
+  def WithCoordinate(self, coordinate: Coordinate):
     self._coordinate = coordinate
     return self
 
   def Build(self):
-    return BoardPiece(Piece(self._firstPlayer, self._creature, self._index), self._coordinate, self._pr)
+    return BoardPiece(self._piece, self._coordinate, self._pr)

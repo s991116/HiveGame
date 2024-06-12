@@ -1,13 +1,16 @@
 from __future__ import annotations
 
 from typing import Dict, List, Optional, TYPE_CHECKING
-from app.HivePieces import HivePieces
 from app.Directions import Direction
 
 from app.Piece import Piece
+from app.PieceBuilder import PieceBuilder
+from app.HiveBoardPieces import HiveBoardPieces
+
 from app.Creatures import Creatures
 from app.Coordinate import Coordinate
 from itertools import groupby
+
 
 if TYPE_CHECKING:
   from app.BoardPiece import BoardPiece
@@ -16,7 +19,7 @@ class HiveBoard:
     
     def __init__(self) -> None:
       self._board: list[BoardPiece] = []
-      self.pieces = HivePieces()
+      self.pieces = HiveBoardPieces()
       self.centerCoordinate: Coordinate = Coordinate(0,0)
   
     def getBoard(self) -> List[BoardPiece]:    
@@ -34,7 +37,7 @@ class HiveBoard:
 
     def _setPiece(self, move: BoardPiece) -> None:
       self.removeIfPleaceOnBoard(move)
-      self.pieces.removeFromFreePieces(move)
+      self.pieces.removeFromFreePieces(move.piece)
       self._board.append(move)
 
     def findPiece(self, piece: Piece) -> Optional[BoardPiece]:
@@ -75,11 +78,11 @@ class HiveBoard:
           return True
       return False
 
-    def playableFreePieces(self, firstPlayer:bool) -> List[BoardPiece]:
+    def playableFreePieces(self, firstPlayer:bool) -> List[Piece]:
       return self.pieces.playableFreePieces(firstPlayer)
 
     def normalizePosition(self) -> None:
-      piece = self.findPiece(self.pieces.QueenBee_P1.piece)
+      piece = self.findPiece(PieceBuilder().QueenBee_P1().Build())
 
       if(piece is not None and piece.coordinate is not Coordinate(0,0)):
           self._calibratePositions(piece.coordinate)

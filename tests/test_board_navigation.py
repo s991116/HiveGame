@@ -3,7 +3,7 @@ from app.Directions import Direction
 from app.Coordinate import Coordinate
 from app.HivePiece import HivePiece
 from tests.HiveGameTestBuilder import HiveGameTestBuilder
-from app.HivePieceBuilder import HivePieceBuilder
+from app.BoardPieceBuilder import BoardPieceBuilder
 
 class TestBoardNavigation(unittest.TestCase):
 
@@ -16,7 +16,7 @@ class TestBoardNavigation(unittest.TestCase):
         coordinate_DR = hiveGame.board.navigate(Direction.DOWN_RIGHT, startCoordinate)
 
         #Act
-        hiveGame.board.movePiece(HivePieceBuilder().Piece(HivePiece.SoldierAnt_0_P1, coordinate_DR).Build())
+        hiveGame.board.movePiece(BoardPieceBuilder().WithHivePiece(HivePiece.SoldierAnt_0_P1, coordinate_DR).Build())
         print(hiveGame.board.printBoard())
 
         #Assert

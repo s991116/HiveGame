@@ -2,7 +2,7 @@ import unittest
 
 from app.HivePiece import HivePiece
 from app.Coordinate import Coordinate
-from app.HivePieceBuilder import HivePieceBuilder
+from app.BoardPieceBuilder import BoardPieceBuilder
 from tests.HiveGameTestBuilder import HiveGameTestBuilder
 
 class TestBoardNomalization(unittest.TestCase):
@@ -20,7 +20,7 @@ class TestBoardNomalization(unittest.TestCase):
         board = hiveGame.board.getBoard()
         
         self.assertEqual(len(board), 3)
-        self.assertIn(HivePieceBuilder().Piece(HivePiece.QueenBee_P1, Coordinate(0,0)).Build(), board)
+        self.assertIn(BoardPieceBuilder().WithHivePiece(HivePiece.QueenBee_P1, Coordinate(0,0)).Build(), board)
         
     def test_center_P1_QueenBee_PlacedFirst(self):
         #Arrange
@@ -35,7 +35,7 @@ class TestBoardNomalization(unittest.TestCase):
         board = hiveGame.board.getBoard()
         
         self.assertEqual(len(board), 3)
-        self.assertIn(HivePieceBuilder().Piece(HivePiece.QueenBee_P1, Coordinate(0,0)).Build(), board)        
+        self.assertIn(BoardPieceBuilder().WithHivePiece(HivePiece.QueenBee_P1, Coordinate(0,0)).Build(), board)        
 
 if __name__ == "__main__":
     unittest.main()

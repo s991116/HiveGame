@@ -3,7 +3,8 @@ from app.Coordinate import Coordinate
 from app.Creatures import Creatures
 from app.HivePiece import HivePiece
 from tests.HiveGameTestBuilder import HiveGameTestBuilder
-from app.HivePieceBuilder import HivePieceBuilder
+from app.BoardPieceBuilder import BoardPieceBuilder
+from app.PieceBuilder import PieceBuilder
 
 param_list = [('a', 'a'), ('a', 'b'), ('b', 'b')]
 
@@ -19,10 +20,9 @@ class TestMovmentSpecies(unittest.TestCase):
             Play(HivePiece.SoldierAnt_1_P1,  0, 1).\
             Play(HivePiece.SoldierAnt_2_P2, -3, 0).\
             Build()
-        pieces = hiveGame.board.pieces
 
         #Act
-        g = hiveGame.board.findPiece(pieces.Grasshopper_0_P1.piece)
+        g = hiveGame.board.findPiece(PieceBuilder().Grasshopper_0_P1().Build())
         if g is not None:
             grassHopperMoves = g.getMoves(hiveGame.board)
         else:
@@ -31,9 +31,9 @@ class TestMovmentSpecies(unittest.TestCase):
         print(hiveGame.board.printBoard())
         #Assert
         self.assertEqual(len(grassHopperMoves), 2)
-        move1 = HivePieceBuilder().Piece(HivePiece.Grasshopper_0_P1, Coordinate(-4,0)).Build()
+        move1 = BoardPieceBuilder().WithHivePiece(HivePiece.Grasshopper_0_P1, Coordinate(-4,0)).Build()
         self.assertIn(move1, grassHopperMoves)
-        move2 = HivePieceBuilder().Piece(HivePiece.Grasshopper_0_P1, Coordinate(0,2)).Build()
+        move2 = BoardPieceBuilder().WithHivePiece(HivePiece.Grasshopper_0_P1, Coordinate(0,2)).Build()
         self.assertIn(move2, grassHopperMoves)
 
 
@@ -91,9 +91,9 @@ class TestMovmentSpecies(unittest.TestCase):
         movementMoves = hiveGame.rules.getMovementMoves()
 
         #Assert
-        move1 = HivePieceBuilder().Piece(HivePiece.QueenBee_P1, Coordinate(0, -1)).Build()
+        move1 = BoardPieceBuilder().WithHivePiece(HivePiece.QueenBee_P1, Coordinate(0, -1)).Build()
         self.assertIn(move1, movementMoves)
-        move2 = HivePieceBuilder().Piece(HivePiece.QueenBee_P1, Coordinate(-1, -1)).Build()
+        move2 = BoardPieceBuilder().WithHivePiece(HivePiece.QueenBee_P1, Coordinate(-1, -1)).Build()
         self.assertIn(move2, movementMoves)
 
 

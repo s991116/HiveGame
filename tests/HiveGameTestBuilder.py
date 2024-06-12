@@ -4,11 +4,11 @@ from typing import TYPE_CHECKING
 from app.HivePiece import HivePiece
 from app.HiveGame import HiveGame
 from app.Coordinate import Coordinate
+from app.BoardPieceBuilder import BoardPieceBuilder
 
 if TYPE_CHECKING:
   from app.BoardPiece import BoardPiece
 
-from app.HivePieceBuilder import HivePieceBuilder
 
 class HiveGameTestBuilder:
 
@@ -17,7 +17,7 @@ class HiveGameTestBuilder:
     pass
 
   def Play(self, hivePiece: HivePiece, x: int,y: int):
-    self.placements.append(HivePieceBuilder().Piece(hivePiece, Coordinate(x, y)).Build())
+    self.placements.append(BoardPieceBuilder().WithHivePiece(hivePiece, Coordinate(x, y)).Build())
     return self
 
   def Build(self) -> HiveGame:

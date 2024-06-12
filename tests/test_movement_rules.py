@@ -7,10 +7,10 @@ from app.Creatures import Creatures
 from app.Coordinate import Coordinate
 from app.Directions import Direction
 from app.HiveRulesMove import HiveRulesMove
-from app.HivePieces import HivePieces
 from app.HivePiece import HivePiece
 from tests.HiveGameTestBuilder import HiveGameTestBuilder
-from app.HivePieceBuilder import HivePieceBuilder
+from app.BoardPieceBuilder import BoardPieceBuilder
+from app.PieceBuilder import PieceBuilder
 
 param_list = [('a', 'a'), ('a', 'b'), ('b', 'b')]
 
@@ -68,13 +68,13 @@ class TestMovmentRules(unittest.TestCase):
         ]
 
         board = HiveBoard()
-        centerPiece = HivePieceBuilder().Piece(HivePiece.Grasshopper_0_P1, Coordinate(0,0)).Build()
+        centerPiece = BoardPieceBuilder().WithHivePiece(HivePiece.Grasshopper_0_P1, Coordinate(0,0)).Build()
         board.movePiece(centerPiece)
 
         for directionIndex in range(0,6):
             if(neighbourPiecesPresent[directionIndex]):
                 neighbourCoordinate = board.navigate(navigationCircle[directionIndex], centerPiece.coordinate)
-                boardPiece = HivePieceBuilder().Creature(Creatures.Grasshopper).FirstPlayer(True).Index(directionIndex).Coordinate(neighbourCoordinate).Build()
+                boardPiece = BoardPieceBuilder().WithPiece(PieceBuilder().With(Creatures.Grasshopper, directionIndex, True).Build()).WithCoordinate(neighbourCoordinate).Build()
                 board.movePiece(boardPiece)
 
         movementRules = HiveRulesMove(board)
@@ -156,11 +156,10 @@ class TestMovmentRules(unittest.TestCase):
             Play(HivePiece.Grasshopper_0_P2,-2, 0).\
             Build()
 
-        pieces = hiveGame.board.pieces
-        startingPiecePlacement = HivePieces.CreateCloneWithCoordinate(pieces.Grasshopper_0_P1, Coordinate(1,0))
+        startingPiecePlacement = BoardPieceBuilder().WithHivePiece(HivePiece.Grasshopper_0_P1, Coordinate(1,0)).Build()
 
         #Act
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Grasshopper_0_P1, Coordinate(-3,0)))
+        hiveGame.playMove(BoardPieceBuilder().WithHivePiece(HivePiece.Grasshopper_0_P1, Coordinate(-3, 0)).Build())
         print(hiveGame.board.printBoard())
         
         #Assert

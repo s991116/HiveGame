@@ -3,11 +3,12 @@ from __future__ import annotations
 from typing import List
 from app.HiveBoard import HiveBoard
 from app.BoardPiece import BoardPiece
-from app.HivePieces import HivePieces
+from app.BoardPieceBuilder import BoardPieceBuilder
 from app.Creatures import Creatures
 from app.Directions import Direction
 from app.HiveRulesMove import HiveRulesMove
 from app.HiveRulesPlacement import HiveRulesPlacement
+from app.PieceBuilder import PieceBuilder
 
 class HiveRules:
 
@@ -41,7 +42,7 @@ class HiveRules:
         startPosition = self.board.navigate(Direction.LEFT, self.board.centerCoordinate)
         
       for playablePiece in self.board.playableFreePieces(self.playerOneTurn):
-        moves.append(HivePieces.CreateCloneWithCoordinate(playablePiece, startPosition))
+        moves.append(BoardPieceBuilder().WithPiece(playablePiece).WithCoordinate(startPosition).Build())
       return moves
 
     moves += self.hiveRulesPlacement.getPlacementMoves(self.playerOneTurn)
@@ -61,11 +62,8 @@ class HiveRules:
     return (self.playerOneTurn and self.QueenP1Placed) or (not self.playerOneTurn and self.QueenP2Placed)
 
   def updatePosition(self):
-    Q1P1 = self.board.pieces.QueenBee_P1
-    Q1P2 = self.board.pieces.QueenBee_P2
-
-    if self.board.findPiece(Q1P1.piece) is not None:
+    if self.board.findPiece(PieceBuilder().QueenBee_P1().Build()) is not None:
       self.QueenP1Placed = True
 
-    if self.board.findPiece(Q1P2.piece) is not None:
+    if self.board.findPiece(PieceBuilder().QueenBee_P1().Build()) is not None:
       self.QueenP2Placed = True      

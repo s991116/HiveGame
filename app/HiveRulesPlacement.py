@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import List
 from app.HiveBoard import HiveBoard
-from app.HivePieces import HivePieces
+from app.BoardPieceBuilder import BoardPieceBuilder
 from app.BoardPiece import BoardPiece
 from app.Coordinate import Coordinate
 
@@ -19,7 +19,7 @@ class HiveRulesPlacement:
       if(not (self.straightLine() and not self.downCoordinate(freePlacement))):      
         playablePieces = self.board.playableFreePieces(playerOneTurn)
         for playablePiece in playablePieces:
-          moves.append(HivePieces.CreateCloneWithCoordinate(playablePiece, freePlacement))
+          moves.append(BoardPieceBuilder().WithPiece(playablePiece).WithCoordinate(freePlacement).Build())
     return moves
 
   def getLegalPlacement(self, playerOneTurn: bool) -> List[Coordinate]:

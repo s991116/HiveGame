@@ -4,7 +4,7 @@ from typing import List, TYPE_CHECKING
 from app.PieceRules import PieceRules
 from app.Directions import Direction
 
-import app.HivePieces as HP
+import app.BoardPieceBuilder as HP
 
 if TYPE_CHECKING:
   from app.BoardPiece import BoardPiece
@@ -35,7 +35,7 @@ class PieceRulesQueenBee(PieceRules):
             clockwise2xFree = board.isPlaceFree(board.navigate(direction2xClockwise, queenCoordinate))
 
             if clockwise2xFree:
-              move = HP.HivePieces.CreateCloneWithCoordinate(boardPiece,coordinateClockwise)
+              move = HP.BoardPieceBuilder().WithPiece(boardPiece.piece).WithCoordinate(coordinateClockwise).Build()
               moves.append(move)
 
     return moves

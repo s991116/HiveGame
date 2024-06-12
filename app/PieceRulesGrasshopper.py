@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import List, TYPE_CHECKING
 from app.PieceRules import PieceRules
 from app.Directions import Direction
-import app.HivePieces as HP
+import app.BoardPieceBuilder as HP
 
 if TYPE_CHECKING:
   from app.BoardPiece import BoardPiece
@@ -25,7 +25,7 @@ class PieceRulesGrasshopper(PieceRules):
         piecePresent = not board.isPlaceFree(directionCoordinate)
         distance += 1
       if distance > 1:
-        move = HP.HivePieces.CreateCloneWithCoordinate(boardPiece, directionCoordinate)
+        move = HP.BoardPieceBuilder().WithPiece(boardPiece.piece).WithCoordinate(directionCoordinate).Build()
         moves.append(move)
 
     return moves
