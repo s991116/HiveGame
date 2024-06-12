@@ -8,8 +8,8 @@ Implementation of the board Game Hive.
 2. Run HiveSimulator from app folder
 
 ## ToDo
-- [ ] Normalize should sort board array, after placement
-- [ ] Test if piece in second move for P1 can move and add to valid moves
-- [ ] Vertical normalization
+- [ ] Implement movement for Beetle
+- [ ] Implement movement for Spider
+- [ ] Implement movement for Ant
 - [ ] Implement rules for winning and loosing
 - [ ] Add Layers of Beetles for Print Board when Beetles are on top of other creatures
