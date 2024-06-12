@@ -16,7 +16,7 @@ class TestBoardNavigation(unittest.TestCase):
         coordinate_DR = hiveGame.board.navigate(Direction.DOWN_RIGHT, startCoordinate)
 
         #Act
-        hiveGame.board.movePiece(BoardPieceBuilder().WithHivePiece(HivePiece.SoldierAnt_0_P1, coordinate_DR).Build())
+        hiveGame.board.movePiece(BoardPieceBuilder().WithHivePiece(HivePiece.Ant_0_P1, coordinate_DR).Build())
         print(hiveGame.board.printBoard())
 
         #Assert

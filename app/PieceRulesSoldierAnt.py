@@ -7,7 +7,7 @@ import app.HiveBoard as HB
 if TYPE_CHECKING:
   from app.BoardPiece import BoardPiece
 
-class PieceRulesSoldierAnt(PieceRules):
+class PieceRulesAnt(PieceRules):
 
   def getMoves(self, boardPiece: BoardPiece, board: HB.HiveBoard) -> List[BoardPiece]:
     return []

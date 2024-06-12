@@ -7,7 +7,7 @@ from app.Piece import Piece
 from app.PieceBuilder import PieceBuilder
 from app.HiveBoardPieces import HiveBoardPieces
 
-from app.Creatures import Creatures
+from app.Species import Species
 from app.Coordinate import Coordinate
 from itertools import groupby
 
@@ -91,12 +91,12 @@ class HiveBoard:
       for piece in self._board:
           piece.coordinate = self.getOffsetCoordinate(piece.coordinate, offset)
 
-    _shortPrint: Dict[Creatures, str] = {
-        Creatures.Beetle: "B",
-        Creatures.Grasshopper: "G",
-        Creatures.QueenBee: "Q",
-        Creatures.SoldierAnt: "A",
-        Creatures.Spider: "S",
+    _shortPrint: Dict[Species, str] = {
+        Species.Beetle: "B",
+        Species.Grasshopper: "G",
+        Species.QueenBee: "Q",
+        Species.Ant: "A",
+        Species.Spider: "S",
     }
     
     def getOffsetCoordinate(self, coordinate: Coordinate, offset: Coordinate):

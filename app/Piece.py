@@ -1,13 +1,13 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from app.Creatures import Creatures
+from app.Species import Species
 
 @dataclass
 class Piece:
  
   firstPlayer: bool
-  creature: Creatures
+  creature: Species
   index: int
 
   def print(self) -> str:

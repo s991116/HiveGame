@@ -1,101 +1,101 @@
-from app.Creatures import Creatures
+from app.Species import Species
 from app.Piece import Piece
 
 class PieceBuilder:
   def __init__(self) -> None:
     self._firstPlayer = True
-    self._creature = Creatures.Grasshopper
+    self._creature = Species.Grasshopper
     self._index = 0
 
   def QueenBee_P1(self):
-    self.With(Creatures.QueenBee, 0, True)
+    self.With(Species.QueenBee, 0, True)
     return self
 
   def QueenBee_P2(self):
-    self.With(Creatures.QueenBee, 0, False)
+    self.With(Species.QueenBee, 0, False)
     return self
   
   def Beetle_0_P1(self):
-    self.With(Creatures.Beetle, 0, True)
+    self.With(Species.Beetle, 0, True)
     return self
 
   def Beetle_0_P2(self):
-    self.With(Creatures.Beetle, 0, False)
+    self.With(Species.Beetle, 0, False)
     return self
 
   def Beetle_1_P1(self):
-    self.With(Creatures.Beetle, 1, True)
+    self.With(Species.Beetle, 1, True)
     return self
 
   def Beetle_1_P2(self):
-    self.With(Creatures.Beetle, 1, False)
+    self.With(Species.Beetle, 1, False)
     return self
 
   def Grasshopper_0_P1(self): 
-    self.With(Creatures.Grasshopper, 0, True)
+    self.With(Species.Grasshopper, 0, True)
     return self
 
   def Grasshopper_0_P2(self): 
-    self.With(Creatures.Grasshopper, 0, False)
+    self.With(Species.Grasshopper, 0, False)
     return self
 
   def Grasshopper_1_P1(self): 
-    self.With(Creatures.Grasshopper, 1, True)
+    self.With(Species.Grasshopper, 1, True)
     return self
 
   def Grasshopper_1_P2(self): 
-    self.With(Creatures.Grasshopper, 1, False)
+    self.With(Species.Grasshopper, 1, False)
     return self
 
   def Grasshopper_2_P1(self): 
-    self.With(Creatures.Grasshopper, 2, True)
+    self.With(Species.Grasshopper, 2, True)
     return self
 
   def Grasshopper_2_P2(self): 
-    self.With(Creatures.Grasshopper, 2, False)
+    self.With(Species.Grasshopper, 2, False)
     return self
 
-  def SoldierAnt_0_P1(self): 
-    self.With(Creatures.SoldierAnt, 0, True)
+  def Ant_0_P1(self): 
+    self.With(Species.Ant, 0, True)
     return self
 
-  def SoldierAnt_0_P2(self): 
-    self.With(Creatures.SoldierAnt, 0, False)
+  def Ant_0_P2(self): 
+    self.With(Species.Ant, 0, False)
     return self
 
-  def SoldierAnt_1_P1(self): 
-    self.With(Creatures.SoldierAnt, 1, True)
+  def Ant_1_P1(self): 
+    self.With(Species.Ant, 1, True)
     return self
 
-  def SoldierAnt_1_P2(self): 
-    self.With(Creatures.SoldierAnt, 1, False)
+  def Ant_1_P2(self): 
+    self.With(Species.Ant, 1, False)
     return self
 
-  def SoldierAnt_2_P1(self): 
-    self.With(Creatures.SoldierAnt, 2, True)
+  def Ant_2_P1(self): 
+    self.With(Species.Ant, 2, True)
     return self
 
-  def SoldierAnt_2_P2(self): 
-    self.With(Creatures.SoldierAnt, 2, False)
+  def Ant_2_P2(self): 
+    self.With(Species.Ant, 2, False)
     return self
 
   def Spider_0_P1(self): 
-    self.With(Creatures.Spider, 0, True)
+    self.With(Species.Spider, 0, True)
     return self
 
   def Spider_0_P2(self): 
-    self.With(Creatures.Spider, 0, False)
+    self.With(Species.Spider, 0, False)
     return self
 
   def Spider_1_P1(self): 
-    self.With(Creatures.Spider, 1, True)
+    self.With(Species.Spider, 1, True)
     return self
 
   def Spider_1_P2(self): 
-    self.With(Creatures.Spider, 1, False)
+    self.With(Species.Spider, 1, False)
     return self
 
-  def With(self, creature: Creatures, index: int, firstPlayer: bool):
+  def With(self, creature: Species, index: int, firstPlayer: bool):
     self._creature = creature
     self._index= index
     self._firstPlayer = firstPlayer

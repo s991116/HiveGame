@@ -4,7 +4,7 @@ from typing import List
 from app.HiveBoard import HiveBoard
 from app.BoardPiece import BoardPiece
 from app.BoardPieceBuilder import BoardPieceBuilder
-from app.Creatures import Creatures
+from app.Species import Species
 from app.Directions import Direction
 from app.HiveRulesMove import HiveRulesMove
 from app.HiveRulesPlacement import HiveRulesPlacement
@@ -22,7 +22,7 @@ class HiveRules:
 
   def playMove(self, move: BoardPiece):  
     
-    if(move.piece.creature == Creatures.QueenBee):
+    if(move.piece.creature == Species.QueenBee):
       if(self.playerOneTurn):
         self.QueenP1Placed = True
       else:

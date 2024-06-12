@@ -16,9 +16,9 @@ class HiveBoardPieces:
       PieceBuilder().Grasshopper_2_P1().Build(),
       PieceBuilder().Spider_0_P1().Build(),
       PieceBuilder().Spider_1_P1().Build(),
-      PieceBuilder().SoldierAnt_0_P1().Build(),
-      PieceBuilder().SoldierAnt_1_P1().Build(),
-      PieceBuilder().SoldierAnt_2_P1().Build(),
+      PieceBuilder().Ant_0_P1().Build(),
+      PieceBuilder().Ant_1_P1().Build(),
+      PieceBuilder().Ant_2_P1().Build(),
       PieceBuilder().Beetle_0_P1().Build(),
       PieceBuilder().Beetle_1_P1().Build()
     ]
@@ -30,9 +30,9 @@ class HiveBoardPieces:
       PieceBuilder().Grasshopper_2_P2().Build(),
       PieceBuilder().Spider_0_P2().Build(),
       PieceBuilder().Spider_1_P2().Build(),
-      PieceBuilder().SoldierAnt_0_P2().Build(),
-      PieceBuilder().SoldierAnt_1_P2().Build(),
-      PieceBuilder().SoldierAnt_2_P2().Build(),
+      PieceBuilder().Ant_0_P2().Build(),
+      PieceBuilder().Ant_1_P2().Build(),
+      PieceBuilder().Ant_2_P2().Build(),
       PieceBuilder().Beetle_0_P2().Build(),
       PieceBuilder().Beetle_0_P2().Build()
     ]

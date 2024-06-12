@@ -5,7 +5,7 @@ from typing import Dict
 from app.Coordinate import Coordinate
 from app.BoardPiece import BoardPiece
 from app.Piece import Piece
-from app.Creatures import Creatures
+from app.Species import Species
 
 from app.PieceRules import PieceRules
 from app.PieceRulesGrasshopper import PieceRulesGrasshopper
@@ -15,33 +15,33 @@ from app. PieceBuilder import PieceBuilder
 
 class BoardPieceBuilder:
 
-  HivePiecesDictionary: Dict[HivePiece, tuple[Creatures, int, bool]] = {
-    HivePiece.QueenBee_P1: (Creatures.QueenBee, 0, True),
-    HivePiece.QueenBee_P2: (Creatures.QueenBee, 0, False),
+  HivePiecesDictionary: Dict[HivePiece, tuple[Species, int, bool]] = {
+    HivePiece.QueenBee_P1: (Species.QueenBee, 0, True),
+    HivePiece.QueenBee_P2: (Species.QueenBee, 0, False),
 
-    HivePiece.Beetle_0_P1: (Creatures.Beetle, 0, True),
-    HivePiece.Beetle_1_P1: (Creatures.Beetle, 1, True),
-    HivePiece.Beetle_0_P2: (Creatures.Beetle, 0, False),
-    HivePiece.Beetle_1_P2: (Creatures.Beetle, 1, False),
+    HivePiece.Beetle_0_P1: (Species.Beetle, 0, True),
+    HivePiece.Beetle_1_P1: (Species.Beetle, 1, True),
+    HivePiece.Beetle_0_P2: (Species.Beetle, 0, False),
+    HivePiece.Beetle_1_P2: (Species.Beetle, 1, False),
 
-    HivePiece.Grasshopper_0_P1: (Creatures.Grasshopper, 0, True),
-    HivePiece.Grasshopper_1_P1: (Creatures.Grasshopper, 1, True),
-    HivePiece.Grasshopper_2_P1: (Creatures.Grasshopper, 2, True),
-    HivePiece.Grasshopper_0_P2: (Creatures.Grasshopper, 0, False),
-    HivePiece.Grasshopper_1_P2: (Creatures.Grasshopper, 1, False),
-    HivePiece.Grasshopper_2_P2: (Creatures.Grasshopper, 2, False),
+    HivePiece.Grasshopper_0_P1: (Species.Grasshopper, 0, True),
+    HivePiece.Grasshopper_1_P1: (Species.Grasshopper, 1, True),
+    HivePiece.Grasshopper_2_P1: (Species.Grasshopper, 2, True),
+    HivePiece.Grasshopper_0_P2: (Species.Grasshopper, 0, False),
+    HivePiece.Grasshopper_1_P2: (Species.Grasshopper, 1, False),
+    HivePiece.Grasshopper_2_P2: (Species.Grasshopper, 2, False),
 
-    HivePiece.SoldierAnt_0_P1: (Creatures.SoldierAnt, 0, True),
-    HivePiece.SoldierAnt_1_P1: (Creatures.SoldierAnt, 1, True),
-    HivePiece.SoldierAnt_2_P1: (Creatures.SoldierAnt, 2, True),
-    HivePiece.SoldierAnt_0_P2: (Creatures.SoldierAnt, 0, False),
-    HivePiece.SoldierAnt_1_P2: (Creatures.SoldierAnt, 1, False),
-    HivePiece.SoldierAnt_2_P2: (Creatures.SoldierAnt, 2, False),
+    HivePiece.Ant_0_P1: (Species.Ant, 0, True),
+    HivePiece.Ant_1_P1: (Species.Ant, 1, True),
+    HivePiece.Ant_2_P1: (Species.Ant, 2, True),
+    HivePiece.Ant_0_P2: (Species.Ant, 0, False),
+    HivePiece.Ant_1_P2: (Species.Ant, 1, False),
+    HivePiece.Ant_2_P2: (Species.Ant, 2, False),
 
-    HivePiece.Spider_0_P1: (Creatures.Spider, 0, True),
-    HivePiece.Spider_1_P1: (Creatures.Spider, 1, True),
-    HivePiece.Spider_0_P2: (Creatures.Spider, 0, False),
-    HivePiece.Spider_1_P2: (Creatures.Spider, 1, False),
+    HivePiece.Spider_0_P1: (Species.Spider, 0, True),
+    HivePiece.Spider_1_P1: (Species.Spider, 1, True),
+    HivePiece.Spider_0_P2: (Species.Spider, 0, False),
+    HivePiece.Spider_1_P2: (Species.Spider, 1, False),
   }
 
   def __init__(self) -> None:
@@ -49,13 +49,13 @@ class BoardPieceBuilder:
     self._pr = PieceRules()
     self._piece = PieceBuilder().Build()
 
-  def updateRules(self, creature: Creatures):
+  def updateRules(self, creature: Species):
     self._pr = PieceRules()
 
-    if creature == Creatures.Grasshopper:
+    if creature == Species.Grasshopper:
       self._pr = PieceRulesGrasshopper()
 
-    if creature == Creatures.QueenBee:
+    if creature == Species.QueenBee:
       self._pr = PieceRulesQueenBee()
 
   def WithPiece(self, piece: Piece):

@@ -3,7 +3,7 @@ from typing import List, Tuple, Optional
 from parameterized import parameterized # type: ignore
 from app.HiveBoard import HiveBoard
 from app.BoardPiece import BoardPiece
-from app.Creatures import Creatures
+from app.Species import Species
 from app.Coordinate import Coordinate
 from app.Directions import Direction
 from app.HiveRulesMove import HiveRulesMove
@@ -19,7 +19,7 @@ class TestMovmentRules(unittest.TestCase):
     def test_movement_not_possible_if_P1_Queen_is_not_placed(self):
         #Arrange
         hiveGame = HiveGameTestBuilder().\
-            Play(HivePiece.SoldierAnt_0_P1, 0,0).\
+            Play(HivePiece.Ant_0_P1, 0,0).\
             Play(HivePiece.QueenBee_P2, -1,0).\
             Build()
 
@@ -33,8 +33,8 @@ class TestMovmentRules(unittest.TestCase):
         #Arrange
         hiveGame = HiveGameTestBuilder().\
             Play(HivePiece.QueenBee_P1, 0,0).\
-            Play(HivePiece.SoldierAnt_0_P2,-1,0).\
-            Play(HivePiece.SoldierAnt_0_P1, 1,0).\
+            Play(HivePiece.Ant_0_P2,-1,0).\
+            Play(HivePiece.Ant_0_P1, 1,0).\
             Build()
 
         #Act
@@ -74,7 +74,7 @@ class TestMovmentRules(unittest.TestCase):
         for directionIndex in range(0,6):
             if(neighbourPiecesPresent[directionIndex]):
                 neighbourCoordinate = board.navigate(navigationCircle[directionIndex], centerPiece.coordinate)
-                boardPiece = BoardPieceBuilder().WithPiece(PieceBuilder().With(Creatures.Grasshopper, directionIndex, True).Build()).WithCoordinate(neighbourCoordinate).Build()
+                boardPiece = BoardPieceBuilder().WithPiece(PieceBuilder().With(Species.Grasshopper, directionIndex, True).Build()).WithCoordinate(neighbourCoordinate).Build()
                 board.movePiece(boardPiece)
 
         movementRules = HiveRulesMove(board)
@@ -93,10 +93,10 @@ class TestMovmentRules(unittest.TestCase):
         hiveGame = HiveGameTestBuilder().\
             Play(HivePiece.Beetle_0_P1, 0,0).\
             Play(HivePiece.Beetle_0_P2,-1,0).\
-            Play(HivePiece.SoldierAnt_0_P1, 0,1).\
-            Play(HivePiece.SoldierAnt_0_P2,-2,0).\
-            Play(HivePiece.SoldierAnt_1_P1, 1,0).\
-            Play(HivePiece.SoldierAnt_1_P2, -3,0).\
+            Play(HivePiece.Ant_0_P1, 0,1).\
+            Play(HivePiece.Ant_0_P2,-2,0).\
+            Play(HivePiece.Ant_1_P1, 1,0).\
+            Play(HivePiece.Ant_1_P2, -3,0).\
             Build()
 
         print(hiveGame.board.printBoard())
@@ -112,10 +112,10 @@ class TestMovmentRules(unittest.TestCase):
         hiveGame = HiveGameTestBuilder().\
             Play(HivePiece.QueenBee_P1, 0,0).\
             Play(HivePiece.QueenBee_P2,-1,0).\
-            Play(HivePiece.SoldierAnt_0_P1, 0,1).\
-            Play(HivePiece.SoldierAnt_0_P2,-2,0).\
-            Play(HivePiece.SoldierAnt_1_P1, 1,0).\
-            Play(HivePiece.SoldierAnt_1_P2, -3,0).\
+            Play(HivePiece.Ant_0_P1, 0,1).\
+            Play(HivePiece.Ant_0_P2,-2,0).\
+            Play(HivePiece.Ant_1_P1, 1,0).\
+            Play(HivePiece.Ant_1_P2, -3,0).\
             Build()
 
         #Act
@@ -129,12 +129,12 @@ class TestMovmentRules(unittest.TestCase):
         hiveGame = HiveGameTestBuilder().\
             Play(HivePiece.QueenBee_P1,      0, 0).\
             Play(HivePiece.QueenBee_P2,     -1, 0).\
-            Play(HivePiece.SoldierAnt_0_P1,  1, 0).\
-            Play(HivePiece.SoldierAnt_0_P2, -2, 0).\
-            Play(HivePiece.SoldierAnt_1_P1,  1, 1).\
-            Play(HivePiece.SoldierAnt_1_P2, -3, 0).\
-            Play(HivePiece.SoldierAnt_2_P1,  1, 2).\
-            Play(HivePiece.SoldierAnt_2_P2, -4,-1).\
+            Play(HivePiece.Ant_0_P1,  1, 0).\
+            Play(HivePiece.Ant_0_P2, -2, 0).\
+            Play(HivePiece.Ant_1_P1,  1, 1).\
+            Play(HivePiece.Ant_1_P2, -3, 0).\
+            Play(HivePiece.Ant_2_P1,  1, 2).\
+            Play(HivePiece.Ant_2_P2, -4,-1).\
             Play(HivePiece.Grasshopper_0_P1, 0, 2).\
             Play(HivePiece.Grasshopper_0_P2,-4,-2).\
             Play(HivePiece.Grasshopper_1_P1,-1, 1).\
