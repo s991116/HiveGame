@@ -42,18 +42,42 @@ class HivePieceBuilder:
     HivePiece.Spider_1_P2: (Creatures.Spider, 1, False),
   }
 
+  def __init__(self) -> None:
+    self._creature = Creatures.Grasshopper
+    self._index = 0
+    self._firstPlayer = True
+    self._coordinate = Coordinate(0,0)
+    self._pr = PieceRules()
+
   def Piece(self, hivePiece: HivePiece, coordinate:Coordinate) -> HivePieceBuilder:
-    (creature, index, firstPlayer) = HivePieceBuilder.HivePiecesDictionary[hivePiece]
-    pr = PieceRules()
+    (self._creature, self._index, self._firstPlayer) = HivePieceBuilder.HivePiecesDictionary[hivePiece]
+    self._coordinate = coordinate
+    
+    self._pr = PieceRules()
 
-    if creature == Creatures.Grasshopper:
-      pr = PieceRulesGrasshopper()
+    if self._creature == Creatures.Grasshopper:
+      self._pr = PieceRulesGrasshopper()
 
-    if creature == Creatures.QueenBee:
-      pr = PieceRulesQueenBee()
+    if self._creature == Creatures.QueenBee:
+      self._pr = PieceRulesQueenBee()
 
-    self._boardPiece = BoardPiece(Piece(firstPlayer, creature, index), coordinate, pr)
+    return self
+
+  def Creature(self, creature: Creatures):
+    self._creature = creature
     return self
   
+  def FirstPlayer(self, firstPlayer:bool):
+    self._firstPlayer = firstPlayer
+    return self
+
+  def Index(self, index: int):
+    self._index = index
+    return self
+  
+  def Coordinate(self, coordinate: Coordinate):
+    self._coordinate = coordinate
+    return self
+
   def Build(self):
-    return self._boardPiece
+    return BoardPiece(Piece(self._firstPlayer, self._creature, self._index), self._coordinate, self._pr)

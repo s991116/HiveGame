@@ -10,6 +10,7 @@ from app.HiveRulesMove import HiveRulesMove
 from app.HivePieces import HivePieces
 from app.HivePiece import HivePiece
 from tests.HiveGameTestBuilder import HiveGameTestBuilder
+from app.HivePieceBuilder import HivePieceBuilder
 
 param_list = [('a', 'a'), ('a', 'b'), ('b', 'b')]
 
@@ -67,13 +68,14 @@ class TestMovmentRules(unittest.TestCase):
         ]
 
         board = HiveBoard()
-        centerPiece = HivePieces.CreateBoardPiece(True, Creatures.Grasshopper,0, Coordinate(0,0))
+        centerPiece = HivePieceBuilder().Piece(HivePiece.Grasshopper_0_P1, Coordinate(0,0)).Build()
         board.movePiece(centerPiece)
 
         for directionIndex in range(0,6):
             if(neighbourPiecesPresent[directionIndex]):
                 neighbourCoordinate = board.navigate(navigationCircle[directionIndex], centerPiece.coordinate)
-                board.movePiece(HivePieces.CreateBoardPiece(True, Creatures.Grasshopper,directionIndex, neighbourCoordinate))
+                boardPiece = HivePieceBuilder().Creature(Creatures.Grasshopper).FirstPlayer(True).Index(directionIndex).Coordinate(neighbourCoordinate).Build()
+                board.movePiece(boardPiece)
 
         movementRules = HiveRulesMove(board)
 

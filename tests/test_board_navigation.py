@@ -1,7 +1,6 @@
 import unittest
 from app.Directions import Direction
 from app.Coordinate import Coordinate
-from app.HivePieces import HivePieces
 from app.HivePiece import HivePiece
 from tests.HiveGameTestBuilder import HiveGameTestBuilder
 from app.HivePieceBuilder import HivePieceBuilder
