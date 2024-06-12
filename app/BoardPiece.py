@@ -1,10 +1,12 @@
 from __future__ import annotations
-from typing import List
+
+from typing import List, TYPE_CHECKING
 from app.Coordinate import Coordinate
 from app.Piece import Piece
-from app.PieceRules import PieceRules
 
-import app.HiveBoard as HB
+if TYPE_CHECKING:
+    from app.PieceRules import PieceRules
+    from app.HiveBoard import HiveBoard
 
 class BoardPiece:
 
@@ -13,7 +15,7 @@ class BoardPiece:
         self.coordinate = coordinate
         self.rules = rules
 
-    def getMoves(self, hiveBoard: HB.HiveBoard) -> List[BoardPiece]:
+    def getMoves(self, hiveBoard: HiveBoard) -> List[BoardPiece]:
         return self.rules.getMoves(self, hiveBoard)
 
     def print(self) -> str:

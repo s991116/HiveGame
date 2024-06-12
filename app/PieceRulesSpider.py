@@ -1,10 +1,13 @@
 from __future__ import annotations
-from typing import List
+
+from typing import List, TYPE_CHECKING
 from app.PieceRules import PieceRules
-import app.BoardPiece as BP
 import app.HiveBoard as HB
+
+if TYPE_CHECKING:
+  from app.BoardPiece import BoardPiece
 
 class PieceRulesSpider(PieceRules):
 
-  def getMoves(self, boardPiece: BP.BoardPiece, board: HB.HiveBoard) -> List[BP.BoardPiece]:
+  def getMoves(self, boardPiece: BoardPiece, board: HB.HiveBoard) -> List[BoardPiece]:
     return []

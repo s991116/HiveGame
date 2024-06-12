@@ -1,19 +1,21 @@
 from __future__ import annotations
-from typing import List
+
+from typing import List, TYPE_CHECKING
 from app.PieceRules import PieceRules
 from app.Directions import Direction
 
-
-import app.BoardPiece as BP
-import app.HiveBoard as HB
 import app.HivePieces as HP
+
+if TYPE_CHECKING:
+  from app.BoardPiece import BoardPiece
+  from app.HiveBoard import HiveBoard
 
 class PieceRulesQueenBee(PieceRules):
 
-  def getMoves(self, boardPiece: BP.BoardPiece, board: HB.HiveBoard) -> List[BP.BoardPiece]:
+  def getMoves(self, boardPiece: BoardPiece, board: HiveBoard) -> List[BoardPiece]:
 
     directions = [Direction.LEFT, Direction.UP_LEFT, Direction.UP_RIGHT, Direction.RIGHT, Direction.DOWN_RIGHT, Direction.DOWN_LEFT]
-    moves: List[BP.BoardPiece] = []
+    moves: List[BoardPiece] = []
     queenCoordinate = boardPiece.coordinate
 
     for index, direction in enumerate(directions):

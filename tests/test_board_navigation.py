@@ -1,28 +1,27 @@
 import unittest
-from app.HiveBoard import HiveBoard
 from app.Directions import Direction
 from app.Coordinate import Coordinate
 from app.HivePieces import HivePieces
+from app.HivePiece import HivePiece
+from tests.HiveGameTestBuilder import HiveGameTestBuilder
+
 
 class TestBoardNavigation(unittest.TestCase):
 
     def test_upLeft_downRight_put_back_to_center(self):
         #Arrange
-        hiveBoard = HiveBoard()
-        hivePieces = HivePieces()
         startCoordinate = Coordinate(0,0)
-
-        hiveBoard.movePiece(HivePieces.CreateCloneWithCoordinate(hivePieces.QueenBee_P1, startCoordinate))
+        hiveGame = HiveGameTestBuilder().\
+            Play(HivePiece.QueenBee_P1,      startCoordinate.x, startCoordinate.y).\
+            Build()
+        coordinate_DR = hiveGame.board.navigate(Direction.DOWN_RIGHT, startCoordinate)
 
         #Act
-        coordinate_DR = hiveBoard.navigate(Direction.DOWN_RIGHT, startCoordinate)
-        hiveBoard.movePiece(HivePieces.CreateCloneWithCoordinate(hivePieces.Ant_0_P1, coordinate_DR))
-
-        coordinate_DR_UL = hiveBoard.navigate(Direction.UP_LEFT, coordinate_DR)
-
-        print(hiveBoard.printBoard())
+        hiveGame.board.movePiece(HivePieces.CreateBoardPiece2(HivePiece.SoldierAnt_0_P1, coordinate_DR))
+        print(hiveGame.board.printBoard())
 
         #Assert
+        coordinate_DR_UL = hiveGame.board.navigate(Direction.UP_LEFT, coordinate_DR)
         self.assertEqual(startCoordinate, coordinate_DR_UL)
 
 

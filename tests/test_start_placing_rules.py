@@ -1,13 +1,16 @@
 import unittest
 from app.HiveGame import HiveGame
 from app.Coordinate import Coordinate
-from app.HivePieces import HivePieces
 
+from tests.HiveGameTestBuilder import HiveGameTestBuilder
+from app.HivePieceBuilder import HivePieceBuilder
+from app.HivePiece import HivePiece
 class TestStartPlacingRules(unittest.TestCase):
 
     def test_start_with_empty_board(self):        
         #Arrange
-        hiveGame = HiveGame()
+        hiveGame = HiveGameTestBuilder().\
+            Build()
 
         #Act
         board = hiveGame.getBoard()
@@ -17,60 +20,58 @@ class TestStartPlacingRules(unittest.TestCase):
 
     def test_init_board_with_one_piece(self):
         #Arrange
-        hiveGame = HiveGame()
-        hivePieces = HivePieces()
+        hiveGame = HiveGameTestBuilder().\
+            Build()
 
         #Act
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(hivePieces.Grasshopper_0_P1, Coordinate(0,0)))
+        hiveGame.playMove(HivePieceBuilder().Build(HivePiece.Grasshopper_0_P1, Coordinate(0,0)))
 
         #Assert
         board = hiveGame.getBoard()
-        self.assertListEqual(board,[HivePieces.CreateCloneWithCoordinate(hivePieces.Grasshopper_0_P1, Coordinate(0,0))])
+        self.assertListEqual(board,[HivePieceBuilder().Build(HivePiece.Grasshopper_0_P1, Coordinate(0,0))])
         self.assertFalse(hiveGame.rules.playerOneTurn) # type: ignore
 
     def test_init_board_with_two_pieces(self):
         #Arrange
-        hiveGame = HiveGame()
-        hivePieces = HivePieces()
+        hiveGame = HiveGameTestBuilder().\
+            Build()
 
         #Act
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(hivePieces.Grasshopper_0_P1, Coordinate(0,0)))
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(hivePieces.Grasshopper_0_P2, Coordinate(-1,0)))
+        hiveGame.playMove(HivePieceBuilder().Build(HivePiece.Grasshopper_0_P1, Coordinate(0,0)))
+        hiveGame.playMove(HivePieceBuilder().Build(HivePiece.Grasshopper_0_P2, Coordinate(-1,0)))
 
         #Assert
         board = hiveGame.getBoard()
-        self.assertIn(HivePieces.CreateCloneWithCoordinate(hivePieces.Grasshopper_0_P1, Coordinate(0,0)), board)
-        self.assertIn(HivePieces.CreateCloneWithCoordinate(hivePieces.Grasshopper_0_P2, Coordinate(-1,0)), board)
+        self.assertIn(HivePieceBuilder().Build(HivePiece.Grasshopper_0_P1, Coordinate(0,0)), board)
+        self.assertIn(HivePieceBuilder().Build(HivePiece.Grasshopper_0_P2, Coordinate(-1,0)), board)
 
         self.assertTrue(hiveGame.rules.playerOneTurn) # type: ignore
 
     def test_init_board_with_three_pieces(self):
         #Arrange
-        hiveGame = HiveGame()
-        playerOneTurn = True
-        pieces = hiveGame.board.pieces
-
+        hiveGame = HiveGameTestBuilder().\
+            Build()
+        
         #Act
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Grasshopper_0_P1, Coordinate( 0, 0)))
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Grasshopper_0_P2, Coordinate(-1, 0)))
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Grasshopper_1_P1, Coordinate(+1, 0)))
+        hiveGame.playMove(HivePieceBuilder().Build(HivePiece.Grasshopper_0_P1, Coordinate( 0,0)))
+        hiveGame.playMove(HivePieceBuilder().Build(HivePiece.Grasshopper_0_P2, Coordinate(-1,0)))
+        hiveGame.playMove(HivePieceBuilder().Build(HivePiece.Grasshopper_1_P1, Coordinate( 1,0)))
 
         #Assert
         board = hiveGame.getBoard()
-        pieceA = HivePieces.CreateCloneWithCoordinate(pieces.Grasshopper_0_P1, Coordinate( 0,0))
-        pieceC = HivePieces.CreateCloneWithCoordinate(pieces.Grasshopper_0_P2, Coordinate(-1,0))
-        pieceB = HivePieces.CreateCloneWithCoordinate(pieces.Grasshopper_1_P1, Coordinate( 1,0))
-
+        pieceA = HivePieceBuilder().Build(HivePiece.Grasshopper_0_P1, Coordinate( 0,0))
+        pieceC = HivePieceBuilder().Build(HivePiece.Grasshopper_0_P2, Coordinate(-1,0))
+        pieceB = HivePieceBuilder().Build(HivePiece.Grasshopper_1_P1, Coordinate( 1,0))
 
         self.assertIn(pieceA, board)
         self.assertIn(pieceB, board)
         self.assertIn(pieceC, board)
-
-        self.assertEqual(not playerOneTurn, hiveGame.rules.playerOneTurn) # type: ignore
+        self.assertFalse(hiveGame.rules.playerOneTurn) # type: ignore
 
     def test_free_pieces_when_game_starts(self):
         #Arrange
-        hiveGame = HiveGame()
+        hiveGame = HiveGameTestBuilder().\
+            Build()
 
         #Act
         firstPlayer = True
@@ -85,27 +86,27 @@ class TestStartPlacingRules(unittest.TestCase):
 
     def test_free_pieces_after_QeenBeeP1_is_played(self):
         #Arrange
-        hiveGame = HiveGame()
-        firstPlayer = True
-        pieces = hiveGame.board.pieces
+        hiveGame = HiveGameTestBuilder().\
+            Build()
 
         #Act
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.QueenBee_P1, Coordinate(0,0)))
+        hiveGame.playMove(HivePieceBuilder().Build(HivePiece.QueenBee_P1, Coordinate(0,0)))
 
         #Assert
+        firstPlayer = True
         freePiecesP1 = hiveGame.board.playableFreePieces(firstPlayer)
         self.assertEqual(len(freePiecesP1), 4)
 
     def test_free_pieces_after_Both_Qeen_and_AntP1_is_played(self):
         #Arrange
-        hiveGame = HiveGame()
+        hiveGame = HiveGameTestBuilder().\
+            Build()
         firstPlayer = True
-        pieces = hiveGame.board.pieces
 
         #Act
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.QueenBee_P1, Coordinate(0,0)))
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.QueenBee_P2, Coordinate(-1,0)))
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P1, Coordinate(1,0)))
+        hiveGame.playMove(HivePieceBuilder().Build(HivePiece.QueenBee_P1, Coordinate(0,0)))
+        hiveGame.playMove(HivePieceBuilder().Build(HivePiece.QueenBee_P2, Coordinate(-1,0)))
+        hiveGame.playMove(HivePieceBuilder().Build(HivePiece.SoldierAnt_0_P1, Coordinate(1,0)))
 
         #Assert
         freePiecesP1 = hiveGame.board.playableFreePieces(firstPlayer)
@@ -126,9 +127,9 @@ class TestStartPlacingRules(unittest.TestCase):
 
     def test_add_second_piece(self):
         #Arrange
-        hiveGame = HiveGame()
-        pieces = hiveGame.board.pieces
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.QueenBee_P1, Coordinate(0,0)))
+        hiveGame = HiveGameTestBuilder().\
+            Play(HivePiece.QueenBee_P1, 0, 0).\
+            Build()
 
         #Act
         move2 = hiveGame.getValidMoves()[0]
@@ -139,11 +140,11 @@ class TestStartPlacingRules(unittest.TestCase):
 
     def test_add_second_piece_for_P2(self):
         #Arrange
-        hiveGame = HiveGame()
-        pieces = hiveGame.board.pieces
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P1, Coordinate(0,0)))
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P2, Coordinate(-1,0)))
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_1_P1, Coordinate(0,1)))
+        hiveGame = HiveGameTestBuilder().\
+            Play(HivePiece.SoldierAnt_0_P1, 0, 0).\
+            Play(HivePiece.SoldierAnt_0_P2,-1, 0).\
+            Play(HivePiece.SoldierAnt_1_P1, 0, 1).\
+            Build()
 
         #Act
         moves = hiveGame.getValidMoves()
@@ -153,11 +154,11 @@ class TestStartPlacingRules(unittest.TestCase):
 
     def test_add_second_piece_for_P2_to_straght_line(self):
         #Arrange
-        hiveGame = HiveGame()
-        pieces = hiveGame.board.pieces
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P1, Coordinate(0,0)))
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P2, Coordinate(-1,0)))
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_1_P1, Coordinate(1,0)))
+        hiveGame = HiveGameTestBuilder().\
+            Play(HivePiece.SoldierAnt_0_P1, 0, 0).\
+            Play(HivePiece.SoldierAnt_0_P2,-1, 0).\
+            Play(HivePiece.SoldierAnt_1_P1, 1, 0).\
+            Build()
 
         #Act
         moves = hiveGame.getValidMoves()
@@ -180,9 +181,9 @@ class TestStartPlacingRules(unittest.TestCase):
 
     def test_get_valid_first_move_for_P2(self):
         #Arrange
-        hiveGame = HiveGame()
-        pieces = hiveGame.board.pieces
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Beetle_0_P1, Coordinate(0,0)))
+        hiveGame = HiveGameTestBuilder().\
+            Play(HivePiece.Beetle_0_P1, 0,0).\
+            Build()
 
         #Act
         moves = hiveGame.getValidMoves()
@@ -195,13 +196,11 @@ class TestStartPlacingRules(unittest.TestCase):
 
     def test_get_valid_second_move_for_P1_Queen_Not_Played(self):
         #Arrange
-        hiveGame = HiveGame()
-        pieces = hiveGame.board.pieces
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Beetle_0_P1, Coordinate(0,0)))
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Beetle_0_P2, Coordinate(-1,0)))
-
-#        hiveGame.setupPosition(["b0|B0"], True)
-
+        hiveGame = HiveGameTestBuilder().\
+            Play(HivePiece.Beetle_0_P1, 0,0).\
+            Play(HivePiece.Beetle_0_P2, -1,0).\
+            Build()
+        
         #Act
         moves = hiveGame.getValidMoves()
 
@@ -210,12 +209,12 @@ class TestStartPlacingRules(unittest.TestCase):
 
     def test_get_no_dublicate_move2_for_4_pieces_in_a_row(self):
         #Arrange
-        hiveGame = HiveGame()
-        pieces = hiveGame.board.pieces
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P1, Coordinate( 0,0)))
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P2, Coordinate(-1,0)))
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_1_P1, Coordinate( 1,0)))
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_1_P2, Coordinate(-2,0)))
+        hiveGame = HiveGameTestBuilder().\
+            Play(HivePiece.SoldierAnt_0_P1, 0,0).\
+            Play(HivePiece.SoldierAnt_0_P2,-1,0).\
+            Play(HivePiece.SoldierAnt_1_P1, 1,0).\
+            Play(HivePiece.SoldierAnt_1_P2, -2,0).\
+            Build()
 
         #Act
         moves = hiveGame.getValidMoves()
@@ -225,50 +224,50 @@ class TestStartPlacingRules(unittest.TestCase):
 
     def test_piece_updated_index_when_placing_same_creature(self):
         #Arrange
-        hiveGame = HiveGame()
-        pieces = hiveGame.board.pieces
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P1, Coordinate( 0,0)))
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P2, Coordinate(-1,0)))
+        hiveGame = HiveGameTestBuilder().\
+            Play(HivePiece.SoldierAnt_0_P1, 0,0).\
+            Play(HivePiece.SoldierAnt_0_P2,-1,0).\
+            Build()
 
         #Act
         moves = hiveGame.getValidMoves()
 
         #Assert
-        antWithNewIndex = HivePieces.CreateCloneWithCoordinate(pieces.Ant_1_P1, Coordinate(1,0))
+        antWithNewIndex = HivePieceBuilder().Build(HivePiece.SoldierAnt_1_P1, Coordinate(1,0))
         self.assertIn(antWithNewIndex, moves)
 
     def test_piece_updated_index_when_placing_same_creature_after_Queen_is_placed(self):
         #Arrange
-        hiveGame = HiveGame()
-        pieces = hiveGame.board.pieces
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.QueenBee_P1, Coordinate( 0,0)))
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.QueenBee_P2, Coordinate(-1,0)))
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P1,    Coordinate( 1,0)))
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P2,    Coordinate(-2,0)))
+        hiveGame = HiveGameTestBuilder().\
+            Play(HivePiece.QueenBee_P1,     0,0).\
+            Play(HivePiece.QueenBee_P2,    -1,0).\
+            Play(HivePiece.SoldierAnt_0_P1, 1,0).\
+            Play(HivePiece.SoldierAnt_0_P2,-2,0).\
+            Build()
 
         #Act
         moves = hiveGame.getValidMoves()
         print(hiveGame.board.printBoard())
 
         #Assert
-        antWithNewIndex = HivePieces.CreateCloneWithCoordinate(pieces.Ant_1_P1, Coordinate(2,0))
+        antWithNewIndex = HivePieceBuilder().Build(HivePiece.SoldierAnt_1_P1, Coordinate(2,0))
         self.assertIn(antWithNewIndex, moves)
 
     def test_center_pieces_when_P1_Queen_is_played(self):
         #Arrange
-        hiveGame = HiveGame()
-        pieces = hiveGame.board.pieces
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P1, Coordinate(0,0)))
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P2, Coordinate(-1,0)))
+        hiveGame = HiveGameTestBuilder().\
+            Play(HivePiece.SoldierAnt_0_P1,  0,0).\
+            Play(HivePiece.SoldierAnt_0_P2, -1,0).\
+            Build()
 
         #Act
-        hiveGame.playMove(HivePieces.CreateCloneWithCoordinate(pieces.QueenBee_P1, Coordinate(0,1)))
+        hiveGame.playMove(HivePieceBuilder().Build(HivePiece.QueenBee_P1, Coordinate(0,1)))
 
         #Assert
         boardPieces = hiveGame.getBoard()
-        self.assertIn(HivePieces.CreateCloneWithCoordinate(pieces.QueenBee_P1, Coordinate( 0, 0)),boardPieces)
-        self.assertIn(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P1,    Coordinate(-1,-1)),boardPieces)
-        self.assertIn(HivePieces.CreateCloneWithCoordinate(pieces.Ant_0_P2,    Coordinate(-2,-1)),boardPieces)
+        self.assertIn(HivePieceBuilder().Build(HivePiece.QueenBee_P1, Coordinate(0,0)),boardPieces)
+        self.assertIn(HivePieceBuilder().Build(HivePiece.SoldierAnt_0_P1, Coordinate(-1,-1)),boardPieces)
+        self.assertIn(HivePieceBuilder().Build(HivePiece.SoldierAnt_0_P2, Coordinate(-2,-1)),boardPieces)
  
 if __name__ == "__main__":
     unittest.main()

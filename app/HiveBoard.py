@@ -1,11 +1,16 @@
-from typing import Dict, List, Optional
+from __future__ import annotations
+
+from typing import Dict, List, Optional, TYPE_CHECKING
 from app.HivePieces import HivePieces
 from app.Directions import Direction
-from app.BoardPiece import BoardPiece
+
 from app.Piece import Piece
 from app.Creatures import Creatures
 from app.Coordinate import Coordinate
 from itertools import groupby
+
+if TYPE_CHECKING:
+  from app.BoardPiece import BoardPiece
 
 class HiveBoard:
     
@@ -21,8 +26,11 @@ class HiveBoard:
       return len(self._board) == 0
 
     def movePiece(self, move: BoardPiece) -> None:
+      self.setPieceWithoutNoramlize(move)
+      self.normalizePosition()
+
+    def setPieceWithoutNoramlize(self, move: BoardPiece) -> None:
       self._setPiece(move)
-      self._normalizePosition()
 
     def _setPiece(self, move: BoardPiece) -> None:
       self.removeIfPleaceOnBoard(move)
@@ -70,7 +78,7 @@ class HiveBoard:
     def playableFreePieces(self, firstPlayer:bool) -> List[BoardPiece]:
       return self.pieces.playableFreePieces(firstPlayer)
 
-    def _normalizePosition(self) -> None:
+    def normalizePosition(self) -> None:
       piece = self.findPiece(self.pieces.QueenBee_P1.piece)
 
       if(piece is not None and piece.coordinate is not Coordinate(0,0)):
