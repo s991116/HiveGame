@@ -31,9 +31,9 @@ class TestMovmentSpecies(unittest.TestCase):
         print(hiveGame.board.printBoard())
         #Assert
         self.assertEqual(len(grassHopperMoves), 2)
-        move1 = HivePieceBuilder().Build(HivePiece.Grasshopper_0_P1, Coordinate(-4,0))
+        move1 = HivePieceBuilder().Piece(HivePiece.Grasshopper_0_P1, Coordinate(-4,0)).Build()
         self.assertIn(move1, grassHopperMoves)
-        move2 = HivePieceBuilder().Build(HivePiece.Grasshopper_0_P1, Coordinate(0,2))
+        move2 = HivePieceBuilder().Piece(HivePiece.Grasshopper_0_P1, Coordinate(0,2)).Build()
         self.assertIn(move2, grassHopperMoves)
 
 
@@ -91,9 +91,9 @@ class TestMovmentSpecies(unittest.TestCase):
         movementMoves = hiveGame.rules.getMovementMoves()
 
         #Assert
-        move1 = HivePieceBuilder().Build(HivePiece.QueenBee_P1, Coordinate(0, -1))
+        move1 = HivePieceBuilder().Piece(HivePiece.QueenBee_P1, Coordinate(0, -1)).Build()
         self.assertIn(move1, movementMoves)
-        move2 = HivePieceBuilder().Build(HivePiece.QueenBee_P1, Coordinate(-1, -1))
+        move2 = HivePieceBuilder().Piece(HivePiece.QueenBee_P1, Coordinate(-1, -1)).Build()
         self.assertIn(move2, movementMoves)
 
 

@@ -42,7 +42,7 @@ class HivePieceBuilder:
     HivePiece.Spider_1_P2: (Creatures.Spider, 1, False),
   }
 
-  def Build(self, hivePiece: HivePiece, coordinate:Coordinate) -> BoardPiece:
+  def Piece(self, hivePiece: HivePiece, coordinate:Coordinate) -> HivePieceBuilder:
     (creature, index, firstPlayer) = HivePieceBuilder.HivePiecesDictionary[hivePiece]
     pr = PieceRules()
 
@@ -52,4 +52,8 @@ class HivePieceBuilder:
     if creature == Creatures.QueenBee:
       pr = PieceRulesQueenBee()
 
-    return BoardPiece(Piece(firstPlayer, creature, index), coordinate, pr)
+    self._boardPiece = BoardPiece(Piece(firstPlayer, creature, index), coordinate, pr)
+    return self
+  
+  def Build(self):
+    return self._boardPiece

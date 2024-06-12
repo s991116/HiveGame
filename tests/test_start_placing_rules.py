@@ -24,11 +24,11 @@ class TestStartPlacingRules(unittest.TestCase):
             Build()
 
         #Act
-        hiveGame.playMove(HivePieceBuilder().Build(HivePiece.Grasshopper_0_P1, Coordinate(0,0)))
+        hiveGame.playMove(HivePieceBuilder().Piece(HivePiece.Grasshopper_0_P1, Coordinate(0,0)).Build())
 
         #Assert
         board = hiveGame.getBoard()
-        self.assertListEqual(board,[HivePieceBuilder().Build(HivePiece.Grasshopper_0_P1, Coordinate(0,0))])
+        self.assertListEqual(board,[HivePieceBuilder().Piece(HivePiece.Grasshopper_0_P1, Coordinate(0,0)).Build()])
         self.assertFalse(hiveGame.rules.playerOneTurn) # type: ignore
 
     def test_init_board_with_two_pieces(self):
@@ -37,13 +37,13 @@ class TestStartPlacingRules(unittest.TestCase):
             Build()
 
         #Act
-        hiveGame.playMove(HivePieceBuilder().Build(HivePiece.Grasshopper_0_P1, Coordinate(0,0)))
-        hiveGame.playMove(HivePieceBuilder().Build(HivePiece.Grasshopper_0_P2, Coordinate(-1,0)))
+        hiveGame.playMove(HivePieceBuilder().Piece(HivePiece.Grasshopper_0_P1, Coordinate(0,0)).Build())
+        hiveGame.playMove(HivePieceBuilder().Piece(HivePiece.Grasshopper_0_P2, Coordinate(-1,0)).Build())
 
         #Assert
         board = hiveGame.getBoard()
-        self.assertIn(HivePieceBuilder().Build(HivePiece.Grasshopper_0_P1, Coordinate(0,0)), board)
-        self.assertIn(HivePieceBuilder().Build(HivePiece.Grasshopper_0_P2, Coordinate(-1,0)), board)
+        self.assertIn(HivePieceBuilder().Piece(HivePiece.Grasshopper_0_P1, Coordinate(0,0)).Build(), board)
+        self.assertIn(HivePieceBuilder().Piece(HivePiece.Grasshopper_0_P2, Coordinate(-1,0)).Build(), board)
 
         self.assertTrue(hiveGame.rules.playerOneTurn) # type: ignore
 
@@ -53,15 +53,15 @@ class TestStartPlacingRules(unittest.TestCase):
             Build()
         
         #Act
-        hiveGame.playMove(HivePieceBuilder().Build(HivePiece.Grasshopper_0_P1, Coordinate( 0,0)))
-        hiveGame.playMove(HivePieceBuilder().Build(HivePiece.Grasshopper_0_P2, Coordinate(-1,0)))
-        hiveGame.playMove(HivePieceBuilder().Build(HivePiece.Grasshopper_1_P1, Coordinate( 1,0)))
+        hiveGame.playMove(HivePieceBuilder().Piece(HivePiece.Grasshopper_0_P1, Coordinate( 0,0)).Build())
+        hiveGame.playMove(HivePieceBuilder().Piece(HivePiece.Grasshopper_0_P2, Coordinate(-1,0)).Build())
+        hiveGame.playMove(HivePieceBuilder().Piece(HivePiece.Grasshopper_1_P1, Coordinate( 1,0)).Build())
 
         #Assert
         board = hiveGame.getBoard()
-        pieceA = HivePieceBuilder().Build(HivePiece.Grasshopper_0_P1, Coordinate( 0,0))
-        pieceC = HivePieceBuilder().Build(HivePiece.Grasshopper_0_P2, Coordinate(-1,0))
-        pieceB = HivePieceBuilder().Build(HivePiece.Grasshopper_1_P1, Coordinate( 1,0))
+        pieceA = HivePieceBuilder().Piece(HivePiece.Grasshopper_0_P1, Coordinate( 0,0)).Build()
+        pieceC = HivePieceBuilder().Piece(HivePiece.Grasshopper_0_P2, Coordinate(-1,0)).Build()
+        pieceB = HivePieceBuilder().Piece(HivePiece.Grasshopper_1_P1, Coordinate( 1,0)).Build()
 
         self.assertIn(pieceA, board)
         self.assertIn(pieceB, board)
@@ -90,7 +90,7 @@ class TestStartPlacingRules(unittest.TestCase):
             Build()
 
         #Act
-        hiveGame.playMove(HivePieceBuilder().Build(HivePiece.QueenBee_P1, Coordinate(0,0)))
+        hiveGame.playMove(HivePieceBuilder().Piece(HivePiece.QueenBee_P1, Coordinate(0,0)).Build())
 
         #Assert
         firstPlayer = True
@@ -104,9 +104,9 @@ class TestStartPlacingRules(unittest.TestCase):
         firstPlayer = True
 
         #Act
-        hiveGame.playMove(HivePieceBuilder().Build(HivePiece.QueenBee_P1, Coordinate(0,0)))
-        hiveGame.playMove(HivePieceBuilder().Build(HivePiece.QueenBee_P2, Coordinate(-1,0)))
-        hiveGame.playMove(HivePieceBuilder().Build(HivePiece.SoldierAnt_0_P1, Coordinate(1,0)))
+        hiveGame.playMove(HivePieceBuilder().Piece(HivePiece.QueenBee_P1, Coordinate(0,0)).Build())
+        hiveGame.playMove(HivePieceBuilder().Piece(HivePiece.QueenBee_P2, Coordinate(-1,0)).Build())
+        hiveGame.playMove(HivePieceBuilder().Piece(HivePiece.SoldierAnt_0_P1, Coordinate(1,0)).Build())
 
         #Assert
         freePiecesP1 = hiveGame.board.playableFreePieces(firstPlayer)
@@ -233,7 +233,7 @@ class TestStartPlacingRules(unittest.TestCase):
         moves = hiveGame.getValidMoves()
 
         #Assert
-        antWithNewIndex = HivePieceBuilder().Build(HivePiece.SoldierAnt_1_P1, Coordinate(1,0))
+        antWithNewIndex = HivePieceBuilder().Piece(HivePiece.SoldierAnt_1_P1, Coordinate(1,0)).Build()
         self.assertIn(antWithNewIndex, moves)
 
     def test_piece_updated_index_when_placing_same_creature_after_Queen_is_placed(self):
@@ -250,7 +250,7 @@ class TestStartPlacingRules(unittest.TestCase):
         print(hiveGame.board.printBoard())
 
         #Assert
-        antWithNewIndex = HivePieceBuilder().Build(HivePiece.SoldierAnt_1_P1, Coordinate(2,0))
+        antWithNewIndex = HivePieceBuilder().Piece(HivePiece.SoldierAnt_1_P1, Coordinate(2,0)).Build()
         self.assertIn(antWithNewIndex, moves)
 
     def test_center_pieces_when_P1_Queen_is_played(self):
@@ -261,13 +261,13 @@ class TestStartPlacingRules(unittest.TestCase):
             Build()
 
         #Act
-        hiveGame.playMove(HivePieceBuilder().Build(HivePiece.QueenBee_P1, Coordinate(0,1)))
+        hiveGame.playMove(HivePieceBuilder().Piece(HivePiece.QueenBee_P1, Coordinate(0,1)).Build())
 
         #Assert
         boardPieces = hiveGame.getBoard()
-        self.assertIn(HivePieceBuilder().Build(HivePiece.QueenBee_P1, Coordinate(0,0)),boardPieces)
-        self.assertIn(HivePieceBuilder().Build(HivePiece.SoldierAnt_0_P1, Coordinate(-1,-1)),boardPieces)
-        self.assertIn(HivePieceBuilder().Build(HivePiece.SoldierAnt_0_P2, Coordinate(-2,-1)),boardPieces)
+        self.assertIn(HivePieceBuilder().Piece(HivePiece.QueenBee_P1, Coordinate(0,0)).Build(),boardPieces)
+        self.assertIn(HivePieceBuilder().Piece(HivePiece.SoldierAnt_0_P1, Coordinate(-1,-1)).Build(),boardPieces)
+        self.assertIn(HivePieceBuilder().Piece(HivePiece.SoldierAnt_0_P2, Coordinate(-2,-1)).Build(),boardPieces)
  
 if __name__ == "__main__":
     unittest.main()
