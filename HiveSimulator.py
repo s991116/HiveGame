@@ -1,4 +1,5 @@
 from app.HiveGame import HiveGame
+from app.GameResult import GameResult
 
 game = HiveGame()
 
@@ -24,10 +25,16 @@ while(True):
   #Print Board
   print(game.board.printBoard())
 
-  print("\n")
-  boardCoordinatePrint = ""
-  for piece in game.board.getBoard():
-    boardCoordinatePrint += piece.print()
-    boardCoordinatePrint += "; "
+  if(game.getGameState() == GameResult.Undecided):
+    print("\n")
+    boardCoordinatePrint = ""
+    for piece in game.board.getBoard():
+      boardCoordinatePrint += piece.print()
+      boardCoordinatePrint += "; "
   
-  print(boardCoordinatePrint)
+    print(boardCoordinatePrint)
+  else:
+    print("Game Result:")
+    print(game.getGameState())
+    print("Game Ended.....")
+    break

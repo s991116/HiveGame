@@ -11,5 +11,4 @@ Implementation of the board Game Hive.
 - [ ] Implement movement for Beetle
 - [ ] Implement movement for Spider
 - [ ] Implement movement for Ant
-- [ ] Implement rules for winning and loosing
 - [ ] Add Layers of Beetles for Print Board when Beetles are on top of other creatures

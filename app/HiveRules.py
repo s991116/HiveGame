@@ -9,6 +9,8 @@ from app.Directions import Direction
 from app.HiveRulesMove import HiveRulesMove
 from app.HiveRulesPlacement import HiveRulesPlacement
 from app.PieceBuilder import PieceBuilder
+from app.GameResult import GameResult
+
 
 class HiveRules:
 
@@ -19,6 +21,7 @@ class HiveRules:
     self.QueenP2Placed = False
     self.hiveRulesMove = HiveRulesMove(self.board)
     self.hiveRulesPlacement = HiveRulesPlacement(self.board)
+    self.gameResult = GameResult.Undecided
 
   def playMove(self, move: BoardPiece):  
     
@@ -29,6 +32,8 @@ class HiveRules:
         self.QueenP2Placed = True
 
     self.board.movePiece(move)
+    self.gameResult = self.getGameResult()
+
     self.playerOneTurn = not self.playerOneTurn
 
   def getValidMoves(self) -> List[BoardPiece]:
@@ -66,4 +71,33 @@ class HiveRules:
       self.QueenP1Placed = True
 
     if self.board.findPiece(PieceBuilder().QueenBee_P1().Build()) is not None:
-      self.QueenP2Placed = True      
+      self.QueenP2Placed = True
+
+  def getGameResult(self):
+    Q1Piece = self.board.findPiece(PieceBuilder().QueenBee_P1().Build())
+    Q1surrounded = False
+    if(Q1Piece is not None):
+      Q1surrounded = self.pieceSurrounded(Q1Piece)
+
+    Q2Piece = self.board.findPiece(PieceBuilder().QueenBee_P2().Build())
+    Q2surrounded = False
+    if(Q2Piece is not None):
+      Q2surrounded = self.pieceSurrounded(Q2Piece)
+
+    if Q1surrounded and Q2surrounded:
+      return GameResult.Tie
+    if Q1surrounded:
+      return GameResult.SecondPlayerWon
+    if Q2surrounded:
+      return GameResult.FirstPlayerWon
+    else:
+      return GameResult.Undecided 
+
+  def pieceSurrounded(self, centerPiece: BoardPiece):
+    for neightBourCoordinate in self.board.getNeighbourCoordinates(centerPiece.coordinate):
+      if self.board.isPlaceFree(neightBourCoordinate):
+        return False
+
+    return True
+      
+

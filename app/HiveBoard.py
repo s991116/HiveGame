@@ -51,7 +51,6 @@ class HiveBoard:
       if boardPieceFound is not None:
         self._board.remove(boardPieceFound)
 
-
     def getPlayerBoardPieces(self, firstPlayer: bool) -> List[BoardPiece]:
       playerBoardPieces: List[BoardPiece] = []
       for boardPiece in self._board:

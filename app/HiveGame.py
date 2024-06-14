@@ -1,7 +1,9 @@
 from typing import List
 from app.HiveBoard import HiveBoard
-from app.BoardPiece import BoardPiece
 from app.HiveRules import HiveRules
+from app.GameResult import GameResult
+from app.BoardPiece import BoardPiece
+
 class HiveGame:
 
   def __init__(self) -> None:  
@@ -16,3 +18,6 @@ class HiveGame:
   
   def getBoard(self) -> List[BoardPiece]:
     return self.board.getBoard()
+  
+  def getGameState(self) -> GameResult:
+    return self.rules.gameResult
