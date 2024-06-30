@@ -14,6 +14,9 @@ class PieceRules:
   def getMoves(self, boardPiece: BoardPiece, board: HiveBoard) -> List[BoardPiece]:
     return []
 
+  def moveClockwiseAlongEdge(self, edgeCoordinate: Coordinate, boardPiece: BoardPiece, board: HiveBoard):
+    return self.findNextStep([edgeCoordinate], boardPiece.coordinate, True, board)
+
   def moveAlongPieces(self, boardPiece: BoardPiece, board: HiveBoard, movesteps: int):
     moves: List[BoardPiece] = []
     for searchDirection in [True, False]:
