@@ -10,4 +10,5 @@ if TYPE_CHECKING:
 class PieceRulesBeetle(PieceRules):
 
   def getMoves(self, boardPiece: BoardPiece, board: HB.HiveBoard) -> List[BoardPiece]:
-    return []
+    moves = super().moveAlongPieces(boardPiece, board, 1)
+    return moves

@@ -8,5 +8,5 @@ Implementation of the board Game Hive.
 2. Run HiveSimulator from app folder
 
 ## ToDo
-- [ ] Implement movement for Beetle
+- [ ] Implement movement for Beetle when moving on top of other pieces
 - [ ] Add Layers of Beetles for Print Board when Beetles are on top of other creatures

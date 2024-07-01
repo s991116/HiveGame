@@ -12,6 +12,7 @@ from app.PieceRulesGrasshopper import PieceRulesGrasshopper
 from app.PieceRulesQueenBee import PieceRulesQueenBee
 from app.PieceRulesSpider import PieceRulesSpider
 from app.PieceRulesAnt import PieceRulesAnt
+from app.PieceRulesBeetle import PieceRulesBeetle
 
 from app.HivePiece import HivePiece
 from app. PieceBuilder import PieceBuilder
@@ -66,6 +67,10 @@ class BoardPieceBuilder:
 
     if creature == Species.Ant:
       self._pr = PieceRulesAnt()
+
+    if creature == Species.Beetle:
+      self._pr = PieceRulesBeetle()
+
 
   def WithPiece(self, piece: Piece):
     self._piece = piece

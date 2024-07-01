@@ -5,7 +5,6 @@ from app.HivePiece import HivePiece
 from tests.HiveGameTestBuilder import HiveGameTestBuilder
 from app.BoardPieceBuilder import BoardPieceBuilder
 
-param_list = [('a', 'a'), ('a', 'b'), ('b', 'b')]
 
 class TestMovmentQueen(unittest.TestCase):
 
