@@ -10,10 +10,11 @@ if TYPE_CHECKING:
 
 class BoardPiece:
 
-    def __init__(self, piece: Piece, coordinate: Coordinate, rules: PieceRules) -> None:
+    def __init__(self, piece: Piece, coordinate: Coordinate, rules: PieceRules, layer: int) -> None:
         self.piece = piece
         self.coordinate = coordinate
         self.rules = rules
+        self.layer = layer
 
     def getMoves(self, hiveBoard: HiveBoard) -> List[BoardPiece]:
         return self.rules.getMoves(self, hiveBoard)
@@ -23,5 +24,5 @@ class BoardPiece:
 
     def __eq__(self, other: any): # type: ignore
         if isinstance(other, BoardPiece):
-            return self.piece == other.piece and self.coordinate == other.coordinate
+            return self.piece == other.piece and self.coordinate == other.coordinate and self.layer == other.layer
         return False

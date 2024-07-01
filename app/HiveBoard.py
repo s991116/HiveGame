@@ -65,6 +65,13 @@ class HiveBoard:
           return False
       return True
 
+    def getLayer(self, coordinate: Coordinate) -> int:
+      for boardPiece in self._board:
+        if boardPiece.coordinate == coordinate:
+          return boardPiece.layer
+      return 0
+
+
     def getBoardPiece(self, coordinate:Coordinate) -> Optional[BoardPiece]:
       for boardPiece in self._board:
         if boardPiece.coordinate == coordinate:
@@ -106,7 +113,6 @@ class HiveBoard:
       x = coordinate.x - offset.x + xOffset
       y = coordinate.y - offset.y
       return Coordinate(x,y)
-
 
     def navigate(self, direction: Direction, coordinate: Coordinate) -> Coordinate:
       if direction == Direction.LEFT:

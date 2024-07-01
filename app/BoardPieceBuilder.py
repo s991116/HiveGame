@@ -52,6 +52,7 @@ class BoardPieceBuilder:
     self._coordinate = Coordinate(0,0)
     self._pr = PieceRules()
     self._piece = PieceBuilder().Build()
+    self._layer = 1
 
   def updateRules(self, creature: Species):
     self._pr = PieceRules()
@@ -87,6 +88,10 @@ class BoardPieceBuilder:
   def WithCoordinate(self, coordinate: Coordinate):
     self._coordinate = coordinate
     return self
+  
+  def Layer(self, layer:int):
+    self._layer = layer
+    return self
 
   def Build(self):
-    return BoardPiece(self._piece, self._coordinate, self._pr)
+    return BoardPiece(self._piece, self._coordinate, self._pr, self._layer)

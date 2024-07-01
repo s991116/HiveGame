@@ -9,3 +9,6 @@ class Direction(Enum):
     DOWN_LEFT = "down left"
     UP_RIGHT = "up right"
     DOWN_RIGHT = "down right"
+
+class Directions:
+    directions = [Direction.LEFT, Direction.UP_LEFT, Direction.UP_RIGHT, Direction.RIGHT, Direction.DOWN_RIGHT, Direction.DOWN_LEFT]

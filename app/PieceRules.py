@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from typing import List, TYPE_CHECKING
-from app.Directions import Direction
+from app.Directions import Direction, Directions
 import app.BoardPieceBuilder as HP
 
 if TYPE_CHECKING:
