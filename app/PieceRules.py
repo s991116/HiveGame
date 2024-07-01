@@ -39,15 +39,19 @@ class PieceRules:
     directions = [Direction.LEFT, Direction.UP_LEFT, Direction.UP_RIGHT, Direction.RIGHT, Direction.DOWN_RIGHT, Direction.DOWN_LEFT]
     nextMoveCoordinates: List[Coordinate] = []
     rangeIndex = range(6)
-    if not clockwise:
-      rangeIndex = rangeIndex[::-1]      
+    #if not clockwise:
+    #  rangeIndex = rangeIndex[::-1]      
 
     for pieceCoordinate in stepCoordinates:
       for index in range(6):
         #Search for Connected - Free - Free
         connectedDirectionIndex = rangeIndex[index]
-        freeMoveDirectionIndex = rangeIndex[(index + 1) % 6]
-        freeSpaceDirectionIndex = rangeIndex[(index + 2) % 6]
+        if clockwise:
+          freeMoveDirectionIndex = rangeIndex[(index + 1) % 6]
+          freeSpaceDirectionIndex = rangeIndex[(index + 2) % 6]
+        else:
+          freeMoveDirectionIndex = rangeIndex[(index - 1) % 6]
+          freeSpaceDirectionIndex = rangeIndex[(index - 2) % 6]
 
         #Check if connection with other piece
         #startCoordinate
