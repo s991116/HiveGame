@@ -11,7 +11,6 @@ from app.HiveRulesPlacement import HiveRulesPlacement
 from app.PieceBuilder import PieceBuilder
 from app.GameResult import GameResult
 
-
 class HiveRules:
 
   def __init__(self, board: HiveBoard) -> None:

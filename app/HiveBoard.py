@@ -38,7 +38,11 @@ class HiveBoard:
     def _setPiece(self, move: BoardPiece) -> None:
       self.removeIfPleaceOnBoard(move)
       self.pieces.removeFromFreePieces(move.piece)
+      move.layer = self.setLayer(move)
       self._board.append(move)
+
+    def setLayer(self, move: BoardPiece) -> int:
+      return self.getLayer(move.coordinate) + 1
 
     def findPiece(self, piece: Piece) -> Optional[BoardPiece]:
       for boardPiece in self._board:
@@ -65,11 +69,11 @@ class HiveBoard:
           return False
       return True
 
-    def getLayer(self, coordinate: Coordinate) -> int:
+    def getLayer(self, coordinate: Coordinate):
       for boardPiece in self._board:
         if boardPiece.coordinate == coordinate:
           return boardPiece.layer
-      return 0
+      return -1
 
 
     def getBoardPiece(self, coordinate:Coordinate) -> Optional[BoardPiece]:
@@ -183,7 +187,12 @@ class HiveBoard:
     def _boardPositionSorting(self, piece: BoardPiece) -> int:
       return -100*piece.coordinate.y + piece.coordinate.x
 
-
+    def getTopLayer(self, coordinate: Coordinate) -> int:
+      layer = -1
+      for boardPiece in self._board:
+        if(boardPiece.coordinate == coordinate and boardPiece.layer > layer):
+          layer = boardPiece.layer
+      return layer
 
 #   /--\/--\/--\/--\
 #   |B1||g1||B1||g1|

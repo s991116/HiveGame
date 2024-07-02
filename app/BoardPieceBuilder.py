@@ -52,7 +52,7 @@ class BoardPieceBuilder:
     self._coordinate = Coordinate(0,0)
     self._pr = PieceRules()
     self._piece = PieceBuilder().Build()
-    self._layer = 1
+    self._layer = 0
 
   def updateRules(self, creature: Species):
     self._pr = PieceRules()

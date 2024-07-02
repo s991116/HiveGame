@@ -30,14 +30,16 @@ class HiveRulesMove:
     moveablePieces: List[BoardPiece] = []
     playerBoardPieces = self.board.getPlayerBoardPieces(playerOneTurn)
     for playerBoardPiece in playerBoardPieces:
-      bridgingPieces = self.getBridgingPieces(playerBoardPiece)
-      
-      if bridgingPieces is None or self.isConnectionBetween2Pieces(bridgingPieces[0].coordinate, bridgingPieces[1].coordinate, playerBoardPiece.coordinate, [bridgingPieces[0].coordinate]):
-      #if bridgingPieces is None or not self.isConnectionBetweenPieces(bridgingPieces):
-        moveablePieces.append(playerBoardPiece)
+      if self.isTopPiece(playerBoardPiece):
+        bridgingPieces = self.getBridgingPieces(playerBoardPiece)
+        if bridgingPieces is None or self.isConnectionBetween2Pieces(bridgingPieces[0].coordinate, bridgingPieces[1].coordinate, playerBoardPiece.coordinate, [bridgingPieces[0].coordinate]):
+          moveablePieces.append(playerBoardPiece)
 
     return moveablePieces
   
+  def isTopPiece(self, boardPiece: BoardPiece) -> bool:
+    return self.board.getTopLayer(boardPiece.coordinate) == boardPiece.layer
+
   def isConnectionBetweenPieces(self, boardPieces: Tuple[BoardPiece, BoardPiece]) -> bool:
     connectionCoordinate: List[Coordinate] = []
     connectionCount = self.getConnectionCount(boardPieces[0], connectionCoordinate)

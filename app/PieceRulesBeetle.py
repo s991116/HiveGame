@@ -21,7 +21,7 @@ class PieceRulesBeetle(PieceRules):
     return movesAlongEdge + movesOnTop
 
   def moveOnTop(self, boardPiece: BoardPiece, board: HB.HiveBoard) -> List[BoardPiece]:
-    coordinates = self.findCoordinatesOneLayerUpOrDown(boardPiece, board)
+    coordinates = self.findNonEmptyNeightbourCoordinates(boardPiece, board)
     moves: List[BoardPiece] = []
     for (coordinate, layer) in coordinates:
       #board.getBoardPiece(coordinate)
@@ -30,13 +30,13 @@ class PieceRulesBeetle(PieceRules):
 
     return moves
   
-  def findCoordinatesOneLayerUpOrDown(self,  boardPiece: BoardPiece, board: HB.HiveBoard) -> list[tuple[Coordinate, int]]:
+  def findNonEmptyNeightbourCoordinates(self,  boardPiece: BoardPiece, board: HB.HiveBoard) -> list[tuple[Coordinate, int]]:
     upDownCoordinates: list[tuple[Coordinate, int]] = []
     directions = [Direction.LEFT, Direction.UP_LEFT, Direction.UP_RIGHT, Direction.RIGHT, Direction.DOWN_RIGHT, Direction.DOWN_LEFT]
     for direction in directions:
       neighboardCoordinate = board.navigate(direction, boardPiece.coordinate)
       boardLayer = board.getLayer(neighboardCoordinate)
-      if boardLayer != boardPiece.layer-1:
+      if boardLayer > -1:
         upDownCoordinates.append((neighboardCoordinate, boardPiece.layer))
     return upDownCoordinates
 
